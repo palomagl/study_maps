@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 20% 4%;
+    --foreground: 210 40% 96%;
+
+    --card: 215 25% 8%;
+    --card-foreground: 210 40% 96%;
+
+    --popover: 215 25% 8%;
+    --popover-foreground: 210 40% 96%;
+
+    --primary: 190 100% 50%;
+    --primary-foreground: 220 20% 4%;
+
+    --secondary: 215 25% 14%;
+    --secondary-foreground: 210 40% 90%;
+
+    --muted: 215 20% 12%;
+    --muted-foreground: 215 15% 55%;
+
+    --accent: 270 100% 65%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 215 20% 16%;
+    --input: 215 20% 16%;
+    --ring: 190 100% 50%;
+
+    --radius: 0.75rem;
+
+    --neon-cyan: 190 100% 50%;
+    --neon-purple: 270 100% 65%;
+    --neon-green: 150 100% 50%;
+    --neon-pink: 330 100% 60%;
+    --neon-orange: 25 100% 55%;
+    --neon-blue: 220 100% 60%;
+
+    --sidebar-background: 220 20% 4%;
+    --sidebar-foreground: 210 40% 96%;
+    --sidebar-primary: 190 100% 50%;
+    --sidebar-primary-foreground: 220 20% 4%;
+    --sidebar-accent: 215 25% 14%;
+    --sidebar-accent-foreground: 210 40% 96%;
+    --sidebar-border: 215 20% 16%;
+    --sidebar-ring: 190 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer utilities {
+  .glow-cyan {
+    box-shadow: 0 0 15px hsl(190 100% 50% / 0.15), 0 0 30px hsl(190 100% 50% / 0.05), inset 0 1px 0 hsl(190 100% 50% / 0.1);
+    border: 1px solid hsl(190 100% 50% / 0.2);
+  }
+
+  .glow-purple {
+    box-shadow: 0 0 15px hsl(270 100% 65% / 0.15), 0 0 30px hsl(270 100% 65% / 0.05), inset 0 1px 0 hsl(270 100% 65% / 0.1);
+    border: 1px solid hsl(270 100% 65% / 0.2);
+  }
+
+  .glow-green {
+    box-shadow: 0 0 15px hsl(150 100% 50% / 0.15), 0 0 30px hsl(150 100% 50% / 0.05), inset 0 1px 0 hsl(150 100% 50% / 0.1);
+    border: 1px solid hsl(150 100% 50% / 0.2);
+  }
+
+  .glow-pink {
+    box-shadow: 0 0 15px hsl(330 100% 60% / 0.15), 0 0 30px hsl(330 100% 60% / 0.05), inset 0 1px 0 hsl(330 100% 60% / 0.1);
+    border: 1px solid hsl(330 100% 60% / 0.2);
+  }
+
+  .glow-orange {
+    box-shadow: 0 0 15px hsl(25 100% 55% / 0.15), 0 0 30px hsl(25 100% 55% / 0.05), inset 0 1px 0 hsl(25 100% 55% / 0.1);
+    border: 1px solid hsl(25 100% 55% / 0.2);
+  }
+
+  .glow-blue {
+    box-shadow: 0 0 15px hsl(220 100% 60% / 0.15), 0 0 30px hsl(220 100% 60% / 0.05), inset 0 1px 0 hsl(220 100% 60% / 0.1);
+    border: 1px solid hsl(220 100% 60% / 0.2);
+  }
+
+  .text-glow-cyan {
+    text-shadow: 0 0 20px hsl(190 100% 50% / 0.5);
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(190 100% 50%), hsl(270 100% 65%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-grid {
+    background-image: 
+      linear-gradient(hsl(215 20% 16% / 0.5) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(215 20% 16% / 0.5) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+}
