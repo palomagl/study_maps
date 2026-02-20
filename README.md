@@ -1,73 +1,57 @@
-# Welcome to your Lovable project
+# 🗺️ StudyMaps - Trilhas de Aprendizado
 
-## Project info
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![TailwindCSS](https://img.shields.io/badge/tailwind-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Framer Motion](https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white)
+![Lucide](https://img.shields.io/badge/Lucide_React-FC60A8?style=for-the-badge&logo=lucide&logoColor=white)
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+Plataforma interativa de Roadmaps projetada para desenvolvedores que buscam clareza na sua jornada de aprendizado. O StudyMaps transforma listas de estudos estáticas em uma trilha visual imersiva, ajudando a organizar o progresso técnico com uma interface moderna e futurista.
 
-## How can I edit this code?
+> "Ensina-me o teu caminho, Senhor, e guia-me por uma vereda plana." (Salmos 27:11)
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## ✨ Funcionalidades Principais
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+### 🛤️ Trilhas de Aprendizado (Roadmaps)
+- **Visualização Dinâmica:** Nodes interativos que representam a progressão de tecnologias (HTML, CSS, JS, React, etc).
+- **Status de Progresso:** Marcação visual para módulos concluídos, em andamento e bloqueados.
+- **Conexões Neon:** Linhas conectoras animadas que guiam o olhar do usuário pelo fluxo de estudo.
 
-Changes made via Lovable will be committed automatically to this repo.
+### 📖 Sidebar de Conteúdo
+- **Módulos Detalhados:** Informações aprofundadas sobre cada tecnologia ao selecionar um node da trilha.
+- **Recursos Integrados:** Espaço para links de documentação, vídeo-aulas e dicas práticas.
 
-**Use your preferred IDE**
+### 🎨 Experiência do Usuário (UX/UI)
+- **Deep Dark Mode:** Interface focada em produtividade com alto contraste e estética baseada em tons de azul e neon.
+- **Micro-interações:** Animações fluidas de entrada e hover que tornam a navegação intuitiva e prazerosa.
+- **Responsividade:** Design adaptável para consulta rápida em qualquer dispositivo.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🛠️ Tecnologias e Arquitetura
 
-Follow these steps:
+O projeto utiliza o que há de mais moderno no ecossistema Front-End:
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+- **Core:** React com Vite para uma experiência de desenvolvimento ultra-rápida.
+- **Estilização:** Tailwind CSS para layouts flexíveis e componentes Shadcn/UI para consistência visual.
+- **Animações:** Framer Motion para gerenciar as transições de estado e efeitos das trilhas.
+- **Ícones:** Lucide React para uma biblioteca de ícones leve e moderna.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+---
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 🔗 Demonstração e Acesso
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+✨ **Visualize suas trilhas online:** [Acessar StudyMaps](https://study-maps.vercel.app/) 
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 📩 Vamos conectar?
 
-**Use GitHub Codespaces**
+Se você gostou deste projeto ou quer trocar uma ideia sobre educação tech, sinta-se à vontade para me chamar:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+[![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/palomagl)
+[![WhatsApp](https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/5551998127367)
 
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+---
+*Desenvolvido com foco em clareza educacional e design de interface por Paloma Lorenzon.*
