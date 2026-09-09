@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import Index from "./Index";
 import Dashboard from "./Dashboard";
@@ -39,6 +39,37 @@ describe("smoke — páginas renderizam sem quebrar", () => {
     renderAt("/roadmap/frontend");
     expect(screen.getByText("Fundamentos da Web")).toBeInTheDocument();
     expect(screen.getAllByText("Como a Internet Funciona").length).toBeGreaterThan(0);
+  });
+
+  it("RoadmapViewer abre no mapa e alterna para a lista", () => {
+    renderAt("/roadmap/frontend");
+    const tabs = screen.getByRole("tablist", { name: "Modo de visualização" });
+    const mapa = within(tabs).getByRole("tab", { name: "Mapa" });
+    const lista = within(tabs).getByRole("tab", { name: "Lista" });
+
+    expect(mapa).toHaveAttribute("aria-selected", "true");
+    fireEvent.click(lista);
+    expect(lista).toHaveAttribute("aria-selected", "true");
+    expect(mapa).toHaveAttribute("aria-selected", "false");
+  });
+
+  it("clicar num nó do mapa abre o painel com os passos da aula", () => {
+    renderAt("/roadmap/frontend");
+    // No mapa a aula é um botão; na lista seria um link.
+    fireEvent.click(
+      screen.getByRole("button", { name: /Como a Internet Funciona/ }),
+    );
+
+    const painel = screen.getByRole("dialog", {
+      name: "Aula: Como a Internet Funciona",
+    });
+    expect(within(painel).getByText("Passos da aula")).toBeInTheDocument();
+    expect(
+      within(painel).getByRole("link", { name: /Abrir aula/ }),
+    ).toHaveAttribute(
+      "href",
+      "/roadmap/frontend/aula/fe-web-01-internet",
+    );
   });
 
   it("RoadmapViewer com trilha inválida mostra fallback", () => {
