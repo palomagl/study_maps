@@ -5,6 +5,7 @@ import { xpForStep } from "@/content";
 import {
   EMPTY_LESSON_PROGRESS,
   progressStore,
+  type ChecklistPanel,
   type LessonProgress,
   type ProgressState,
 } from "@/lib/progress-store";
@@ -71,6 +72,13 @@ export function useProgress() {
     [],
   );
 
+  const toggleChecklistItem = useCallback(
+    (lessonId: string, which: ChecklistPanel, index: number) => {
+      progressStore.toggleChecklistItem(lessonId, which, index);
+    },
+    [],
+  );
+
   const recordConceptError = useCallback((concept: string, lessonId: string) => {
     progressStore.recordConceptError(concept, lessonId);
   }, []);
@@ -121,6 +129,7 @@ export function useProgress() {
       completeStep,
       uncompleteStep,
       recordCheckpoint,
+      toggleChecklistItem,
       recordConceptError,
       resolveConcept,
       resetLesson,
@@ -138,6 +147,7 @@ export function useProgress() {
       completeStep,
       uncompleteStep,
       recordCheckpoint,
+      toggleChecklistItem,
       recordConceptError,
       resolveConcept,
       resetLesson,

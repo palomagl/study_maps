@@ -194,3 +194,55 @@ describe("ProgressStore — reset", () => {
     expect(store.getState()).toEqual(defaultState());
   });
 });
+
+/* ------------------------------------------------------------------ */
+/* Checklist do exercício (schema v4)                                 */
+/* ------------------------------------------------------------------ */
+/* O trabalho real — juntar referência, gerar, publicar — acontece    */
+/* fora do app, ao longo de dias. Perder as marcações é inaceitável.  */
+
+describe("checklist do exercício", () => {
+  it("toggleChecklistItem guarda e remove o índice", () => {
+    const store = createTestStore();
+    store.toggleChecklistItem("l1", "exercise", 2);
+    expect(store.getState().lessons.l1.checklists?.exercise).toEqual([2]);
+    store.toggleChecklistItem("l1", "exercise", 2);
+    expect(store.getState().lessons.l1.checklists?.exercise).toEqual([]);
+  });
+
+  it("guarda painéis de exercício e desafio separadamente", () => {
+    const store = createTestStore();
+    store.toggleChecklistItem("l1", "exercise", 0);
+    store.toggleChecklistItem("l1", "challenge", 1);
+    const cl = store.getState().lessons.l1.checklists;
+    expect(cl?.exercise).toEqual([0]);
+    expect(cl?.challenge).toEqual([1]);
+  });
+
+  it("blob v3 antigo é lido sem perder XP, conquistas e sequência", () => {
+    const v3 = JSON.stringify({
+      version: 3,
+      xp: 740,
+      lessons: {
+        "fe-html-01-tags": { steps: { learn: true }, checkpoint: null },
+      },
+      concepts: {},
+      streak: { current: 5, longest: 9, lastStudyDate: "2026-10-20" },
+      achievements: ["primeira-aula"],
+      missionsClaimed: [],
+      profile: {
+        name: "Paloma",
+        goal: "frontend",
+        experience: "projetos",
+        onboardedAt: 1,
+      },
+    });
+    const state = parseState(v3);
+    expect(state.version).toBe(4);
+    expect(state.xp).toBe(740);
+    expect(state.achievements).toEqual(["primeira-aula"]);
+    expect(state.streak.longest).toBe(9);
+    expect(state.profile.name).toBe("Paloma");
+    expect(state.lessons["fe-html-01-tags"].checklists).toBeUndefined();
+  });
+});

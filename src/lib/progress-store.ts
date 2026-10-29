@@ -6,12 +6,14 @@ import {
 } from "@/lib/storage";
 
 /* ------------------------------------------------------------------ */
-/* Schema (v3)                                                        */
+/* Schema (v4)                                                        */
 /* ------------------------------------------------------------------ */
 /* v1: 3 trilhas × 10 nós (chave "studymaps-progress").               */
 /* v2: aulas/passos/checkpoint/conceitos/streak.                      */
 /* v3 (aditivo): + missionsClaimed, + profile. Um blob v2 é lido sem  */
 /*     migração: os campos novos caem no default.                     */
+/* v4 (aditivo): + checklists por aula. Um blob v3 é lido sem         */
+/*     migração e mantém XP, conquistas e sequência intactos.         */
 
 export const STORAGE_KEY = "studymaps:progress:v2";
 const LEGACY_KEY = "studymaps-progress"; // schema v1 (3 trilhas × 10 nós)
@@ -23,9 +25,18 @@ export interface CheckpointRecord {
   passed: boolean;
 }
 
+/** Os dois painéis que têm checklist numa aula. */
+export type ChecklistPanel = "exercise" | "challenge";
+
 export interface LessonProgress {
   steps: Partial<Record<LessonStepId, boolean>>;
   checkpoint: CheckpointRecord | null;
+  /**
+   * Índices marcados do checklist, por painel. Persistido porque o trabalho
+   * real do aluno acontece fora do app, ao longo de dias — recarregar a
+   * página não pode apagar o que ele já conseguiu.
+   */
+  checklists?: Partial<Record<ChecklistPanel, number[]>>;
 }
 
 export interface ConceptRecord {
@@ -55,7 +66,7 @@ export interface ProfileState {
 }
 
 export interface ProgressState {
-  version: 3;
+  version: 4;
   xp: number;
   lessons: Record<string, LessonProgress>;
   concepts: Record<string, ConceptRecord>;
@@ -73,7 +84,7 @@ export function defaultProfile(): ProfileState {
 
 export function defaultState(): ProgressState {
   return {
-    version: 3,
+    version: 4,
     xp: 0,
     lessons: {},
     concepts: {},
@@ -114,7 +125,19 @@ function coerceLessonProgress(raw: unknown): LessonProgress {
     };
   }
 
-  return { steps, checkpoint };
+  let checklists: LessonProgress["checklists"];
+  if (isObject(raw.checklists)) {
+    const out: Partial<Record<ChecklistPanel, number[]>> = {};
+    for (const panel of ["exercise", "challenge"] as const) {
+      const v = raw.checklists[panel];
+      if (Array.isArray(v)) {
+        out[panel] = v.filter((x): x is number => typeof x === "number");
+      }
+    }
+    if (Object.keys(out).length > 0) checklists = out;
+  }
+
+  return { steps, checkpoint, checklists };
 }
 
 function coerceConcept(raw: unknown): ConceptRecord {
@@ -182,7 +205,7 @@ export function parseState(rawJson: string | null): ProgressState {
   };
 
   return {
-    version: 3,
+    version: 4,
     xp: Number(parsed.xp) || 0,
     lessons,
     concepts,
@@ -316,6 +339,23 @@ export class ProgressStore {
     this.commit({
       ...this.state,
       lessons: { ...this.state.lessons, [lessonId]: { ...lp, steps } },
+    });
+  }
+
+  /** Marca/desmarca um item do checklist. Não envolve XP — quem credita é o passo. */
+  toggleChecklistItem(lessonId: string, which: ChecklistPanel, index: number): void {
+    const lp = this.lesson(lessonId);
+    const current = lp.checklists?.[which] ?? [];
+    const next = current.includes(index)
+      ? current.filter((i) => i !== index)
+      : [...current, index].sort((a, b) => a - b);
+
+    this.commit({
+      ...this.state,
+      lessons: {
+        ...this.state.lessons,
+        [lessonId]: { ...lp, checklists: { ...lp.checklists, [which]: next } },
+      },
     });
   }
 

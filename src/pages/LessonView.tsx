@@ -348,6 +348,7 @@ const LessonView = () => {
               accentHsl={accent}
             >
               <ExercisePanel
+                lessonId={lesson.id}
                 variant="exercise"
                 exercise={lesson.exercise}
                 accentHsl={accent}
@@ -369,6 +370,7 @@ const LessonView = () => {
               accentHsl={accent}
             >
               <ExercisePanel
+                lessonId={lesson.id}
                 variant="challenge"
                 challenge={lesson.challenge}
                 accentHsl={accent}
