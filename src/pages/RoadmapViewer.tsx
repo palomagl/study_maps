@@ -69,7 +69,7 @@ const RoadmapViewer = () => {
           <div className="flex-1">
             <div className="mb-1 flex items-center justify-between">
               <h2 className={`text-sm font-bold ${trail.colorClass}`}>
-                Trilha {trail.title}
+                {trail.title}
               </h2>
               <span className="text-xs text-muted-foreground">
                 {progress}% concluído
@@ -96,7 +96,7 @@ const RoadmapViewer = () => {
           className="mb-6"
         >
           <h1 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
-            Trilha {trail.title}
+            {trail.title}
           </h1>
           <p className="mt-2 max-w-2xl text-[15px] leading-7 text-muted-foreground">
             {trail.description}

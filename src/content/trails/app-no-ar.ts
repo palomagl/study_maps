@@ -217,5 +217,31 @@ export const appNoArTrail: Trail = {
     },
   ],
 
-  projects: [],
+  /**
+   * Na trilha de entrega, o "projeto" é o que a própria pessoa vai publicar.
+   * Por isso há um só, e ele é a entrega da trilha inteira.
+   */
+  projects: [
+    {
+      id: "ar-proj-seu-app",
+      title: "O seu app, no ar",
+      tagline: "Um link que funciona e você pode mandar para alguém",
+      description:
+        "A entrega desta trilha não é um exercício: é a sua própria ideia, publicada. Você escolhe o que construir na primeira aula e carrega essa ideia pelas seis fases, até ela ter endereço público.",
+      difficulty: "iniciante",
+      technologies: ["Lovable", "GitHub", "Vercel ou Render"],
+      skills: [
+        "Recortar uma ideia até ela caber",
+        "Escrever a especificação antes de gerar",
+        "Julgar o resultado e nomear o defeito",
+        "Publicar e registrar o link",
+      ],
+      features: [
+        "Repositório no GitHub",
+        "Build publicado",
+        "Link público para compartilhar",
+      ],
+      unlockedAfterPhaseId: "ar-p1",
+    },
+  ],
 };

@@ -1,48 +1,42 @@
 import { describe, expect, it } from "vitest";
 import { fireEvent, render, screen, within } from "@testing-library/react";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
-import Index from "./Index";
-import Dashboard from "./Dashboard";
-import Onboarding from "./Onboarding";
-import RoadmapViewer from "./RoadmapViewer";
-import ProjectsView from "./ProjectsView";
-import LessonView from "./LessonView";
-import ReviewView from "./ReviewView";
-import NotFound from "./NotFound";
+import { MemoryRouter } from "react-router-dom";
+import { AppRoutes } from "@/App";
 
+/**
+ * Renderiza as rotas REAIS do app — as mesmas que o usuário navega, incluindo
+ * os redirecionamentos das trilhas arquivadas. Antes este arquivo mantinha uma
+ * cópia da tabela de rotas, que podia divergir da verdadeira sem ninguém notar.
+ */
 function renderAt(path: string) {
   return render(
     <MemoryRouter initialEntries={[path]}>
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/inicio" element={<Onboarding />} />
-        <Route path="/painel" element={<Dashboard />} />
-        <Route path="/revisao" element={<ReviewView />} />
-        <Route path="/roadmap/:id" element={<RoadmapViewer />} />
-        <Route path="/roadmap/:trailId/projetos" element={<ProjectsView />} />
-        <Route path="/roadmap/:trailId/aula/:lessonId" element={<LessonView />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <AppRoutes />
     </MemoryRouter>,
   );
 }
 
+const TRILHA = "/roadmap/app-no-ar";
+const AULA = `${TRILHA}/aula/ar-jul-01-generico`;
+
 describe("smoke — páginas renderizam sem quebrar", () => {
-  it("Home lista as três trilhas", () => {
+  it("Home lista a trilha de entrega", () => {
     renderAt("/");
-    expect(screen.getByText("Trilha Front-end")).toBeInTheDocument();
-    expect(screen.getByText("Trilha Back-end")).toBeInTheDocument();
-    expect(screen.getByText("Trilha Full-Stack")).toBeInTheDocument();
+    expect(
+      screen.getAllByText("Coloque seu primeiro app no ar").length,
+    ).toBeGreaterThan(0);
   });
 
-  it("RoadmapViewer mostra fases e a aula de POC", () => {
-    renderAt("/roadmap/frontend");
-    expect(screen.getByText("Fundamentos da Web")).toBeInTheDocument();
-    expect(screen.getAllByText("Como a Internet Funciona").length).toBeGreaterThan(0);
+  it("RoadmapViewer mostra as fases do loop e a aula escrita", () => {
+    renderAt(TRILHA);
+    expect(screen.getByText("Julgamento")).toBeInTheDocument();
+    expect(
+      screen.getAllByText("O que faz um resultado parecer genérico").length,
+    ).toBeGreaterThan(0);
   });
 
   it("RoadmapViewer abre no mapa e alterna para a lista", () => {
-    renderAt("/roadmap/frontend");
+    renderAt(TRILHA);
     const tabs = screen.getByRole("tablist", { name: "Modo de visualização" });
     const mapa = within(tabs).getByRole("tab", { name: "Mapa" });
     const lista = within(tabs).getByRole("tab", { name: "Lista" });
@@ -54,22 +48,21 @@ describe("smoke — páginas renderizam sem quebrar", () => {
   });
 
   it("clicar num nó do mapa abre o painel com os passos da aula", () => {
-    renderAt("/roadmap/frontend");
+    renderAt(TRILHA);
     // No mapa a aula é um botão; na lista seria um link.
     fireEvent.click(
-      screen.getByRole("button", { name: /Como a Internet Funciona/ }),
+      screen.getByRole("button", {
+        name: /O que faz um resultado parecer genérico/,
+      }),
     );
 
     const painel = screen.getByRole("dialog", {
-      name: "Aula: Como a Internet Funciona",
+      name: "Aula: O que faz um resultado parecer genérico",
     });
     expect(within(painel).getByText("Passos da aula")).toBeInTheDocument();
     expect(
       within(painel).getByRole("link", { name: /Abrir aula/ }),
-    ).toHaveAttribute(
-      "href",
-      "/roadmap/frontend/aula/fe-web-01-internet",
-    );
+    ).toHaveAttribute("href", AULA);
   });
 
   it("RoadmapViewer com trilha inválida mostra fallback", () => {
@@ -77,10 +70,26 @@ describe("smoke — páginas renderizam sem quebrar", () => {
     expect(screen.getByText("Trilha não encontrada")).toBeInTheDocument();
   });
 
-  it("LessonView renderiza o fluxo da aula completa", () => {
+  it("link antigo de trilha de código redireciona em vez de dar 404", () => {
+    renderAt("/roadmap/frontend");
+    expect(screen.queryByText("Trilha não encontrada")).not.toBeInTheDocument();
+    expect(screen.queryByText("404")).not.toBeInTheDocument();
+    expect(screen.getByText("Julgamento")).toBeInTheDocument();
+  });
+
+  it("link antigo de aula de código também redireciona", () => {
     renderAt("/roadmap/frontend/aula/fe-web-01-internet");
+    expect(screen.queryByText("Aula não encontrada")).not.toBeInTheDocument();
+    expect(screen.getByText("Julgamento")).toBeInTheDocument();
+  });
+
+  it("LessonView renderiza o fluxo da aula completa", () => {
+    renderAt(AULA);
     expect(
-      screen.getByRole("heading", { name: "Como a Internet Funciona", level: 1 }),
+      screen.getByRole("heading", {
+        name: "O que faz um resultado parecer genérico",
+        level: 1,
+      }),
     ).toBeInTheDocument();
     expect(screen.getByText("O que você vai aprender")).toBeInTheDocument();
     expect(
@@ -90,44 +99,26 @@ describe("smoke — páginas renderizam sem quebrar", () => {
       screen.getByRole("heading", { name: "Checkpoint", level: 2 }),
     ).toBeInTheDocument();
     // conteúdo real da aula
-    expect(screen.getByText(/Cliente e servidor/)).toBeInTheDocument();
+    expect(screen.getByText(/Dê nome ao defeito/)).toBeInTheDocument();
   });
 
-  it("LessonView: o vídeo abre no player e tem link de YouTube válido", () => {
-    renderAt("/roadmap/frontend/aula/fe-web-01-internet");
+  it("LessonView mostra a comparação lado a lado da aula", () => {
+    renderAt(AULA);
+    expect(screen.getByAltText(/título pequeno/)).toBeInTheDocument();
+    expect(screen.getByAltText(/um título grande em duas linhas/)).toBeInTheDocument();
+    expect(screen.getByText("Pedido preguiçoso")).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: "Assista", level: 2 }),
+      screen.getByText("Pedido com referência e especificação"),
     ).toBeInTheDocument();
-    // botão do player (facade) acessível
-    expect(
-      screen.getByRole("button", { name: /Assistir ao vídeo: Como a Internet funciona/ }),
-    ).toBeInTheDocument();
-    // link de fallback para o YouTube com o id verificado
-    const link = screen.getByRole("link", { name: /YouTube/ });
-    expect(link).toHaveAttribute(
-      "href",
-      "https://www.youtube.com/watch?v=nlO5hySqJFA",
-    );
   });
 
   it("LessonView em aula draft mostra 'em produção'", () => {
-    renderAt("/roadmap/frontend/aula/fe-js-01-fundamentos");
+    renderAt(`${TRILHA}/aula/ar-jul-02-checklist`);
     expect(screen.getByText("Conteúdo em produção")).toBeInTheDocument();
   });
 
-  it("LessonView renderiza uma das novas aulas de CSS", () => {
-    renderAt("/roadmap/frontend/aula/fe-css-01-box-model");
-    expect(
-      screen.getByRole("heading", { name: "Box model e seletores", level: 1 }),
-    ).toBeInTheDocument();
-    expect(screen.getByText(/As quatro camadas da caixa/)).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", { name: "Checkpoint", level: 2 }),
-    ).toBeInTheDocument();
-  });
-
   it("LessonView com id inválido mostra fallback", () => {
-    renderAt("/roadmap/frontend/aula/nao-existe");
+    renderAt(`${TRILHA}/aula/nao-existe`);
     expect(screen.getByText("Aula não encontrada")).toBeInTheDocument();
   });
 
@@ -154,13 +145,12 @@ describe("smoke — páginas renderizam sem quebrar", () => {
     expect(screen.getByPlaceholderText(/Seu nome/)).toBeInTheDocument();
   });
 
-  it("ProjectsView lista projetos da trilha", () => {
-    renderAt("/roadmap/frontend/projetos");
+  it("ProjectsView lista a entrega da trilha", () => {
+    renderAt(`${TRILHA}/projetos`);
     expect(
       screen.getByRole("heading", { name: /O que você vai conseguir construir/ }),
     ).toBeInTheDocument();
-    expect(screen.getByText("Landing Page")).toBeInTheDocument();
-    expect(screen.getByText("Dashboard")).toBeInTheDocument();
+    expect(screen.getByText("O seu app, no ar")).toBeInTheDocument();
   });
 
   it("ReviewView sem conceitos mostra estado vazio", () => {

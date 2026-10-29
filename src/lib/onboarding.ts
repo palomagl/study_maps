@@ -6,19 +6,38 @@ export interface Option {
   hint?: string;
 }
 
+/**
+ * Objetivos de entrega, não de cargo. A pessoa não chega aqui querendo ser
+ * "front-end": ela chega com uma ideia e quer ver aquilo existindo.
+ */
 export const GOAL_OPTIONS: Option[] = [
-  { id: "frontend", label: "Front-end", hint: "Interfaces, sites e telas que as pessoas usam" },
-  { id: "backend", label: "Back-end", hint: "APIs, dados, regras de negócio e servidores" },
-  { id: "fullstack", label: "Full-Stack", hint: "As duas pontas: front + back integrados" },
-  { id: "apps", label: "Fazer aplicações", hint: "Quero construir produtos completos" },
-  { id: "indeciso", label: "Ainda não sei", hint: "Me ajuda a decidir por onde começar" },
+  {
+    id: "app-no-ar",
+    label: "Colocar um app meu no ar",
+    hint: "Tenho uma ideia e quero um link funcionando para mandar",
+  },
+  {
+    id: "site",
+    label: "Fazer um site com a minha cara",
+    hint: "Quero algo que não pareça gerado por IA",
+  },
+  {
+    id: "automatizar",
+    label: "Automatizar uma tarefa chata",
+    hint: "Perco tempo toda semana com a mesma coisa",
+  },
+  {
+    id: "indeciso",
+    label: "Ainda não sei",
+    hint: "Me ajuda a decidir por onde começar",
+  },
 ];
 
 export const EXPERIENCE_OPTIONS: Option[] = [
-  { id: "nunca", label: "Nunca programei" },
-  { id: "contato", label: "Já tive algum contato" },
-  { id: "projetos", label: "Já fiz alguns projetos" },
-  { id: "programo", label: "Já programo hoje" },
+  { id: "nunca", label: "Nunca criei nada com IA" },
+  { id: "pedi", label: "Já pedi umas coisas e usei o que veio" },
+  { id: "fiz", label: "Já fiz algo que funcionou" },
+  { id: "publiquei", label: "Já coloquei alguma coisa no ar" },
 ];
 
 export interface Recommendation {
@@ -26,54 +45,57 @@ export interface Recommendation {
   reason: string;
 }
 
+/**
+ * Nesta versão só existe uma trilha escrita, então todo caminho leva a ela —
+ * mas o motivo muda, porque o motivo é o que faz a pessoa começar. Quando as
+ * trilhas 2, 3 e 4 existirem, só os destinos mudam aqui.
+ */
 export function recommendTrail(
   goal: string | null,
   experience: string | null,
 ): Recommendation {
-  if (goal === "frontend")
+  if (goal === "site") {
     return {
-      trailId: "frontend",
+      trailId: "app-no-ar",
       reason:
-        "Você quer construir interfaces — a trilha Front-end vai do HTML ao React.",
+        "Ter cara própria é o que essa trilha mais ensina: referência antes de gerar, e olho para julgar o que voltou.",
     };
-  if (goal === "backend")
-    return {
-      trailId: "backend",
-      reason:
-        "Seu foco é o servidor — a trilha Back-end cobre APIs, bancos e deploy.",
-    };
-  if (goal === "fullstack")
-    return {
-      trailId: "fullstack",
-      reason: "Você quer as duas pontas — a trilha Full-Stack integra front e back.",
-    };
+  }
 
-  if (goal === "apps") {
-    if (experience === "projetos" || experience === "programo") {
+  if (goal === "automatizar") {
+    return {
+      trailId: "app-no-ar",
+      reason:
+        "O caminho é o mesmo — recortar, especificar, julgar e publicar. Faça esta trilha com a sua tarefa chata no lugar do app.",
+    };
+  }
+
+  if (goal === "indeciso") {
+    if (experience === "fiz" || experience === "publiquei") {
       return {
-        trailId: "fullstack",
+        trailId: "app-no-ar",
         reason:
-          "Você já tem base e quer produtos completos — a trilha Full-Stack te leva do front ao deploy.",
+          "Você já faz coisas com IA. Aqui o ganho é o passo que quase ninguém tem: julgar o resultado e consertar com precisão.",
       };
     }
     return {
-      trailId: "frontend",
+      trailId: "app-no-ar",
       reason:
-        "Para chegar a apps completos, começar pelo Front-end te dá base de JavaScript e interface — depois o Full-Stack.",
+        "Comece colocando uma coisa pequena no ar. Ter um link que funciona muda o que você acha que consegue fazer.",
     };
   }
 
-  // indeciso (ou sem resposta)
-  if (experience === "projetos" || experience === "programo") {
+  // "app-no-ar" e qualquer resposta não prevista
+  if (experience === "publiquei") {
     return {
-      trailId: "fullstack",
+      trailId: "app-no-ar",
       reason:
-        "Como você já programa, a trilha Full-Stack aproveita sua base e amplia para as duas pontas.",
+        "Você já publicou algo, então a parte final vai ser rápida — o que essa trilha te dá é o olho para o resultado não sair genérico.",
     };
   }
   return {
-    trailId: "frontend",
+    trailId: "app-no-ar",
     reason:
-      "Para quem está começando, o Front-end dá retorno visual rápido e ensina a lógica de programação.",
+      "É exatamente o que essa trilha faz: você entra com uma ideia e sai com um link para mandar para alguém.",
   };
 }

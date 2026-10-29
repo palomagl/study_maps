@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  LEGACY_TRAIL_IDS,
   curriculum,
   flattenLessons,
   getAdjacentLessons,
@@ -130,11 +131,6 @@ describe("curriculum — regras de conteúdo", () => {
     }
   });
 
-  it("a aula da Internet usa o vídeo verificado (não o id inválido antigo)", () => {
-    const internet = getLessonLocation("frontend", "fe-web-01-internet")!.lesson;
-    expect(parseYouTubeId(internet.video!.url)).toBe("nlO5hySqJFA");
-  });
-
   it("aula 'draft' não trava: sem perguntas de checkpoint", () => {
     for (const l of allLessons.filter((x) => x.status === "draft")) {
       expect(l.checkpoint.questions.length).toBe(0);
@@ -143,57 +139,58 @@ describe("curriculum — regras de conteúdo", () => {
 });
 
 describe("seletores", () => {
-  it("getFirstLesson devolve uma aula available da trilha", () => {
-    const first = getFirstLesson("frontend");
+  it("getFirstLesson devolve a aula available da trilha", () => {
+    const first = getFirstLesson("app-no-ar");
     expect(first?.lesson.status).toBe("available");
-    expect(first?.lesson.id).toBe("fe-web-01-internet");
+    expect(first?.lesson.id).toBe("ar-jul-01-generico");
   });
 
   it("getLessonLocation resolve trilha/fase/etapa/aula", () => {
-    const loc = getLessonLocation("frontend", "fe-web-01-internet");
-    expect(loc?.trail.id).toBe("frontend");
-    expect(loc?.phase.id).toBe("fe-p1");
-    expect(loc?.stage.id).toBe("fe-s1");
-    expect(loc?.indexInTrail).toBe(0);
+    const loc = getLessonLocation("app-no-ar", "ar-jul-01-generico");
+    expect(loc?.trail.id).toBe("app-no-ar");
+    expect(loc?.phase.id).toBe("ar-p4");
+    expect(loc?.stage.id).toBe("ar-s4");
+    // 2 aulas em p1 + 2 em p2 + 1 em p3 = a sexta da trilha
+    expect(loc?.indexInTrail).toBe(5);
   });
 
   it("getLessonLocation com ids inválidos devolve undefined", () => {
-    expect(getLessonLocation("frontend", "nao-existe")).toBeUndefined();
-    expect(getLessonLocation("xxx", "fe-web-01-internet")).toBeUndefined();
+    expect(getLessonLocation("app-no-ar", "nao-existe")).toBeUndefined();
+    expect(getLessonLocation("xxx", "ar-jul-01-generico")).toBeUndefined();
   });
 
   it("getAdjacentLessons encadeia as aulas da trilha", () => {
-    const { prev, next } = getAdjacentLessons("frontend", "fe-web-01-internet");
-    expect(prev).toBeUndefined();
-    expect(next?.lesson.id).toBe("fe-html-01-tags");
+    const { prev, next } = getAdjacentLessons("app-no-ar", "ar-jul-01-generico");
+    expect(prev?.lesson.id).toBe("ar-ger-01-ferramenta-certa");
+    expect(next?.lesson.id).toBe("ar-jul-02-checklist");
   });
 
   it("getTrailStats soma o que existe", () => {
-    const trail = getTrail("frontend")!;
-    const stats = getTrailStats("frontend");
+    const trail = getTrail("app-no-ar")!;
+    const stats = getTrailStats("app-no-ar");
     const available = flattenLessons(trail).filter(
       (l) => l.lesson.status === "available",
     ).length;
-    expect(stats.phases).toBe(4);
+    expect(stats.phases).toBe(6);
     expect(stats.lessons).toBe(flattenLessons(trail).length);
     expect(stats.availableLessons).toBe(available);
-    expect(available).toBeGreaterThanOrEqual(5); // Fase 1 completa
+    expect(available).toBeGreaterThanOrEqual(1);
     expect(stats.totalXp).toBeGreaterThan(0);
   });
 
   it("lessonSteps/lessonMaxXp refletem as partes da aula", () => {
-    const internet = getLessonLocation("frontend", "fe-web-01-internet")!.lesson;
-    expect(lessonSteps(internet)).toEqual([
+    const julgamento = getLessonLocation("app-no-ar", "ar-jul-01-generico")!.lesson;
+    // Sem "watch": a aula não tem vídeo, porque não havia um verificado.
+    expect(lessonSteps(julgamento)).toEqual([
       "learn",
-      "watch",
       "explore",
       "quiz",
       "practice",
       "challenge",
       "checkpoint",
     ]);
-    // 10 + 15 + 5 + 20 + 30 + 50 + 80
-    expect(lessonMaxXp(internet)).toBe(210);
+    // 10 + 5 + 20 + 30 + 50 + 80
+    expect(lessonMaxXp(julgamento)).toBe(195);
   });
 });
 
@@ -243,5 +240,18 @@ describe("aula de julgamento — primeira aula escrita da Trilha 1", () => {
         expect(side.src, "src relativo, nunca URL remota").toMatch(/^\/content\//);
       }
     }
+  });
+});
+
+describe("trilhas de código arquivadas", () => {
+  it("saíram do currículo", () => {
+    expect(curriculum.map((t) => t.id)).toEqual(["app-no-ar"]);
+    expect(getTrail("frontend")).toBeUndefined();
+    expect(getTrail("backend")).toBeUndefined();
+    expect(getTrail("fullstack")).toBeUndefined();
+  });
+
+  it("seus ids continuam listados, para as rotas antigas redirecionarem", () => {
+    expect([...LEGACY_TRAIL_IDS]).toEqual(["frontend", "backend", "fullstack"]);
   });
 });

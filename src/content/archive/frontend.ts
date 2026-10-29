@@ -1,10 +1,10 @@
 import type { Trail } from "@/content/types";
 import { draftLesson } from "@/content/draft";
-import { comoAInternetFunciona } from "@/content/lessons/fe-como-a-internet-funciona";
-import { htmlTagsEEstrutura } from "@/content/lessons/fe-html-01-tags";
-import { htmlFormulariosEAcessibilidade } from "@/content/lessons/fe-html-02-forms";
-import { cssBoxModelESeletores } from "@/content/lessons/fe-css-01-box-model";
-import { cssFlexboxGridResponsividade } from "@/content/lessons/fe-css-02-layout";
+import { comoAInternetFunciona } from "@/content/archive/lessons/fe-como-a-internet-funciona";
+import { htmlTagsEEstrutura } from "@/content/archive/lessons/fe-html-01-tags";
+import { htmlFormulariosEAcessibilidade } from "@/content/archive/lessons/fe-html-02-forms";
+import { cssBoxModelESeletores } from "@/content/archive/lessons/fe-css-01-box-model";
+import { cssFlexboxGridResponsividade } from "@/content/archive/lessons/fe-css-02-layout";
 
 /**
  * Trilha Front-end.

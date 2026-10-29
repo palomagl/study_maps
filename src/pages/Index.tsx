@@ -4,13 +4,11 @@ import { curriculum, getFirstLesson, getTrailStats } from "@/content";
 import { useProgress } from "@/hooks/useProgress";
 import { hasAnyProgress } from "@/lib/progress-selectors";
 import Dashboard from "@/pages/Dashboard";
-import { Code, Database, Layers, Sparkles, ArrowRight, Flame } from "lucide-react";
+import { Code, Rocket, Sparkles, ArrowRight, Flame } from "lucide-react";
 import { motion } from "framer-motion";
 
 const trailIcons: Record<string, typeof Code> = {
-  frontend: Code,
-  backend: Database,
-  fullstack: Layers,
+  "app-no-ar": Rocket,
 };
 
 const Index = () => {
@@ -118,7 +116,7 @@ const Index = () => {
                     </div>
 
                     <h3 className="mb-2 text-2xl font-bold text-foreground">
-                      Trilha {trail.title}
+                      {trail.title}
                     </h3>
                     <p className="mb-5 text-sm text-muted-foreground">
                       {trail.subtitle}

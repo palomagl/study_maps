@@ -8,11 +8,11 @@ import {
 } from "@/lib/review";
 
 describe("review", () => {
-  it("questionsForConcept encontra as perguntas do conceito na aula da Internet", () => {
-    const dns = questionsForConcept("dns");
-    expect(dns.length).toBeGreaterThan(0);
-    expect(dns.every((rq) => rq.question.concept === "dns")).toBe(true);
-    expect(dns.some((rq) => rq.lessonId === "fe-web-01-internet")).toBe(true);
+  it("questionsForConcept encontra as perguntas do conceito na aula de julgamento", () => {
+    const defeito = questionsForConcept("nomear o defeito");
+    expect(defeito.length).toBeGreaterThan(0);
+    expect(defeito.every((rq) => rq.question.concept === "nomear o defeito")).toBe(true);
+    expect(defeito.some((rq) => rq.lessonId === "ar-jul-01-generico")).toBe(true);
   });
 
   it("conceito inexistente devolve lista vazia", () => {
@@ -20,8 +20,8 @@ describe("review", () => {
   });
 
   it("buildReviewDeck ignora conceitos sem perguntas e preserva a ordem", () => {
-    const deck = buildReviewDeck(["https", "nao-existe", "dns"]);
-    expect(deck.map((c) => c.concept)).toEqual(["https", "dns"]);
+    const deck = buildReviewDeck(["teste do olho semicerrado", "nao-existe", "nomear o defeito"]);
+    expect(deck.map((c) => c.concept)).toEqual(["teste do olho semicerrado", "nomear o defeito"]);
     expect(deck.every((c) => c.questions.length > 0)).toBe(true);
   });
 

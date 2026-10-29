@@ -10,7 +10,7 @@ import {
 } from "@/lib/gamification";
 
 const ach = (id: string) => ACHIEVEMENTS.find((a) => a.id === id)!;
-const internet = getLessonLocation("frontend", "fe-web-01-internet")!.lesson;
+const internet = getLessonLocation("app-no-ar", "ar-jul-01-generico")!.lesson;
 
 function storeWithFullLesson() {
   const store = createTestStore();
