@@ -54,7 +54,27 @@ export type ContentBlock =
       title: string;
       text: string;
       code?: { language: string; code: string };
+    }
+  /** `src` é caminho a partir da raiz pública — arquivo do repositório, nunca URL remota. */
+  | { type: "image"; src: string; alt: string; caption?: string }
+  /**
+   * Comparação lado a lado. É o bloco de que a tese depende: a aula não diz
+   * "use referências", ela mostra os dois resultados e deixa a pessoa ver.
+   */
+  | {
+      type: "compare";
+      title?: string;
+      left: CompareSide;
+      right: CompareSide;
     };
+
+export interface CompareSide {
+  src: string;
+  alt: string;
+  /** Rótulo curto acima da imagem: "Sem referência", "Com referência". */
+  label: string;
+  caption?: string;
+}
 
 /* ------------------------------------------------------------------ */
 /* Recursos                                                           */
