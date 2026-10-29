@@ -222,3 +222,26 @@ describe("Trilha 1 — Coloque seu primeiro app no ar", () => {
     expect(getTrailStats("app-no-ar").lessons).toBe(12);
   });
 });
+
+describe("aula de julgamento — primeira aula escrita da Trilha 1", () => {
+  it("está completa e usa os primitivos novos", () => {
+    const lesson = getLessonLocation("app-no-ar", "ar-jul-01-generico")!.lesson;
+    expect(lesson.status).toBe("available");
+    expect(lesson.content.some((b) => b.type === "compare")).toBe(true);
+    expect(
+      [...lesson.questions, ...lesson.checkpoint.questions].some(
+        (q) => q.type === "judge",
+      ),
+    ).toBe(true);
+  });
+
+  it("as imagens da comparação apontam para arquivos do repositório", () => {
+    const lesson = getLessonLocation("app-no-ar", "ar-jul-01-generico")!.lesson;
+    for (const block of lesson.content) {
+      if (block.type !== "compare") continue;
+      for (const side of [block.left, block.right]) {
+        expect(side.src, "src relativo, nunca URL remota").toMatch(/^\/content\//);
+      }
+    }
+  });
+});

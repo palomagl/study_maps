@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="800" height="520" role="img" aria-label="Ilustração de uma seção inicial sem hierarquia visual: tudo com o mesmo peso, espaçamento apertado e três botões iguais.">
+  <rect width="800" height="520" fill="#ffffff"/>
+
+  <!-- nav: cinco itens com exatamente o mesmo peso -->
+  <g font-family="system-ui, sans-serif" font-size="13" fill="#555555">
+    <text x="40" y="38">MinhaEmpresa</text>
+    <text x="150" y="38">Início</text>
+    <text x="210" y="38">Sobre</text>
+    <text x="270" y="38">Serviços</text>
+    <text x="345" y="38">Preços</text>
+    <text x="405" y="38">Blog</text>
+    <text x="455" y="38">Contato</text>
+  </g>
+  <line x1="0" y1="52" x2="800" y2="52" stroke="#dddddd" stroke-width="1"/>
+
+  <!-- título quase do mesmo tamanho do corpo, centralizado -->
+  <text x="400" y="86" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="700" fill="#333333">
+    Soluções inovadoras para o seu negócio
+  </text>
+  <text x="400" y="110" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="#333333">
+    Transformando ideias em resultados
+  </text>
+
+  <!-- parágrafo longo, linha larga demais, mesmo tom -->
+  <g font-family="system-ui, sans-serif" font-size="13" fill="#444444">
+    <text x="40" y="136">Nós oferecemos uma plataforma completa e inovadora que utiliza tecnologia de ponta para potencializar</text>
+    <text x="40" y="154">resultados, otimizar processos e entregar valor de forma escalável para empresas de todos os tamanhos,</text>
+    <text x="40" y="172">com foco em excelência, qualidade e satisfação total dos nossos clientes em todo o território nacional.</text>
+    <text x="40" y="190">Conte com a nossa experiência para alavancar o seu crescimento de maneira sustentável e consistente.</text>
+  </g>
+
+  <!-- três botões idênticos: nenhum é "o" botão -->
+  <g font-family="system-ui, sans-serif" font-size="13" fill="#ffffff">
+    <rect x="40" y="208" width="130" height="34" rx="4" fill="#4a7fd4"/>
+    <text x="105" y="230" text-anchor="middle">Saiba mais</text>
+    <rect x="182" y="208" width="130" height="34" rx="4" fill="#4a7fd4"/>
+    <text x="247" y="230" text-anchor="middle">Entre em contato</text>
+    <rect x="324" y="208" width="130" height="34" rx="4" fill="#4a7fd4"/>
+    <text x="389" y="230" text-anchor="middle">Nossos serviços</text>
+  </g>
+
+  <!-- quatro cartões iguais, colados -->
+  <g>
+    <rect x="40" y="258" width="176" height="110" rx="4" fill="#f2f2f2" stroke="#dddddd"/>
+    <rect x="222" y="258" width="176" height="110" rx="4" fill="#f2f2f2" stroke="#dddddd"/>
+    <rect x="404" y="258" width="176" height="110" rx="4" fill="#f2f2f2" stroke="#dddddd"/>
+    <rect x="586" y="258" width="176" height="110" rx="4" fill="#f2f2f2" stroke="#dddddd"/>
+  </g>
+  <g font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#333333">
+    <text x="56" y="282">Qualidade</text>
+    <text x="238" y="282">Inovação</text>
+    <text x="420" y="282">Agilidade</text>
+    <text x="602" y="282">Confiança</text>
+  </g>
+  <g font-family="system-ui, sans-serif" font-size="11" fill="#666666">
+    <text x="56" y="302">Nosso compromisso com</text>
+    <text x="56" y="318">a excelência em tudo.</text>
+    <text x="238" y="302">Tecnologia de ponta a</text>
+    <text x="238" y="318">serviço do resultado.</text>
+    <text x="420" y="302">Entregas rápidas e no</text>
+    <text x="420" y="318">prazo combinado.</text>
+    <text x="602" y="302">Parceria de longo prazo</text>
+    <text x="602" y="318">com cada cliente.</text>
+  </g>
+
+  <rect x="40" y="384" width="722" height="96" rx="4" fill="#f2f2f2" stroke="#dddddd"/>
+  <text x="401" y="438" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#999999">imagem</text>
+</svg>

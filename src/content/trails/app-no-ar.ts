@@ -1,5 +1,6 @@
 import type { Trail } from "@/content/types";
 import { draftLesson } from "@/content/draft";
+import { oQueFazParecerGenerico } from "@/content/lessons/ar-julgamento-01-generico";
 
 /**
  * Trilha 1 — Coloque seu primeiro app no ar.
@@ -129,13 +130,7 @@ export const appNoArTrail: Trail = {
           evolutionMoment:
             "👀 Agora você enxerga o que está ruim — e consegue dizer por quê.",
           lessons: [
-            draftLesson({
-              id: "ar-jul-01-generico",
-              slug: "o-que-faz-parecer-generico",
-              title: "O que faz um resultado parecer genérico",
-              summary:
-                "Dois resultados do mesmo pedido, lado a lado. A diferença não é sorte.",
-            }),
+            oQueFazParecerGenerico,
             draftLesson({
               id: "ar-jul-02-checklist",
               slug: "seu-checklist-de-julgamento",
