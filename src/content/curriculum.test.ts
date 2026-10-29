@@ -106,6 +106,11 @@ describe("curriculum — regras de conteúdo", () => {
         expect(new Set(q.correctOrder)).toEqual(new Set(q.items.map((i) => i.id)));
       } else if (q.type === "match") {
         expect(q.correctPairs.length).toBe(q.left.length);
+      } else if (q.type === "judge") {
+        expect(q.defects.length, `${q.id} defeitos`).toBeGreaterThan(0);
+        expect(q.correctDefectIds.length, `${q.id} defeitos certos`).toBeGreaterThan(0);
+        const defectIds = new Set(q.defects.map((d) => d.id));
+        for (const id of q.correctDefectIds) expect(defectIds.has(id)).toBe(true);
       } else {
         expect(q.correctOptionIds.length).toBeGreaterThan(0);
         const optionIds = new Set(q.options.map((o) => o.id));

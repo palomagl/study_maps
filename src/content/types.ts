@@ -125,7 +125,8 @@ export type QuestionType =
   | "boolean" // verdadeiro / falso
   | "code-output" // interpretar um trecho de código (escolha única)
   | "order" // ordenar etapas
-  | "match"; // relacionar conceitos
+  | "match" // relacionar conceitos
+  | "judge"; // julgar dois resultados e nomear o defeito do pior
 
 /** Habilidade avaliada – guia a autoria para não cair em decoreba. */
 export type QuestionSkill = "compreensao" | "aplicacao" | "raciocinio";
@@ -173,13 +174,47 @@ export interface MatchQuestion extends QuestionBase {
   correctPairs: { leftId: string; rightId: string }[];
 }
 
-export type Question = ChoiceQuestion | OrderQuestion | MatchQuestion;
+/** Um dos dois resultados postos em comparação. Imagem, texto, ou os dois. */
+export interface JudgeSide {
+  label: string;
+  src?: string;
+  alt?: string;
+  /** Alternativa textual à imagem, quando o resultado é texto ou markup. */
+  body?: string;
+}
+
+/**
+ * Questão de julgamento. Duas partes, as duas de escolha: qual resultado é
+ * melhor, e quais defeitos o pior tem. Nomear o defeito é o que ensina a
+ * enxergá-lo — por isso a segunda parte não é opcional.
+ *
+ * Fica corrigível pelo `gradeQuestion`, contável no `passThreshold` do
+ * checkpoint e capaz de alimentar a revisão por `concept`.
+ */
+export interface JudgeQuestion extends QuestionBase {
+  type: "judge";
+  left: JudgeSide;
+  right: JudgeSide;
+  /** Qual lado é o melhor. */
+  better: "left" | "right";
+  /** Defeitos candidatos do lado pior. */
+  defects: { id: string; text: string }[];
+  /** Subconjunto de `defects` que de fato se aplica. Pelo menos 1. */
+  correctDefectIds: string[];
+}
+
+export type Question =
+  | ChoiceQuestion
+  | OrderQuestion
+  | MatchQuestion
+  | JudgeQuestion;
 
 /** Resposta do usuário, normalizada por tipo. */
 export type QuestionAnswer =
   | { kind: "choice"; optionIds: string[] }
   | { kind: "order"; itemIds: string[] }
-  | { kind: "match"; pairs: { leftId: string; rightId: string }[] };
+  | { kind: "match"; pairs: { leftId: string; rightId: string }[] }
+  | { kind: "judge"; better: "left" | "right" | null; defectIds: string[] };
 
 /* ------------------------------------------------------------------ */
 /* Prática                                                            */

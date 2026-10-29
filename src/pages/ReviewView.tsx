@@ -5,30 +5,13 @@ import { ArrowLeft, ArrowRight, Check, RotateCcw, X } from "lucide-react";
 import Header from "@/components/Header";
 import { useProgress } from "@/hooks/useProgress";
 import { conceptsToReview } from "@/lib/progress-selectors";
-import { buildReviewDeck, prettyConcept, type ReviewQuestion } from "@/lib/review";
-import type { Question } from "@/content/types";
+import {
+  buildReviewDeck,
+  describeAnswer,
+  prettyConcept,
+  type ReviewQuestion,
+} from "@/lib/review";
 import { renderInline } from "@/components/lesson/inline-markdown";
-
-function describeAnswer(q: Question): string {
-  if (q.type === "order") {
-    return q.correctOrder
-      .map((id) => q.items.find((i) => i.id === id)?.text ?? id)
-      .join("  →  ");
-  }
-  if (q.type === "match") {
-    return q.correctPairs
-      .map((p) => {
-        const l = q.left.find((x) => x.id === p.leftId)?.text ?? p.leftId;
-        const r = q.right.find((x) => x.id === p.rightId)?.text ?? p.rightId;
-        return `${l} → ${r}`;
-      })
-      .join("\n");
-  }
-  return q.options
-    .filter((o) => q.correctOptionIds.includes(o.id))
-    .map((o) => o.text + (o.code ? ` (${o.code})` : ""))
-    .join(", ");
-}
 
 const ReviewView = () => {
   const { state, resolveConcept } = useProgress();

@@ -1,6 +1,8 @@
 import { ArrowDown, ArrowUp, Check, X } from "lucide-react";
 import type {
   ChoiceQuestion,
+  JudgeQuestion,
+  JudgeSide,
   MatchQuestion,
   OrderQuestion,
   Question,
@@ -243,6 +245,167 @@ export function MatchInput({ question, value, onChange, disabled, reveal }: Matc
   );
 }
 
+/* ---------------- julgar (A/B) ---------------- */
+
+interface JudgeProps {
+  question: JudgeQuestion;
+  value: { better: "left" | "right" | null; defectIds: string[] };
+  onChange: (v: { better: "left" | "right" | null; defectIds: string[] }) => void;
+  disabled?: boolean;
+  reveal?: boolean;
+  accentHsl: string;
+}
+
+function JudgePanel({
+  side,
+  which,
+  selected,
+  disabled,
+  tone,
+  onPick,
+}: {
+  side: JudgeSide;
+  which: "left" | "right";
+  selected: boolean;
+  disabled?: boolean;
+  tone: string;
+  onPick: (w: "left" | "right") => void;
+}) {
+  return (
+    <button
+      type="button"
+      disabled={disabled}
+      aria-pressed={selected}
+      onClick={() => onPick(which)}
+      className={`flex min-w-0 flex-col rounded-xl border p-3 text-left transition-colors disabled:cursor-not-allowed ${tone}`}
+    >
+      <span className="mb-2 text-xs font-semibold uppercase tracking-wider text-foreground/70">
+        {side.label}
+      </span>
+      {side.src && (
+        <img
+          src={side.src}
+          alt={side.alt ?? side.label}
+          loading="lazy"
+          className="w-full rounded-lg border border-border bg-secondary/20"
+        />
+      )}
+      {side.body && (
+        <span className="mt-1 whitespace-pre-wrap font-mono text-[13px] leading-relaxed text-foreground/90">
+          {side.body}
+        </span>
+      )}
+    </button>
+  );
+}
+
+export function JudgeInput({
+  question,
+  value,
+  onChange,
+  disabled,
+  reveal,
+  accentHsl,
+}: JudgeProps) {
+  const toneFor = (which: "left" | "right") => {
+    const selected = value.better === which;
+    const isBetter = question.better === which;
+    if (reveal && isBetter) return "border-emerald-500/50 bg-emerald-500/10";
+    if (reveal && selected && !isBetter) return "border-red-500/50 bg-red-500/10";
+    if (selected) return "border-transparent bg-secondary/40";
+    return "border-border bg-secondary/20 hover:bg-secondary/40";
+  };
+
+  const pick = (which: "left" | "right") => {
+    if (disabled) return;
+    onChange({ ...value, better: which });
+  };
+
+  const toggleDefect = (id: string) => {
+    if (disabled) return;
+    onChange({
+      ...value,
+      defectIds: value.defectIds.includes(id)
+        ? value.defectIds.filter((x) => x !== id)
+        : [...value.defectIds, id],
+    });
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="grid gap-3 md:grid-cols-2">
+        <JudgePanel
+          side={question.left}
+          which="left"
+          selected={value.better === "left"}
+          disabled={disabled}
+          tone={toneFor("left")}
+          onPick={pick}
+        />
+        <JudgePanel
+          side={question.right}
+          which="right"
+          selected={value.better === "right"}
+          disabled={disabled}
+          tone={toneFor("right")}
+          onPick={pick}
+        />
+      </div>
+
+      <div>
+        <p className="mb-2 text-sm font-medium text-foreground">
+          E o que está errado na outra? Marque todos que se aplicam.
+        </p>
+        <div className="space-y-2">
+          {question.defects.map((d) => {
+            const selected = value.defectIds.includes(d.id);
+            const isCorrect = question.correctDefectIds.includes(d.id);
+            let tone = "border-border bg-secondary/20 hover:bg-secondary/40";
+            if (reveal && isCorrect) tone = "border-emerald-500/50 bg-emerald-500/10";
+            else if (reveal && selected && !isCorrect)
+              tone = "border-red-500/50 bg-red-500/10";
+
+            return (
+              <button
+                key={d.id}
+                type="button"
+                disabled={disabled}
+                aria-pressed={selected}
+                onClick={() => toggleDefect(d.id)}
+                className={`flex w-full items-start gap-3 rounded-xl border p-3 text-left text-sm transition-colors disabled:cursor-not-allowed ${tone}`}
+                style={
+                  selected && !reveal
+                    ? {
+                        backgroundColor: `hsl(${accentHsl} / 0.12)`,
+                        borderColor: `hsl(${accentHsl} / 0.5)`,
+                      }
+                    : undefined
+                }
+              >
+                <span
+                  className={`mt-0.5 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border ${
+                    selected ? "border-transparent" : "border-muted-foreground/40"
+                  }`}
+                  style={selected ? { backgroundColor: `hsl(${accentHsl})` } : undefined}
+                >
+                  {selected && <Check className="h-3 w-3 text-primary-foreground" />}
+                </span>
+                <span className="flex-1 text-foreground">{renderInline(d.text)}</span>
+                {reveal && isCorrect && (
+                  <Check className="h-4 w-4 flex-shrink-0 text-emerald-500" />
+                )}
+                {reveal && selected && !isCorrect && (
+                  <X className="h-4 w-4 flex-shrink-0 text-red-500" />
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ---------------- dispatcher ---------------- */
 
 interface QuestionInputProps {
@@ -281,6 +444,22 @@ export function QuestionInput({
         onChange={(pairs) => onAnswer({ kind: "match", pairs })}
         disabled={disabled}
         reveal={reveal}
+      />
+    );
+  }
+  if (question.type === "judge") {
+    return (
+      <JudgeInput
+        question={question}
+        value={
+          answer.kind === "judge" ? answer : { better: null, defectIds: [] }
+        }
+        onChange={({ better, defectIds }) =>
+          onAnswer({ kind: "judge", better, defectIds })
+        }
+        disabled={disabled}
+        reveal={reveal}
+        accentHsl={accentHsl}
       />
     );
   }
