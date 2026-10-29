@@ -9,6 +9,7 @@ import type {
   TrailStats,
 } from "@/content/types";
 import { XP_REWARD } from "@/content/types";
+import { appNoArTrail } from "@/content/trails/app-no-ar";
 import { frontendTrail } from "@/content/trails/frontend";
 import { backendTrail } from "@/content/trails/backend";
 import { fullstackTrail } from "@/content/trails/fullstack";
@@ -16,7 +17,12 @@ import { fullstackTrail } from "@/content/trails/fullstack";
 export * from "@/content/types";
 
 /** Todo o conteúdo da plataforma. Ordem = ordem de exibição. */
-export const curriculum: Trail[] = [frontendTrail, backendTrail, fullstackTrail];
+export const curriculum: Trail[] = [
+  appNoArTrail,
+  frontendTrail,
+  backendTrail,
+  fullstackTrail,
+];
 
 /* ------------------------------------------------------------------ */
 /* Seletores                                                          */

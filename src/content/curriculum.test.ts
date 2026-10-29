@@ -196,3 +196,29 @@ describe("seletores", () => {
     expect(lessonMaxXp(internet)).toBe(210);
   });
 });
+
+/* ------------------------------------------------------------------ */
+/* Trilha de entrega                                                  */
+/* ------------------------------------------------------------------ */
+
+describe("Trilha 1 — Coloque seu primeiro app no ar", () => {
+  it("a trilha de entrega principal é a primeira do currículo", () => {
+    expect(curriculum[0].id).toBe("app-no-ar");
+  });
+
+  it("as fases da Trilha 1 são os seis passos do loop", () => {
+    const trail = getTrail("app-no-ar")!;
+    expect(trail.phases.map((p) => p.id)).toEqual([
+      "ar-p1",
+      "ar-p2",
+      "ar-p3",
+      "ar-p4",
+      "ar-p5",
+      "ar-p6",
+    ]);
+  });
+
+  it("a Trilha 1 tem 12 aulas", () => {
+    expect(getTrailStats("app-no-ar").lessons).toBe(12);
+  });
+});
