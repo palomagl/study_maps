@@ -7,32 +7,32 @@ import {
 import { getTrail } from "@/content";
 
 describe("recommendTrail", () => {
-  it("objetivos diretos mapeiam para a trilha correspondente", () => {
-    expect(recommendTrail("frontend", null).trailId).toBe("frontend");
-    expect(recommendTrail("backend", null).trailId).toBe("backend");
-    expect(recommendTrail("fullstack", null).trailId).toBe("fullstack");
-  });
-
-  it("'apps' depende da experiência", () => {
-    expect(recommendTrail("apps", "nunca").trailId).toBe("frontend");
-    expect(recommendTrail("apps", "contato").trailId).toBe("frontend");
-    expect(recommendTrail("apps", "projetos").trailId).toBe("fullstack");
-    expect(recommendTrail("apps", "programo").trailId).toBe("fullstack");
-  });
-
-  it("'ainda não sei' + iniciante → front-end; + experiente → full-stack", () => {
-    expect(recommendTrail("indeciso", "nunca").trailId).toBe("frontend");
-    expect(recommendTrail("indeciso", "programo").trailId).toBe("fullstack");
-    expect(recommendTrail(null, null).trailId).toBe("frontend");
-  });
-
-  it("sempre devolve um trailId que existe e um motivo não vazio", () => {
+  it("todo objetivo recomenda uma trilha que existe no currículo", () => {
     for (const g of [...GOAL_OPTIONS.map((o) => o.id), null]) {
       for (const e of [...EXPERIENCE_OPTIONS.map((o) => o.id), null]) {
         const r = recommendTrail(g, e);
-        expect(getTrail(r.trailId)).toBeDefined();
-        expect(r.reason.length).toBeGreaterThan(10);
+        expect(getTrail(r.trailId), `objetivo ${g} / experiência ${e}`).toBeDefined();
       }
+    }
+  });
+
+  it("o motivo é específico do objetivo, não um texto só", () => {
+    const motivos = GOAL_OPTIONS.map((o) => recommendTrail(o.id, null).reason);
+    for (const m of motivos) expect(m.length).toBeGreaterThan(10);
+    expect(new Set(motivos).size).toBeGreaterThan(1);
+  });
+
+  it("quem já publicou algo ouve um motivo diferente de quem nunca publicou", () => {
+    expect(recommendTrail("app-no-ar", "publiquei").reason).not.toBe(
+      recommendTrail("app-no-ar", "nunca").reason,
+    );
+  });
+
+  it("objetivo desconhecido ou ausente ainda devolve recomendação válida", () => {
+    for (const g of [null, "objetivo-que-nao-existe"]) {
+      const r = recommendTrail(g, null);
+      expect(getTrail(r.trailId)).toBeDefined();
+      expect(r.reason.length).toBeGreaterThan(10);
     }
   });
 });

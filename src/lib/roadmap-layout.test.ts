@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { curriculum } from "@/content";
-import { frontendTrail } from "@/content/trails/frontend";
+import { appNoArTrail } from "@/content/trails/app-no-ar";
 import {
   MAP,
   buildTrailMap,
@@ -8,13 +8,13 @@ import {
   type StageNode,
 } from "@/lib/roadmap-layout";
 
-const map = buildTrailMap(frontendTrail);
+const map = buildTrailMap(appNoArTrail);
 const stages = map.nodes.filter((n): n is StageNode => n.kind === "stage");
 const lessons = map.nodes.filter((n): n is LessonNode => n.kind === "lesson");
 
 describe("buildTrailMap", () => {
   it("cria um nó para cada fase, etapa e aula da trilha", () => {
-    const phases = frontendTrail.phases;
+    const phases = appNoArTrail.phases;
     const stageCount = phases.reduce((n, p) => n + p.stages.length, 0);
     const lessonCount = phases.reduce(
       (n, p) => n + p.stages.reduce((m, s) => m + s.lessons.length, 0),

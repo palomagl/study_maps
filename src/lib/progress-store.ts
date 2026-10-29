@@ -6,12 +6,14 @@ import {
 } from "@/lib/storage";
 
 /* ------------------------------------------------------------------ */
-/* Schema (v3)                                                        */
+/* Schema (v4)                                                        */
 /* ------------------------------------------------------------------ */
 /* v1: 3 trilhas × 10 nós (chave "studymaps-progress").               */
 /* v2: aulas/passos/checkpoint/conceitos/streak.                      */
 /* v3 (aditivo): + missionsClaimed, + profile. Um blob v2 é lido sem  */
 /*     migração: os campos novos caem no default.                     */
+/* v4 (aditivo): + checklists por aula. Um blob v3 é lido sem         */
+/*     migração e mantém XP, conquistas e sequência intactos.         */
 
 export const STORAGE_KEY = "studymaps:progress:v2";
 const LEGACY_KEY = "studymaps-progress"; // schema v1 (3 trilhas × 10 nós)
@@ -23,9 +25,18 @@ export interface CheckpointRecord {
   passed: boolean;
 }
 
+/** Os dois painéis que têm checklist numa aula. */
+export type ChecklistPanel = "exercise" | "challenge";
+
 export interface LessonProgress {
   steps: Partial<Record<LessonStepId, boolean>>;
   checkpoint: CheckpointRecord | null;
+  /**
+   * Índices marcados do checklist, por painel. Persistido porque o trabalho
+   * real do aluno acontece fora do app, ao longo de dias — recarregar a
+   * página não pode apagar o que ele já conseguiu.
+   */
+  checklists?: Partial<Record<ChecklistPanel, number[]>>;
 }
 
 export interface ConceptRecord {
@@ -54,8 +65,19 @@ export interface ProfileState {
   onboardedAt: number | null;
 }
 
+/**
+ * O link do que a pessoa publicou. É a prova da trilha — autodeclarado,
+ * porque não existe backend para verificar, e isso é aceito de propósito:
+ * quem cola um link falso está enganando a si mesmo, e o app não é
+ * fiscal. O que ele não aceita é um recado no lugar de um link.
+ */
+export interface ProofRecord {
+  url: string;
+  savedAt: number;
+}
+
 export interface ProgressState {
-  version: 3;
+  version: 4;
   xp: number;
   lessons: Record<string, LessonProgress>;
   concepts: Record<string, ConceptRecord>;
@@ -64,7 +86,22 @@ export interface ProgressState {
   achievements: string[];
   /** Ids de missões cujo bônus já foi resgatado. */
   missionsClaimed: string[];
+  /** Link publicado por trilha. Chave = TrailId. */
+  proofs: Record<string, ProofRecord>;
   profile: ProfileState;
+}
+
+/** Aceita só http(s). Devolve a url normalizada, ou null. */
+export function parseProofUrl(value: string): string | null {
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  try {
+    const url = new URL(trimmed);
+    if (url.protocol !== "http:" && url.protocol !== "https:") return null;
+    return trimmed;
+  } catch {
+    return null;
+  }
 }
 
 export function defaultProfile(): ProfileState {
@@ -73,13 +110,14 @@ export function defaultProfile(): ProfileState {
 
 export function defaultState(): ProgressState {
   return {
-    version: 3,
+    version: 4,
     xp: 0,
     lessons: {},
     concepts: {},
     streak: { current: 0, longest: 0, lastStudyDate: null },
     achievements: [],
     missionsClaimed: [],
+    proofs: {},
     profile: defaultProfile(),
   };
 }
@@ -114,7 +152,19 @@ function coerceLessonProgress(raw: unknown): LessonProgress {
     };
   }
 
-  return { steps, checkpoint };
+  let checklists: LessonProgress["checklists"];
+  if (isObject(raw.checklists)) {
+    const out: Partial<Record<ChecklistPanel, number[]>> = {};
+    for (const panel of ["exercise", "challenge"] as const) {
+      const v = raw.checklists[panel];
+      if (Array.isArray(v)) {
+        out[panel] = v.filter((x): x is number => typeof x === "number");
+      }
+    }
+    if (Object.keys(out).length > 0) checklists = out;
+  }
+
+  return { steps, checkpoint, checklists };
 }
 
 function coerceConcept(raw: unknown): ConceptRecord {
@@ -171,6 +221,16 @@ export function parseState(rawJson: string | null): ProgressState {
   const strArray = (v: unknown): string[] =>
     Array.isArray(v) ? v.filter((x): x is string => typeof x === "string") : [];
 
+  const proofs: ProgressState["proofs"] = {};
+  if (isObject(parsed.proofs)) {
+    for (const [trailId, raw] of Object.entries(parsed.proofs)) {
+      if (!isObject(raw) || typeof raw.url !== "string") continue;
+      const url = parseProofUrl(raw.url);
+      if (!url) continue;
+      proofs[trailId] = { url, savedAt: Number(raw.savedAt) || 0 };
+    }
+  }
+
   const rawProfile = isObject(parsed.profile) ? parsed.profile : {};
   const str = (v: unknown): string | null => (typeof v === "string" ? v : null);
   const profile: ProfileState = {
@@ -182,13 +242,14 @@ export function parseState(rawJson: string | null): ProgressState {
   };
 
   return {
-    version: 3,
+    version: 4,
     xp: Number(parsed.xp) || 0,
     lessons,
     concepts,
     streak,
     achievements: strArray(parsed.achievements),
     missionsClaimed: strArray(parsed.missionsClaimed),
+    proofs,
     profile,
   };
 }
@@ -319,6 +380,23 @@ export class ProgressStore {
     });
   }
 
+  /** Marca/desmarca um item do checklist. Não envolve XP — quem credita é o passo. */
+  toggleChecklistItem(lessonId: string, which: ChecklistPanel, index: number): void {
+    const lp = this.lesson(lessonId);
+    const current = lp.checklists?.[which] ?? [];
+    const next = current.includes(index)
+      ? current.filter((i) => i !== index)
+      : [...current, index].sort((a, b) => a - b);
+
+    this.commit({
+      ...this.state,
+      lessons: {
+        ...this.state.lessons,
+        [lessonId]: { ...lp, checklists: { ...lp.checklists, [which]: next } },
+      },
+    });
+  }
+
   /** Registra uma tentativa de checkpoint. Ao passar, credita o XP uma vez. */
   recordCheckpoint(
     lessonId: string,
@@ -403,6 +481,22 @@ export class ProgressStore {
       ...this.state,
       xp: this.state.xp + Math.max(0, bonusXp),
       missionsClaimed: [...this.state.missionsClaimed, id],
+    });
+    return true;
+  }
+
+  /* -------- prova publicada -------- */
+
+  /** Registra o link do que a pessoa publicou. `false` = não era um link. */
+  setProof(trailId: string, url: string): boolean {
+    const valid = parseProofUrl(url);
+    if (!valid) return false;
+    this.commit({
+      ...this.state,
+      proofs: {
+        ...this.state.proofs,
+        [trailId]: { url: valid, savedAt: Date.now() },
+      },
     });
     return true;
   }

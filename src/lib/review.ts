@@ -50,3 +50,40 @@ export function buildReviewDeck(concepts: string[]): ReviewCard[] {
 export function prettyConcept(slug: string): string {
   return slug.replace(/-/g, " ");
 }
+
+/* ------------------------------------------------------------------ */
+/* Descrição textual da resposta correta                              */
+/* ------------------------------------------------------------------ */
+
+/**
+ * A resposta certa em uma linha, para o cartão de revisão.
+ * Vive aqui, e não na página, porque é lógica pura sobre `Question`.
+ */
+export function describeAnswer(q: Question): string {
+  if (q.type === "order") {
+    return q.correctOrder
+      .map((id) => q.items.find((i) => i.id === id)?.text ?? id)
+      .join("  →  ");
+  }
+  if (q.type === "match") {
+    return q.correctPairs
+      .map((p) => {
+        const l = q.left.find((x) => x.id === p.leftId)?.text ?? p.leftId;
+        const r = q.right.find((x) => x.id === p.rightId)?.text ?? p.rightId;
+        return `${l} → ${r}`;
+      })
+      .join("\n");
+  }
+  if (q.type === "judge") {
+    const better = q.better === "left" ? q.left.label : q.right.label;
+    const defects = q.defects
+      .filter((d) => q.correctDefectIds.includes(d.id))
+      .map((d) => d.text)
+      .join(", ");
+    return `${better} — na outra: ${defects}`;
+  }
+  return q.options
+    .filter((o) => q.correctOptionIds.includes(o.id))
+    .map((o) => o.text + (o.code ? ` (${o.code})` : ""))
+    .join(", ");
+}

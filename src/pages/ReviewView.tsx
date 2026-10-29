@@ -5,30 +5,15 @@ import { ArrowLeft, ArrowRight, Check, RotateCcw, X } from "lucide-react";
 import Header from "@/components/Header";
 import { useProgress } from "@/hooks/useProgress";
 import { conceptsToReview } from "@/lib/progress-selectors";
-import { buildReviewDeck, prettyConcept, type ReviewQuestion } from "@/lib/review";
-import type { Question } from "@/content/types";
+import {
+  buildReviewDeck,
+  describeAnswer,
+  prettyConcept,
+  type ReviewQuestion,
+} from "@/lib/review";
 import { renderInline } from "@/components/lesson/inline-markdown";
-
-function describeAnswer(q: Question): string {
-  if (q.type === "order") {
-    return q.correctOrder
-      .map((id) => q.items.find((i) => i.id === id)?.text ?? id)
-      .join("  →  ");
-  }
-  if (q.type === "match") {
-    return q.correctPairs
-      .map((p) => {
-        const l = q.left.find((x) => x.id === p.leftId)?.text ?? p.leftId;
-        const r = q.right.find((x) => x.id === p.rightId)?.text ?? p.rightId;
-        return `${l} → ${r}`;
-      })
-      .join("\n");
-  }
-  return q.options
-    .filter((o) => q.correctOptionIds.includes(o.id))
-    .map((o) => o.text + (o.code ? ` (${o.code})` : ""))
-    .join(", ");
-}
+import { JudgeInput } from "@/components/lesson/QuestionInputs";
+import { getTrail } from "@/content";
 
 const ReviewView = () => {
   const { state, resolveConcept } = useProgress();
@@ -172,6 +157,25 @@ const ReviewView = () => {
               <pre className="p-3 text-[13px]">
                 <code className="font-mono text-foreground/90">{q.code.code}</code>
               </pre>
+            </div>
+          )}
+
+          {/*
+            Questão de julgamento: os dois lados vivem em q.left/q.right, não
+            no enunciado. Sem eles o cartão pede para escolher entre coisas
+            que não estão na tela, e a resposta revelada ("Versão B — …")
+            aponta para um conteúdo invisível.
+          */}
+          {q.type === "judge" && (
+            <div className="mt-4">
+              <JudgeInput
+                question={q}
+                value={{ better: null, defectIds: [] }}
+                onChange={() => {}}
+                disabled
+                reveal={revealed}
+                accentHsl={getTrail(rq.trailId)?.accentHsl ?? "220 100% 60%"}
+              />
             </div>
           )}
 

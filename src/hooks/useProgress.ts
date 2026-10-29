@@ -5,6 +5,7 @@ import { xpForStep } from "@/content";
 import {
   EMPTY_LESSON_PROGRESS,
   progressStore,
+  type ChecklistPanel,
   type LessonProgress,
   type ProgressState,
 } from "@/lib/progress-store";
@@ -71,6 +72,18 @@ export function useProgress() {
     [],
   );
 
+  const setProof = useCallback(
+    (trailId: string, url: string) => progressStore.setProof(trailId, url),
+    [],
+  );
+
+  const toggleChecklistItem = useCallback(
+    (lessonId: string, which: ChecklistPanel, index: number) => {
+      progressStore.toggleChecklistItem(lessonId, which, index);
+    },
+    [],
+  );
+
   const recordConceptError = useCallback((concept: string, lessonId: string) => {
     progressStore.recordConceptError(concept, lessonId);
   }, []);
@@ -115,12 +128,15 @@ export function useProgress() {
       streak: state.streak,
       concepts: state.concepts,
       achievements: state.achievements,
+      proofs: state.proofs,
+      setProof,
       profile: state.profile,
       getLessonProgress,
       isStepDone,
       completeStep,
       uncompleteStep,
       recordCheckpoint,
+      toggleChecklistItem,
       recordConceptError,
       resolveConcept,
       resetLesson,
@@ -131,6 +147,7 @@ export function useProgress() {
       getPhaseProgress,
       getTrailProgress,
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       state,
       getLessonProgress,
@@ -138,6 +155,7 @@ export function useProgress() {
       completeStep,
       uncompleteStep,
       recordCheckpoint,
+      toggleChecklistItem,
       recordConceptError,
       resolveConcept,
       resetLesson,

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type {
   ChoiceQuestion,
+  JudgeQuestion,
   MatchQuestion,
   OrderQuestion,
 } from "@/content/types";
@@ -179,5 +180,77 @@ describe("shuffle", () => {
     const out = shuffle(input);
     expect(input).toEqual([1, 2, 3, 4, 5]);
     expect([...out].sort()).toEqual([1, 2, 3, 4, 5]);
+  });
+});
+
+/* ------------------------------------------------------------------ */
+/* Questão de julgamento (A/B)                                        */
+/* ------------------------------------------------------------------ */
+/* Coração pedagógico do projeto: escolher o melhor resultado e nomear */
+/* o defeito do pior. Nomear o defeito é o que ensina a enxergá-lo.    */
+
+const judge: JudgeQuestion = {
+  id: "q-judge",
+  type: "judge",
+  prompt: "Qual versão está melhor?",
+  concept: "hierarquia visual",
+  skill: "raciocinio",
+  hint: "Olhe o que seu olho encontra primeiro.",
+  explanation: "A da direita tem um único ponto de entrada.",
+  left: { label: "Versão A" },
+  right: { label: "Versão B" },
+  better: "right",
+  defects: [
+    { id: "d1", text: "Tudo com o mesmo peso visual" },
+    { id: "d2", text: "Espaçamento inconsistente" },
+    { id: "d3", text: "Paleta com cor demais" },
+  ],
+  correctDefectIds: ["d1", "d2"],
+};
+
+describe("questão de julgamento", () => {
+  it("emptyAnswer de judge começa sem lado e sem defeito", () => {
+    expect(emptyAnswer(judge)).toEqual({ kind: "judge", better: null, defectIds: [] });
+  });
+
+  it("judge só está completa com lado escolhido e ao menos um defeito", () => {
+    expect(
+      isAnswerComplete(judge, { kind: "judge", better: "right", defectIds: [] }),
+    ).toBe(false);
+    expect(
+      isAnswerComplete(judge, { kind: "judge", better: null, defectIds: ["d1"] }),
+    ).toBe(false);
+    expect(
+      isAnswerComplete(judge, { kind: "judge", better: "right", defectIds: ["d1"] }),
+    ).toBe(true);
+  });
+
+  it("judge acerta só com lado certo e conjunto exato de defeitos", () => {
+    expect(
+      gradeQuestion(judge, { kind: "judge", better: "right", defectIds: ["d2", "d1"] }),
+    ).toBe(true);
+    expect(
+      gradeQuestion(judge, { kind: "judge", better: "left", defectIds: ["d1", "d2"] }),
+    ).toBe(false);
+    expect(
+      gradeQuestion(judge, { kind: "judge", better: "right", defectIds: ["d1"] }),
+    ).toBe(false);
+    expect(
+      gradeQuestion(judge, {
+        kind: "judge",
+        better: "right",
+        defectIds: ["d1", "d2", "d3"],
+      }),
+    ).toBe(false);
+  });
+
+  it("judge errada entra em weakConcepts do quiz", () => {
+    const out = gradeQuiz(
+      [judge],
+      { "q-judge": { kind: "judge", better: "left", defectIds: [] } },
+      1,
+    );
+    expect(out.passed).toBe(false);
+    expect(out.weakConcepts).toEqual(["hierarquia visual"]);
   });
 });

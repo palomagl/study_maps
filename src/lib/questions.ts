@@ -14,6 +14,8 @@ export function emptyAnswer(q: Question): QuestionAnswer {
       return { kind: "order", itemIds: q.items.map((i) => i.id) };
     case "match":
       return { kind: "match", pairs: [] };
+    case "judge":
+      return { kind: "judge", better: null, defectIds: [] };
     default:
       return { kind: "choice", optionIds: [] };
   }
@@ -26,6 +28,12 @@ export function isAnswerComplete(q: Question, answer: QuestionAnswer): boolean {
       return answer.kind === "order" && answer.itemIds.length === q.items.length;
     case "match":
       return answer.kind === "match" && answer.pairs.length === q.left.length;
+    case "judge":
+      return (
+        answer.kind === "judge" &&
+        answer.better !== null &&
+        answer.defectIds.length > 0
+      );
     case "multiple":
       return answer.kind === "choice" && answer.optionIds.length > 0;
     default:
@@ -55,6 +63,12 @@ export function gradeQuestion(q: Question, answer: QuestionAnswer): boolean {
       if (answer.pairs.length !== q.correctPairs.length) return false;
       const key = (p: { leftId: string; rightId: string }) => `${p.leftId}=>${p.rightId}`;
       return sameSet(answer.pairs.map(key), q.correctPairs.map(key));
+    }
+    case "judge": {
+      if (answer.kind !== "judge") return false;
+      return (
+        answer.better === q.better && sameSet(answer.defectIds, q.correctDefectIds)
+      );
     }
     default:
       return false;

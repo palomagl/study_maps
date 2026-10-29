@@ -1,5 +1,5 @@
 import { Info, Lightbulb, TriangleAlert, Sparkles } from "lucide-react";
-import type { ContentBlock } from "@/content/types";
+import type { CompareSide, ContentBlock } from "@/content/types";
 import { renderInline } from "./inline-markdown";
 
 const calloutStyle: Record<
@@ -30,6 +30,27 @@ function CodeBlock({ code, caption }: { code: string; caption?: string }) {
       </div>
       {caption && (
         <figcaption className="mt-2 text-xs text-muted-foreground">{caption}</figcaption>
+      )}
+    </figure>
+  );
+}
+
+function CompareColumn({ side }: { side: CompareSide }) {
+  return (
+    <figure className="min-w-0">
+      <figcaption className="mb-2 text-xs font-semibold uppercase tracking-wider text-foreground/70">
+        {side.label}
+      </figcaption>
+      <img
+        src={side.src}
+        alt={side.alt}
+        loading="lazy"
+        className="w-full rounded-lg border border-border bg-secondary/20"
+      />
+      {side.caption && (
+        <p className="mt-2 text-xs leading-6 text-muted-foreground">
+          {renderInline(side.caption)}
+        </p>
       )}
     </figure>
   );
@@ -111,6 +132,41 @@ export function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) {
                 {block.code && (
                   <CodeBlock code={block.code.code} />
                 )}
+              </div>
+            );
+
+          case "image":
+            return (
+              <figure key={i} className="my-4">
+                <img
+                  src={block.src}
+                  alt={block.alt}
+                  loading="lazy"
+                  className="w-full rounded-xl border border-border bg-secondary/20"
+                />
+                {block.caption && (
+                  <figcaption className="mt-2 text-xs text-muted-foreground">
+                    {block.caption}
+                  </figcaption>
+                )}
+              </figure>
+            );
+
+          case "compare":
+            return (
+              <div
+                key={i}
+                className="my-4 rounded-xl border border-border bg-card/60 p-4"
+              >
+                {block.title && (
+                  <p className="mb-3 text-sm font-semibold text-foreground">
+                    {block.title}
+                  </p>
+                )}
+                <div className="grid gap-4 md:grid-cols-2">
+                  <CompareColumn side={block.left} />
+                  <CompareColumn side={block.right} />
+                </div>
               </div>
             );
 

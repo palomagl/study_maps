@@ -10,7 +10,24 @@
  * Nada aqui é renderizado diretamente – os componentes recebem estes tipos.
  */
 
-export type TrailId = "frontend" | "backend" | "fullstack";
+/**
+ * Trilhas de entrega (as atuais) e trilhas de código (arquivadas).
+ *
+ * As três de código saem do currículo na virada para trilhas de entrega, mas
+ * continuam no tipo porque seus arquivos permanecem no repositório, em
+ * `src/content/archive/`, e seguem compilando — é assim que a gente garante
+ * que não apodreçam em silêncio.
+ */
+export type TrailId =
+  // entrega
+  | "app-no-ar"
+  | "site-com-sua-cara"
+  | "tarefa-chata"
+  | "projeto-de-verdade"
+  // código (arquivadas)
+  | "frontend"
+  | "backend"
+  | "fullstack";
 
 export type Difficulty = "iniciante" | "intermediario" | "avancado";
 
@@ -37,7 +54,27 @@ export type ContentBlock =
       title: string;
       text: string;
       code?: { language: string; code: string };
+    }
+  /** `src` é caminho a partir da raiz pública — arquivo do repositório, nunca URL remota. */
+  | { type: "image"; src: string; alt: string; caption?: string }
+  /**
+   * Comparação lado a lado. É o bloco de que a tese depende: a aula não diz
+   * "use referências", ela mostra os dois resultados e deixa a pessoa ver.
+   */
+  | {
+      type: "compare";
+      title?: string;
+      left: CompareSide;
+      right: CompareSide;
     };
+
+export interface CompareSide {
+  src: string;
+  alt: string;
+  /** Rótulo curto acima da imagem: "Sem referência", "Com referência". */
+  label: string;
+  caption?: string;
+}
 
 /* ------------------------------------------------------------------ */
 /* Recursos                                                           */
@@ -88,7 +125,8 @@ export type QuestionType =
   | "boolean" // verdadeiro / falso
   | "code-output" // interpretar um trecho de código (escolha única)
   | "order" // ordenar etapas
-  | "match"; // relacionar conceitos
+  | "match" // relacionar conceitos
+  | "judge"; // julgar dois resultados e nomear o defeito do pior
 
 /** Habilidade avaliada – guia a autoria para não cair em decoreba. */
 export type QuestionSkill = "compreensao" | "aplicacao" | "raciocinio";
@@ -136,13 +174,47 @@ export interface MatchQuestion extends QuestionBase {
   correctPairs: { leftId: string; rightId: string }[];
 }
 
-export type Question = ChoiceQuestion | OrderQuestion | MatchQuestion;
+/** Um dos dois resultados postos em comparação. Imagem, texto, ou os dois. */
+export interface JudgeSide {
+  label: string;
+  src?: string;
+  alt?: string;
+  /** Alternativa textual à imagem, quando o resultado é texto ou markup. */
+  body?: string;
+}
+
+/**
+ * Questão de julgamento. Duas partes, as duas de escolha: qual resultado é
+ * melhor, e quais defeitos o pior tem. Nomear o defeito é o que ensina a
+ * enxergá-lo — por isso a segunda parte não é opcional.
+ *
+ * Fica corrigível pelo `gradeQuestion`, contável no `passThreshold` do
+ * checkpoint e capaz de alimentar a revisão por `concept`.
+ */
+export interface JudgeQuestion extends QuestionBase {
+  type: "judge";
+  left: JudgeSide;
+  right: JudgeSide;
+  /** Qual lado é o melhor. */
+  better: "left" | "right";
+  /** Defeitos candidatos do lado pior. */
+  defects: { id: string; text: string }[];
+  /** Subconjunto de `defects` que de fato se aplica. Pelo menos 1. */
+  correctDefectIds: string[];
+}
+
+export type Question =
+  | ChoiceQuestion
+  | OrderQuestion
+  | MatchQuestion
+  | JudgeQuestion;
 
 /** Resposta do usuário, normalizada por tipo. */
 export type QuestionAnswer =
   | { kind: "choice"; optionIds: string[] }
   | { kind: "order"; itemIds: string[] }
-  | { kind: "match"; pairs: { leftId: string; rightId: string }[] };
+  | { kind: "match"; pairs: { leftId: string; rightId: string }[] }
+  | { kind: "judge"; better: "left" | "right" | null; defectIds: string[] };
 
 /* ------------------------------------------------------------------ */
 /* Prática                                                            */
@@ -282,6 +354,12 @@ export interface Trail {
   accentHsl: string;
   phases: Phase[];
   projects: ProjectShowcase[];
+  /**
+   * O que o certificado desta trilha atesta, na voz "você sabe…".
+   * São capacidades demonstradas, não assuntos vistos — o certificado só é
+   * emitido para quem publicou alguma coisa.
+   */
+  certifies: string[];
 }
 
 /* ------------------------------------------------------------------ */

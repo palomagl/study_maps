@@ -10,7 +10,7 @@ import {
 } from "@/lib/gamification";
 
 const ach = (id: string) => ACHIEVEMENTS.find((a) => a.id === id)!;
-const internet = getLessonLocation("frontend", "fe-web-01-internet")!.lesson;
+const internet = getLessonLocation("app-no-ar", "ar-jul-01-generico")!.lesson;
 
 function storeWithFullLesson() {
   const store = createTestStore();
@@ -119,5 +119,18 @@ describe("missões", () => {
     const m = missionViews(store.getState()).find((x) => x.id === "m-primeira-aula")!;
     expect(m.claimed).toBe(true);
     expect(m.claimable).toBe(false);
+  });
+});
+
+describe("conquista do link publicado", () => {
+  it("a primeira prova salva desbloqueia a conquista", () => {
+    const store = createTestStore();
+    expect(pendingAchievements(store.getState()).map((a) => a.id)).not.toContain(
+      "primeiro-link-no-ar",
+    );
+    store.setProof("app-no-ar", "https://meu-app.vercel.app");
+    expect(pendingAchievements(store.getState()).map((a) => a.id)).toContain(
+      "primeiro-link-no-ar",
+    );
   });
 });

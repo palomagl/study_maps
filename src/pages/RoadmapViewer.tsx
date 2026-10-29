@@ -3,6 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, List, Map as MapIcon } from "lucide-react";
 import Header from "@/components/Header";
+import { ProofCard } from "@/components/trail/ProofCard";
+import { CertificateLink } from "@/components/trail/CertificateLink";
 import TrailMap from "@/components/roadmap/TrailMap";
 import TrailList from "@/components/roadmap/TrailList";
 import MapDrawer from "@/components/roadmap/MapDrawer";
@@ -69,7 +71,7 @@ const RoadmapViewer = () => {
           <div className="flex-1">
             <div className="mb-1 flex items-center justify-between">
               <h2 className={`text-sm font-bold ${trail.colorClass}`}>
-                Trilha {trail.title}
+                {trail.title}
               </h2>
               <span className="text-xs text-muted-foreground">
                 {progress}% concluído
@@ -96,7 +98,7 @@ const RoadmapViewer = () => {
           className="mb-6"
         >
           <h1 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
-            Trilha {trail.title}
+            {trail.title}
           </h1>
           <p className="mt-2 max-w-2xl text-[15px] leading-7 text-muted-foreground">
             {trail.description}
@@ -117,6 +119,9 @@ const RoadmapViewer = () => {
           >
             🚀 O que você vai construir
           </Link>
+
+          <ProofCard trailId={trail.id} accentHsl={trail.accentHsl} />
+          <CertificateLink trail={trail} />
         </motion.div>
 
         {/* alternador de visão + legenda */}

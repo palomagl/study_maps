@@ -9,14 +9,19 @@ import type {
   TrailStats,
 } from "@/content/types";
 import { XP_REWARD } from "@/content/types";
-import { frontendTrail } from "@/content/trails/frontend";
-import { backendTrail } from "@/content/trails/backend";
-import { fullstackTrail } from "@/content/trails/fullstack";
+import { appNoArTrail } from "@/content/trails/app-no-ar";
 
 export * from "@/content/types";
 
 /** Todo o conteúdo da plataforma. Ordem = ordem de exibição. */
-export const curriculum: Trail[] = [frontendTrail, backendTrail, fullstackTrail];
+export const curriculum: Trail[] = [appNoArTrail];
+
+/**
+ * Trilhas de código, arquivadas em `src/content/archive/`. Não estão no
+ * currículo; ficam aqui para as rotas antigas redirecionarem em vez de
+ * caírem em 404 — link compartilhado e favorito de quem já usava o app.
+ */
+export const LEGACY_TRAIL_IDS = ["frontend", "backend", "fullstack"] as const;
 
 /* ------------------------------------------------------------------ */
 /* Seletores                                                          */

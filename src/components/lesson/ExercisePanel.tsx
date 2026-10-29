@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { CheckSquare, ChevronDown, Square } from "lucide-react";
 import type { Challenge, Exercise } from "@/content/types";
+import { useProgress } from "@/hooks/useProgress";
 import { renderInline } from "./inline-markdown";
 
 function CodeSnippet({ code, note }: { code: string; note?: string }) {
@@ -36,6 +37,7 @@ function Reveal({ label, children }: { label: string; children: React.ReactNode 
 }
 
 interface Props {
+  lessonId: string;
   exercise?: Exercise;
   challenge?: Challenge;
   variant: "exercise" | "challenge";
@@ -45,6 +47,7 @@ interface Props {
 }
 
 export function ExercisePanel({
+  lessonId,
   exercise,
   challenge,
   variant,
@@ -55,12 +58,16 @@ export function ExercisePanel({
   const isExercise = variant === "exercise";
   const data = isExercise ? exercise : challenge;
   const firedRef = useRef(alreadyDone);
+  const { getLessonProgress, toggleChecklistItem } = useProgress();
 
   const checklist = isExercise
     ? exercise?.selfCheck ?? []
     : challenge?.requirements ?? [];
 
-  const [checked, setChecked] = useState<boolean[]>(() => checklist.map(() => false));
+  // As marcações vivem no progresso, não em estado local: o trabalho real
+  // acontece fora do app, ao longo de dias.
+  const marked = getLessonProgress(lessonId).checklists?.[variant] ?? [];
+  const checked = checklist.map((_, i) => marked.includes(i));
 
   const allChecked = checked.length > 0 && checked.every(Boolean);
 
@@ -122,9 +129,8 @@ export function ExercisePanel({
             <button
               key={i}
               type="button"
-              onClick={() =>
-                setChecked((prev) => prev.map((v, j) => (j === i ? !v : v)))
-              }
+              onClick={() => toggleChecklistItem(lessonId, variant, i)}
+              aria-pressed={checked[i]}
               className="flex w-full items-start gap-2.5 rounded-lg p-2 text-left text-sm hover:bg-secondary/40"
             >
               {checked[i] ? (
