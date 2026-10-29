@@ -10,14 +10,21 @@ import {
   lessonMaxXp,
   lessonSteps,
 } from "@/content";
-import type { Question } from "@/content/types";
+import type { Question, TrailId } from "@/content/types";
 import { parseYouTubeId } from "@/lib/youtube";
 
 const allLessons = curriculum.flatMap((t) => flattenLessons(t).map((l) => l.lesson));
 
 describe("curriculum — integridade estrutural", () => {
-  it("tem as três trilhas na ordem esperada", () => {
-    expect(curriculum.map((t) => t.id)).toEqual(["frontend", "backend", "fullstack"]);
+  it("TrailId aceita os ids das trilhas de entrega", () => {
+    // Gate desta asserção é `tsc --noEmit`: o vitest apaga os tipos.
+    const ids: TrailId[] = [
+      "app-no-ar",
+      "site-com-sua-cara",
+      "tarefa-chata",
+      "projeto-de-verdade",
+    ];
+    expect(new Set(ids).size).toBe(4);
   });
 
   it("ids de aula são únicos em toda a plataforma", () => {

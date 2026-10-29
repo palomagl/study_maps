@@ -10,7 +10,24 @@
  * Nada aqui é renderizado diretamente – os componentes recebem estes tipos.
  */
 
-export type TrailId = "frontend" | "backend" | "fullstack";
+/**
+ * Trilhas de entrega (as atuais) e trilhas de código (arquivadas).
+ *
+ * As três de código saem do currículo na virada para trilhas de entrega, mas
+ * continuam no tipo porque seus arquivos permanecem no repositório, em
+ * `src/content/archive/`, e seguem compilando — é assim que a gente garante
+ * que não apodreçam em silêncio.
+ */
+export type TrailId =
+  // entrega
+  | "app-no-ar"
+  | "site-com-sua-cara"
+  | "tarefa-chata"
+  | "projeto-de-verdade"
+  // código (arquivadas)
+  | "frontend"
+  | "backend"
+  | "fullstack";
 
 export type Difficulty = "iniciante" | "intermediario" | "avancado";
 
