@@ -107,7 +107,18 @@ const RoadmapViewer = () => {
             <div className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-xs text-muted-foreground">
               <span>{stats.phases} fases</span>
               <span>{stats.stages} etapas</span>
-              <span>{stats.lessons} aulas</span>
+              {/*
+                Não basta dizer "12 aulas" enquanto onze são rascunho: quem
+                lê entende que existem doze para fazer. A trilha diz o que
+                já existe de verdade.
+              */}
+              <span>
+                {stats.lessons} aulas
+                {stats.availableLessons < stats.lessons &&
+                  ` (${stats.availableLessons} escrita${
+                    stats.availableLessons === 1 ? "" : "s"
+                  }, o resto em produção)`}
+              </span>
               <span>{stats.exercises} exercícios</span>
               <span>{stats.totalXp} XP no total</span>
             </div>

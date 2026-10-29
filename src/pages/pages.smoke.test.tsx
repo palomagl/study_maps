@@ -223,3 +223,17 @@ describe("revisão de uma questão de julgamento", () => {
     expect(screen.getByText("Versão B")).toBeInTheDocument();
   });
 });
+
+describe("honestidade sobre o que já está escrito", () => {
+  beforeEach(() => progressStore.resetAll());
+
+  it("a trilha diz quantas aulas existem de verdade, não só quantas estão previstas", () => {
+    render(
+      <MemoryRouter initialEntries={["/roadmap/app-no-ar"]}>
+        <AppRoutes />
+      </MemoryRouter>,
+    );
+    expect(screen.getByText(/12 aulas/)).toBeInTheDocument();
+    expect(screen.getByText(/1 escrita, o resto em produção/)).toBeInTheDocument();
+  });
+});
