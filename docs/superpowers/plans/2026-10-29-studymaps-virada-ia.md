@@ -32,6 +32,7 @@ Entradas que a spec implica e que nenhum teste de tarefa exercitaria por conta p
 3. **Rota antiga `/roadmap/frontend` de link compartilhado ou favorito** — redireciona, não cai em 404. → Tarefa 6, Passo 3.
 4. **Bloco `compare` cuja imagem não existe em `public/`** — a aula renderiza o resto do conteúdo e mostra a legenda, sem tela branca. → Tarefa 2, Passo 7.
 5. **Questão `judge` respondida pela metade** (escolheu o melhor, não marcou defeito nenhum) — não pode ser submetida. → Tarefa 3, Passo 5.
+6. **Página de certificado aberta por quem ainda não tem direito a ele** (link direto, trilha incompleta ou sem link registrado) — mostra o que falta, nunca um certificado em branco ou com nome vazio. → Tarefa 9, Passo 1.
 
 ---
 
@@ -657,6 +658,121 @@ Confirmar na tela: a comparação aparece lado a lado, a questão `judge` deixa 
 ```bash
 git add src/content/lessons/ar-julgamento-01-generico.ts src/content/trails/app-no-ar.ts src/content/curriculum.test.ts public/content
 git commit -m "feat(content): aula 'O que faz um resultado parecer genérico'"
+```
+
+---
+
+### Task 9: Certificado de conclusão
+
+Pedido pela autora durante a execução. O certificado **só é emitido com o link da prova registrado** — é o que o separa de um certificado de presença. Ele atesta que a pessoa entregou, não que ela assistiu, e diz na própria cara que não tem valor acadêmico (spec §4.3, anti-objetivo "concluir a trilha sem ter publicado nada").
+
+**Files:**
+- Create: `src/lib/certificate.ts`
+- Create: `src/lib/certificate.test.ts`
+- Create: `src/pages/CertificateView.tsx`
+- Modify: `src/content/types.ts` (campo `certifies` em `Trail`)
+- Modify: `src/content/trails/app-no-ar.ts` (preencher `certifies`)
+- Modify: `src/App.tsx` (rota `/certificado/:trailId`)
+- Modify: `src/pages/RoadmapViewer.tsx` (botão quando elegível)
+
+**Interfaces:**
+- Consumes: `appNoArTrail` (Tarefa 5); `proofs` e `setProof` (Tarefa 7); `trailComplete` de `src/lib/progress-selectors.ts`; `profile.name` do schema v4.
+- Produces:
+  ```ts
+  /** O que a trilha atesta — frases na voz "você sabe…". */
+  interface Trail { /* …existentes… */ certifies: string[] }
+
+  type CertificateGap = "lessons" | "proof" | "name";
+  interface CertificateData {
+    learnerName: string;
+    trailTitle: string;
+    certifies: string[];
+    proofUrl: string;
+    issuedAt: number;
+    /** Código curto e estável, para a pessoa citar ao compartilhar. */
+    code: string;
+  }
+  function certificateGaps(state: ProgressState, trail: Trail): CertificateGap[]
+  function buildCertificate(state: ProgressState, trail: Trail, now?: number): CertificateData | null
+  ```
+  `certificateGaps` devolve `[]` quando elegível. `buildCertificate` devolve `null` quando há qualquer lacuna — a página nunca decide elegibilidade por conta própria.
+
+- [ ] **Step 1: Escrever os testes que falham**
+
+```ts
+it("sem o link da prova não há certificado, mesmo com a trilha concluída", () => {
+  const state = stateWithTrailComplete(); // helper local: todos os passos de todas as aulas available
+  expect(certificateGaps(state, appNoArTrail)).toEqual(["proof"]);
+  expect(buildCertificate(state, appNoArTrail)).toBeNull();
+});
+
+it("com o link mas sem a trilha concluída também não há certificado", () => {
+  const state = { ...defaultState(), profile: { ...defaultProfile(), name: "Paloma" },
+    proofs: { "app-no-ar": { url: "https://meu-app.vercel.app", savedAt: 1 } } };
+  expect(certificateGaps(state, appNoArTrail)).toContain("lessons");
+  expect(buildCertificate(state, appNoArTrail)).toBeNull();
+});
+
+it("sem nome no perfil o certificado não é emitido", () => {
+  const state = { ...stateWithTrailComplete(), proofs: { "app-no-ar": { url: "https://x.vercel.app", savedAt: 1 } } };
+  state.profile = { ...state.profile, name: null };
+  expect(certificateGaps(state, appNoArTrail)).toEqual(["name"]);
+});
+
+it("trilha concluída + link + nome emite o certificado com o link dentro", () => {
+  const state = { ...stateWithTrailComplete(), profile: { ...defaultProfile(), name: "Paloma" },
+    proofs: { "app-no-ar": { url: "https://meu-app.vercel.app", savedAt: 1 } } };
+  const cert = buildCertificate(state, appNoArTrail, 1762000000000)!;
+  expect(certificateGaps(state, appNoArTrail)).toEqual([]);
+  expect(cert.learnerName).toBe("Paloma");
+  expect(cert.proofUrl).toBe("https://meu-app.vercel.app");
+  expect(cert.certifies).toEqual(appNoArTrail.certifies);
+  expect(cert.certifies.length).toBeGreaterThan(0);
+});
+
+it("o código do certificado é estável para o mesmo estado", () => {
+  const state = /* o mesmo do teste anterior */;
+  expect(buildCertificate(state, appNoArTrail, 1)!.code)
+    .toBe(buildCertificate(state, appNoArTrail, 1)!.code);
+});
+```
+
+- [ ] **Step 2: Rodar e confirmar que falha**
+
+Run: `npm run test -- src/lib/certificate.test.ts`
+Expected: FAIL — módulo `certificate` não existe.
+
+- [ ] **Step 3: Adicionar `certifies: string[]` a `Trail` em `src/content/types.ts` e preencher em `src/content/trails/app-no-ar.ts`**
+
+As frases vêm dos seis passos do loop, na voz "você sabe…" — juntar referência antes de gerar, escrever uma especificação, julgar um resultado e nomear o que está errado nele, consertar sem recomeçar, e publicar num link público.
+
+- [ ] **Step 4: Implementar `certificateGaps` e `buildCertificate` em `src/lib/certificate.ts`**
+
+Ordem das lacunas: `lessons`, `proof`, `name`. `code` é derivado de `trail.id` + url da prova + `savedAt` por um hash curto determinístico (nada de `Math.random` nem `Date.now` dentro da função — o parâmetro `now` existe para isso).
+
+- [ ] **Step 5: Rodar e confirmar que passa**
+
+Run: `npm run test -- src/lib/certificate.test.ts`
+Expected: PASS
+
+- [ ] **Step 6: Criar `src/pages/CertificateView.tsx` e a rota em `src/App.tsx`**
+
+Quando `buildCertificate` devolve `null`, a página mostra o que falta (as lacunas em texto) em vez do certificado — nunca um certificado vazio. Quando emite: nome, trilha, as frases de `certifies`, o link clicável da prova, data e código. Estilo de impressão (`@media print`) para virar PDF pelo navegador, e uma linha honesta de que não tem valor acadêmico — o que ele atesta é a entrega.
+
+- [ ] **Step 7: Botão no `RoadmapViewer.tsx`**
+
+Aparece sempre; quando há lacunas, desabilitado com o motivo ("falta registrar o link do seu app"). Não esconder: ver o que falta é o que faz a pessoa ir publicar.
+
+- [ ] **Step 8: Rodar a suíte inteira e o typecheck**
+
+Run: `npm run test && npx tsc --noEmit`
+Expected: PASS
+
+- [ ] **Step 9: Commit**
+
+```bash
+git add src/lib/certificate.ts src/lib/certificate.test.ts src/pages/CertificateView.tsx src/content/types.ts src/content/trails/app-no-ar.ts src/App.tsx src/pages/RoadmapViewer.tsx
+git commit -m "feat(trilha): certificado de conclusão condicionado ao link publicado"
 ```
 
 ---
