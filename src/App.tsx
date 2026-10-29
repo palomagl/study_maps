@@ -10,6 +10,7 @@ import RoadmapViewer from "./pages/RoadmapViewer";
 import ProjectsView from "./pages/ProjectsView";
 import LessonView from "./pages/LessonView";
 import ReviewView from "./pages/ReviewView";
+import CertificateView from "./pages/CertificateView";
 import NotFound from "./pages/NotFound";
 import GamificationRuntime from "./components/GamificationRuntime";
 
@@ -51,6 +52,7 @@ export const AppRoutes = () => (
       />,
     ])}
 
+    <Route path="/certificado/:trailId" element={<CertificateView />} />
     <Route path="/roadmap/:id" element={<RoadmapViewer />} />
     <Route path="/roadmap/:trailId/projetos" element={<ProjectsView />} />
     <Route path="/roadmap/:trailId/aula/:lessonId" element={<LessonView />} />

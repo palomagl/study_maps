@@ -15,6 +15,9 @@ export const backendTrail: Trail = {
   colorClass: "text-neon-purple",
   accentHsl: "270 100% 65%",
 
+  // Arquivada: não emite certificado, por isso não atesta nada.
+  certifies: [],
+
   phases: [
     {
       id: "be-p1",

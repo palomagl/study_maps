@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft, List, Map as MapIcon } from "lucide-react";
 import Header from "@/components/Header";
 import { ProofCard } from "@/components/trail/ProofCard";
+import { CertificateLink } from "@/components/trail/CertificateLink";
 import TrailMap from "@/components/roadmap/TrailMap";
 import TrailList from "@/components/roadmap/TrailList";
 import MapDrawer from "@/components/roadmap/MapDrawer";
@@ -120,6 +121,7 @@ const RoadmapViewer = () => {
           </Link>
 
           <ProofCard trailId={trail.id} accentHsl={trail.accentHsl} />
+          <CertificateLink trail={trail} />
         </motion.div>
 
         {/* alternador de visão + legenda */}

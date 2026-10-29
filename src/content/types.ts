@@ -354,6 +354,12 @@ export interface Trail {
   accentHsl: string;
   phases: Phase[];
   projects: ProjectShowcase[];
+  /**
+   * O que o certificado desta trilha atesta, na voz "você sabe…".
+   * São capacidades demonstradas, não assuntos vistos — o certificado só é
+   * emitido para quem publicou alguma coisa.
+   */
+  certifies: string[];
 }
 
 /* ------------------------------------------------------------------ */

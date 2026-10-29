@@ -255,3 +255,14 @@ describe("trilhas de código arquivadas", () => {
     expect([...LEGACY_TRAIL_IDS]).toEqual(["frontend", "backend", "fullstack"]);
   });
 });
+
+describe("certificado", () => {
+  it("toda trilha do currículo declara o que atesta", () => {
+    for (const trail of curriculum) {
+      expect(trail.certifies.length, `${trail.id} certifies`).toBeGreaterThan(0);
+      for (const frase of trail.certifies) {
+        expect(frase.trim().length).toBeGreaterThan(10);
+      }
+    }
+  });
+});

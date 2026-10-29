@@ -14,6 +14,9 @@ export const fullstackTrail: Trail = {
   colorClass: "text-neon-green",
   accentHsl: "150 100% 50%",
 
+  // Arquivada: não emite certificado, por isso não atesta nada.
+  certifies: [],
+
   phases: [
     {
       id: "fs-p1",

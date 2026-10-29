@@ -170,6 +170,30 @@ describe("smoke — páginas renderizam sem quebrar", () => {
     expect(screen.queryByText("O seu projeto está no ar")).not.toBeInTheDocument();
   });
 
+  it("a trilha diz o que falta para o certificado", () => {
+    renderAt(TRILHA);
+    expect(screen.getByText(/Certificado:/)).toBeInTheDocument();
+    expect(screen.getByText(/falta concluir as aulas da trilha/i)).toBeInTheDocument();
+  });
+
+  it("certificado aberto por quem não tem direito mostra o que falta, não um papel em branco", () => {
+    renderAt("/certificado/app-no-ar");
+    expect(
+      screen.getByRole("heading", { name: /Ainda não dá para emitir/ }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Concluir as aulas da trilha")).toBeInTheDocument();
+    expect(
+      screen.getByText("Registrar o link do que você publicou"),
+    ).toBeInTheDocument();
+    // nada de certificado em branco
+    expect(screen.queryByText(/Certificado de conclusão/)).not.toBeInTheDocument();
+  });
+
+  it("certificado de trilha inexistente mostra fallback", () => {
+    renderAt("/certificado/nao-existe");
+    expect(screen.getByText("Trilha não encontrada")).toBeInTheDocument();
+  });
+
   it("ReviewView sem conceitos mostra estado vazio", () => {
     renderAt("/revisao");
     expect(screen.getByRole("heading", { name: "Revisão" })).toBeInTheDocument();

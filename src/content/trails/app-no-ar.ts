@@ -25,6 +25,15 @@ export const appNoArTrail: Trail = {
   colorClass: "text-neon-cyan",
   accentHsl: "190 100% 50%",
 
+  certifies: [
+    "Recortar uma ideia grande até a primeira versão que já serve para alguém",
+    "Juntar referência antes de abrir a IA, em vez de aceitar a média da internet",
+    "Escrever uma especificação que não deixa a ferramenta adivinhar",
+    "Julgar um resultado gerado e nomear o defeito com precisão",
+    "Pedir a correção certa em vez de pedir outra tentativa",
+    "Publicar o projeto e deixá-lo com endereço público",
+  ],
+
   phases: [
     {
       id: "ar-p1",
