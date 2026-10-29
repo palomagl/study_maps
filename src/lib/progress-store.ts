@@ -65,6 +65,17 @@ export interface ProfileState {
   onboardedAt: number | null;
 }
 
+/**
+ * O link do que a pessoa publicou. É a prova da trilha — autodeclarado,
+ * porque não existe backend para verificar, e isso é aceito de propósito:
+ * quem cola um link falso está enganando a si mesmo, e o app não é
+ * fiscal. O que ele não aceita é um recado no lugar de um link.
+ */
+export interface ProofRecord {
+  url: string;
+  savedAt: number;
+}
+
 export interface ProgressState {
   version: 4;
   xp: number;
@@ -75,7 +86,22 @@ export interface ProgressState {
   achievements: string[];
   /** Ids de missões cujo bônus já foi resgatado. */
   missionsClaimed: string[];
+  /** Link publicado por trilha. Chave = TrailId. */
+  proofs: Record<string, ProofRecord>;
   profile: ProfileState;
+}
+
+/** Aceita só http(s). Devolve a url normalizada, ou null. */
+export function parseProofUrl(value: string): string | null {
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  try {
+    const url = new URL(trimmed);
+    if (url.protocol !== "http:" && url.protocol !== "https:") return null;
+    return trimmed;
+  } catch {
+    return null;
+  }
 }
 
 export function defaultProfile(): ProfileState {
@@ -91,6 +117,7 @@ export function defaultState(): ProgressState {
     streak: { current: 0, longest: 0, lastStudyDate: null },
     achievements: [],
     missionsClaimed: [],
+    proofs: {},
     profile: defaultProfile(),
   };
 }
@@ -194,6 +221,16 @@ export function parseState(rawJson: string | null): ProgressState {
   const strArray = (v: unknown): string[] =>
     Array.isArray(v) ? v.filter((x): x is string => typeof x === "string") : [];
 
+  const proofs: ProgressState["proofs"] = {};
+  if (isObject(parsed.proofs)) {
+    for (const [trailId, raw] of Object.entries(parsed.proofs)) {
+      if (!isObject(raw) || typeof raw.url !== "string") continue;
+      const url = parseProofUrl(raw.url);
+      if (!url) continue;
+      proofs[trailId] = { url, savedAt: Number(raw.savedAt) || 0 };
+    }
+  }
+
   const rawProfile = isObject(parsed.profile) ? parsed.profile : {};
   const str = (v: unknown): string | null => (typeof v === "string" ? v : null);
   const profile: ProfileState = {
@@ -212,6 +249,7 @@ export function parseState(rawJson: string | null): ProgressState {
     streak,
     achievements: strArray(parsed.achievements),
     missionsClaimed: strArray(parsed.missionsClaimed),
+    proofs,
     profile,
   };
 }
@@ -443,6 +481,22 @@ export class ProgressStore {
       ...this.state,
       xp: this.state.xp + Math.max(0, bonusXp),
       missionsClaimed: [...this.state.missionsClaimed, id],
+    });
+    return true;
+  }
+
+  /* -------- prova publicada -------- */
+
+  /** Registra o link do que a pessoa publicou. `false` = não era um link. */
+  setProof(trailId: string, url: string): boolean {
+    const valid = parseProofUrl(url);
+    if (!valid) return false;
+    this.commit({
+      ...this.state,
+      proofs: {
+        ...this.state.proofs,
+        [trailId]: { url: valid, savedAt: Date.now() },
+      },
     });
     return true;
   }

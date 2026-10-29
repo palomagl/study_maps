@@ -246,3 +246,41 @@ describe("checklist do exercício", () => {
     expect(state.lessons["fe-html-01-tags"].checklists).toBeUndefined();
   });
 });
+
+/* ------------------------------------------------------------------ */
+/* Prova publicada                                                    */
+/* ------------------------------------------------------------------ */
+/* "Ninguém se orgulha de um chat bom. Todo mundo se orgulha de um    */
+/* link." O link é autodeclarado — não há backend para verificar —    */
+/* mas tem que ser um link, não um recado.                            */
+
+describe("prova publicada", () => {
+  it("setProof guarda uma url http(s) e devolve true", () => {
+    const store = createTestStore();
+    expect(store.setProof("app-no-ar", "https://meu-app.vercel.app")).toBe(true);
+    expect(store.getState().proofs["app-no-ar"].url).toBe(
+      "https://meu-app.vercel.app",
+    );
+    expect(store.getState().proofs["app-no-ar"].savedAt).toBeGreaterThan(0);
+  });
+
+  it("setProof recusa o que não é url e não altera o estado", () => {
+    const store = createTestStore();
+    for (const lixo of ["meu app ta pronto", "", "   ", "vercel.app"]) {
+      expect(store.setProof("app-no-ar", lixo), lixo).toBe(false);
+    }
+    expect(store.getState().proofs["app-no-ar"]).toBeUndefined();
+  });
+
+  it("setProof recusa protocolo que não seja http ou https", () => {
+    const store = createTestStore();
+    expect(store.setProof("app-no-ar", "javascript:alert(1)")).toBe(false);
+    expect(store.setProof("app-no-ar", "ftp://arquivo.com/app")).toBe(false);
+    expect(store.getState().proofs["app-no-ar"]).toBeUndefined();
+  });
+
+  it("um blob sem proofs é lido sem quebrar", () => {
+    const state = parseState(JSON.stringify({ version: 4, xp: 10 }));
+    expect(state.proofs).toEqual({});
+  });
+});

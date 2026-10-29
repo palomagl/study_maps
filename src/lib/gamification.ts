@@ -99,6 +99,14 @@ export const ACHIEVEMENTS: AchievementDef[] = [
     test: (s) => completedStepCount(s) >= 1,
   },
   {
+    id: "primeiro-link-no-ar",
+    icon: "🔗",
+    title: "Primeiro Link no Ar",
+    description:
+      "Seu projeto existe fora do seu computador. Tem endereço e dá para mandar.",
+    test: (s) => Object.keys(s.proofs).length > 0,
+  },
+  {
     id: "primeira-aula",
     icon: "📘",
     title: "Primeira Aula",

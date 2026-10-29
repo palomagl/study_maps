@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, List, Map as MapIcon } from "lucide-react";
 import Header from "@/components/Header";
+import { ProofCard } from "@/components/trail/ProofCard";
 import TrailMap from "@/components/roadmap/TrailMap";
 import TrailList from "@/components/roadmap/TrailList";
 import MapDrawer from "@/components/roadmap/MapDrawer";
@@ -117,6 +118,8 @@ const RoadmapViewer = () => {
           >
             🚀 O que você vai construir
           </Link>
+
+          <ProofCard trailId={trail.id} accentHsl={trail.accentHsl} />
         </motion.div>
 
         {/* alternador de visão + legenda */}

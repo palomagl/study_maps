@@ -153,6 +153,23 @@ describe("smoke — páginas renderizam sem quebrar", () => {
     expect(screen.getByText("O seu app, no ar")).toBeInTheDocument();
   });
 
+  it("RoadmapViewer oferece registrar o link publicado", () => {
+    renderAt(TRILHA);
+    expect(
+      screen.getByLabelText("Link do seu projeto publicado"),
+    ).toBeInTheDocument();
+  });
+
+  it("link inválido no registro da prova avisa e não salva", () => {
+    renderAt(TRILHA);
+    fireEvent.change(screen.getByLabelText("Link do seu projeto publicado"), {
+      target: { value: "meu app ta pronto" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Salvar" }));
+    expect(screen.getByRole("alert")).toHaveTextContent(/não parece um link/i);
+    expect(screen.queryByText("O seu projeto está no ar")).not.toBeInTheDocument();
+  });
+
   it("ReviewView sem conceitos mostra estado vazio", () => {
     renderAt("/revisao");
     expect(screen.getByRole("heading", { name: "Revisão" })).toBeInTheDocument();

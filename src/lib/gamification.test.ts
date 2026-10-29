@@ -121,3 +121,16 @@ describe("missões", () => {
     expect(m.claimable).toBe(false);
   });
 });
+
+describe("conquista do link publicado", () => {
+  it("a primeira prova salva desbloqueia a conquista", () => {
+    const store = createTestStore();
+    expect(pendingAchievements(store.getState()).map((a) => a.id)).not.toContain(
+      "primeiro-link-no-ar",
+    );
+    store.setProof("app-no-ar", "https://meu-app.vercel.app");
+    expect(pendingAchievements(store.getState()).map((a) => a.id)).toContain(
+      "primeiro-link-no-ar",
+    );
+  });
+});

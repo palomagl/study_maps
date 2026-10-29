@@ -72,6 +72,11 @@ export function useProgress() {
     [],
   );
 
+  const setProof = useCallback(
+    (trailId: string, url: string) => progressStore.setProof(trailId, url),
+    [],
+  );
+
   const toggleChecklistItem = useCallback(
     (lessonId: string, which: ChecklistPanel, index: number) => {
       progressStore.toggleChecklistItem(lessonId, which, index);
@@ -123,6 +128,8 @@ export function useProgress() {
       streak: state.streak,
       concepts: state.concepts,
       achievements: state.achievements,
+      proofs: state.proofs,
+      setProof,
       profile: state.profile,
       getLessonProgress,
       isStepDone,
@@ -140,6 +147,7 @@ export function useProgress() {
       getPhaseProgress,
       getTrailProgress,
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       state,
       getLessonProgress,
