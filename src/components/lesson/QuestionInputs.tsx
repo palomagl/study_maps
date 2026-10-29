@@ -291,8 +291,13 @@ function JudgePanel({
         />
       )}
       {side.body && (
-        <span className="mt-1 whitespace-pre-wrap font-mono text-[13px] leading-relaxed text-foreground/90">
-          {side.body}
+        // `pre` + rolagem horizontal, nunca `pre-wrap`: estes blocos são
+        // comparações alinhadas em monoespaçada, e quebrar linha no celular
+        // embaralharia justamente aquilo que a pergunta manda comparar.
+        <span className="mt-1 block w-full overflow-x-auto">
+          <span className="block whitespace-pre font-mono text-[13px] leading-relaxed text-foreground/90">
+            {side.body}
+          </span>
         </span>
       )}
     </button>

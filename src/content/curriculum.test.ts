@@ -13,6 +13,8 @@ import {
 } from "@/content";
 import type { Question, TrailId } from "@/content/types";
 import { parseYouTubeId } from "@/lib/youtube";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 
 const allLessons = curriculum.flatMap((t) => flattenLessons(t).map((l) => l.lesson));
 
@@ -262,6 +264,40 @@ describe("certificado", () => {
       expect(trail.certifies.length, `${trail.id} certifies`).toBeGreaterThan(0);
       for (const frase of trail.certifies) {
         expect(frase.trim().length).toBeGreaterThan(10);
+      }
+    }
+  });
+});
+
+/**
+ * Uma imagem com caminho errado não quebra a aula — isso é de propósito
+ * (Review Focus nº 4). O efeito colateral é que o erro fica SILENCIOSO: a
+ * comparação, que é o coração da aula, some sem avisar ninguém. Este teste
+ * é o único lugar onde esse erro faz barulho.
+ */
+describe("imagens de conteúdo", () => {
+  const publicPath = (src: string) => join(process.cwd(), "public", src);
+
+  it("o teste sabe detectar arquivo ausente", () => {
+    expect(existsSync(publicPath("/content/nao-existe-mesmo.svg"))).toBe(false);
+  });
+
+  it("toda imagem de aula available existe em public/", () => {
+    for (const l of allLessons.filter((x) => x.status === "available")) {
+      const srcs: string[] = [];
+
+      for (const block of l.content) {
+        if (block.type === "image") srcs.push(block.src);
+        if (block.type === "compare") srcs.push(block.left.src, block.right.src);
+      }
+      for (const q of [...l.questions, ...l.checkpoint.questions]) {
+        if (q.type !== "judge") continue;
+        for (const side of [q.left, q.right]) if (side.src) srcs.push(side.src);
+      }
+
+      expect(srcs.length, `${l.id}: nenhuma imagem para checar`).toBeGreaterThan(0);
+      for (const src of srcs) {
+        expect(existsSync(publicPath(src)), `${l.id}: ${src}`).toBe(true);
       }
     }
   });

@@ -25,6 +25,11 @@ export function CertificateLink({ trail }: { trail: Trail }) {
     );
   }
 
+  const pendencia =
+    gaps[0] === "trail-unwritten"
+      ? "abre quando a trilha estiver escrita"
+      : `falta ${gapLabel(gaps[0]).toLowerCase()}`;
+
   return (
     <p className="mt-3 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
       <Award className="h-4 w-4 flex-shrink-0" />
@@ -34,7 +39,7 @@ export function CertificateLink({ trail }: { trail: Trail }) {
           to={`/certificado/${trail.id}`}
           className="underline underline-offset-4 hover:text-foreground"
         >
-          falta {gapLabel(gaps[0]).toLowerCase()}
+          {pendencia}
         </Link>
       </span>
     </p>

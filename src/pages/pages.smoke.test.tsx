@@ -1,7 +1,8 @@
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { AppRoutes } from "@/App";
+import { progressStore } from "@/lib/progress-store";
 
 /**
  * Renderiza as rotas REAIS do app — as mesmas que o usuário navega, incluindo
@@ -20,6 +21,10 @@ const TRILHA = "/roadmap/app-no-ar";
 const AULA = `${TRILHA}/aula/ar-jul-01-generico`;
 
 describe("smoke — páginas renderizam sem quebrar", () => {
+  // O progressStore é um singleton de módulo: sem isto, um teste que salvasse
+  // estado tornaria os seguintes dependentes da ordem.
+  beforeEach(() => progressStore.resetAll());
+
   it("Home lista a trilha de entrega", () => {
     renderAt("/");
     expect(
@@ -173,7 +178,7 @@ describe("smoke — páginas renderizam sem quebrar", () => {
   it("a trilha diz o que falta para o certificado", () => {
     renderAt(TRILHA);
     expect(screen.getByText(/Certificado:/)).toBeInTheDocument();
-    expect(screen.getByText(/falta concluir as aulas da trilha/i)).toBeInTheDocument();
+    expect(screen.getByText(/abre quando a trilha estiver escrita/i)).toBeInTheDocument();
   });
 
   it("certificado aberto por quem não tem direito mostra o que falta, não um papel em branco", () => {
@@ -181,10 +186,13 @@ describe("smoke — páginas renderizam sem quebrar", () => {
     expect(
       screen.getByRole("heading", { name: /Ainda não dá para emitir/ }),
     ).toBeInTheDocument();
-    expect(screen.getByText("Concluir as aulas da trilha")).toBeInTheDocument();
     expect(
-      screen.getByText("Registrar o link do que você publicou"),
+      screen.getByText("Esta trilha ainda está sendo escrita"),
     ).toBeInTheDocument();
+    // lacuna que não depende da pessoa não vira link para lugar nenhum
+    expect(
+      screen.queryByRole("link", { name: "Esta trilha ainda está sendo escrita" }),
+    ).not.toBeInTheDocument();
     // nada de certificado em branco
     expect(screen.queryByText(/Certificado de conclusão/)).not.toBeInTheDocument();
   });
@@ -198,5 +206,20 @@ describe("smoke — páginas renderizam sem quebrar", () => {
     renderAt("/revisao");
     expect(screen.getByRole("heading", { name: "Revisão" })).toBeInTheDocument();
     expect(screen.getByText(/Nada para revisar agora/)).toBeInTheDocument();
+  });
+});
+
+describe("revisão de uma questão de julgamento", () => {
+  beforeEach(() => progressStore.resetAll());
+
+  it("mostra os dois lados — não dá para julgar o que não está na tela", () => {
+    progressStore.recordConceptError("hierarquia visual", "ar-jul-01-generico");
+    render(
+      <MemoryRouter initialEntries={["/revisao"]}>
+        <AppRoutes />
+      </MemoryRouter>,
+    );
+    expect(screen.getByText("Versão A")).toBeInTheDocument();
+    expect(screen.getByText("Versão B")).toBeInTheDocument();
   });
 });

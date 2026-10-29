@@ -1,4 +1,5 @@
 import type { Trail } from "@/content/types";
+import { flattenLessons } from "@/content";
 import type { ProgressState } from "@/lib/progress-store";
 import { trailComplete } from "@/lib/progress-selectors";
 
@@ -11,8 +12,14 @@ import { trailComplete } from "@/lib/progress-selectors";
  * e certificado de presença é exatamente o que este projeto não quer ser.
  */
 
-/** O que ainda falta para o certificado existir, na ordem em que se resolve. */
-export type CertificateGap = "lessons" | "proof" | "name";
+/**
+ * O que ainda falta para o certificado existir, na ordem em que se resolve.
+ *
+ * `trail-unwritten` não é lacuna da pessoa, é da trilha: enquanto houver aula
+ * em rascunho, `trailComplete` responderia "sim" só com as aulas escritas, e
+ * o certificado afirmaria conclusão de uma trilha que ninguém pode concluir.
+ */
+export type CertificateGap = "trail-unwritten" | "lessons" | "proof" | "name";
 
 export interface CertificateData {
   learnerName: string;
@@ -29,6 +36,11 @@ export function certificateGaps(
   state: ProgressState,
   trail: Trail,
 ): CertificateGap[] {
+  // Sozinha: as outras lacunas sugeririam que a pessoa pode resolver isso.
+  if (flattenLessons(trail).some((l) => l.lesson.status !== "available")) {
+    return ["trail-unwritten"];
+  }
+
   const gaps: CertificateGap[] = [];
   if (!trailComplete(state, trail)) gaps.push("lessons");
   if (!state.proofs[trail.id]) gaps.push("proof");
@@ -74,11 +86,26 @@ export function buildCertificate(
 /** Texto curto do que falta, para mostrar no lugar do certificado. */
 export function gapLabel(gap: CertificateGap): string {
   switch (gap) {
+    case "trail-unwritten":
+      return "Esta trilha ainda está sendo escrita";
     case "lessons":
       return "Concluir as aulas da trilha";
     case "proof":
       return "Registrar o link do que você publicou";
     case "name":
       return "Dizer o seu nome no início";
+  }
+}
+
+/** Onde a pessoa resolve a lacuna. `null` quando não depende dela. */
+export function gapHref(gap: CertificateGap, trailId: string): string | null {
+  switch (gap) {
+    case "trail-unwritten":
+      return null;
+    case "name":
+      return "/inicio";
+    case "lessons":
+    case "proof":
+      return `/roadmap/${trailId}`;
   }
 }

@@ -3,7 +3,12 @@ import { ArrowLeft, ExternalLink, Printer } from "lucide-react";
 import Header from "@/components/Header";
 import { getTrail } from "@/content";
 import { useProgress } from "@/hooks/useProgress";
-import { buildCertificate, certificateGaps, gapLabel } from "@/lib/certificate";
+import {
+  buildCertificate,
+  certificateGaps,
+  gapHref,
+  gapLabel,
+} from "@/lib/certificate";
 
 /**
  * O certificado. Só existe quando a pessoa concluiu as aulas E registrou o
@@ -67,17 +72,27 @@ const CertificateView = () => {
               precisa de uma entrega. Falta:
             </p>
             <ul className="mt-4 space-y-2">
-              {gaps.map((g) => (
-                <li
-                  key={g}
-                  className="flex items-start gap-2.5 rounded-lg border border-border bg-secondary/20 p-3 text-sm text-foreground"
-                >
-                  <span aria-hidden className="mt-0.5">
-                    ○
-                  </span>
-                  {gapLabel(g)}
-                </li>
-              ))}
+              {gaps.map((g) => {
+                const href = gapHref(g, trail.id);
+                return (
+                  <li
+                    key={g}
+                    className="flex items-start gap-2.5 rounded-lg border border-border bg-secondary/20 p-3 text-sm text-foreground"
+                  >
+                    <span aria-hidden className="mt-0.5">
+                      ○
+                    </span>
+                    {/* Lacuna sem destino não depende da pessoa — não vira link. */}
+                    {href ? (
+                      <Link to={href} className="underline underline-offset-4">
+                        {gapLabel(g)}
+                      </Link>
+                    ) : (
+                      gapLabel(g)
+                    )}
+                  </li>
+                );
+              })}
             </ul>
             <Link
               to={`/roadmap/${trail.id}`}

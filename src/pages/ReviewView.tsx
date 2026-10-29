@@ -12,6 +12,8 @@ import {
   type ReviewQuestion,
 } from "@/lib/review";
 import { renderInline } from "@/components/lesson/inline-markdown";
+import { JudgeInput } from "@/components/lesson/QuestionInputs";
+import { getTrail } from "@/content";
 
 const ReviewView = () => {
   const { state, resolveConcept } = useProgress();
@@ -155,6 +157,25 @@ const ReviewView = () => {
               <pre className="p-3 text-[13px]">
                 <code className="font-mono text-foreground/90">{q.code.code}</code>
               </pre>
+            </div>
+          )}
+
+          {/*
+            Questão de julgamento: os dois lados vivem em q.left/q.right, não
+            no enunciado. Sem eles o cartão pede para escolher entre coisas
+            que não estão na tela, e a resposta revelada ("Versão B — …")
+            aponta para um conteúdo invisível.
+          */}
+          {q.type === "judge" && (
+            <div className="mt-4">
+              <JudgeInput
+                question={q}
+                value={{ better: null, defectIds: [] }}
+                onChange={() => {}}
+                disabled
+                reveal={revealed}
+                accentHsl={getTrail(rq.trailId)?.accentHsl ?? "220 100% 60%"}
+              />
             </div>
           )}
 
