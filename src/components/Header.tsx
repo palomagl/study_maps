@@ -1,8 +1,9 @@
-import { Flame, Map } from "lucide-react";
+import { Flame } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useProgress } from "@/hooks/useProgress";
 import { useGamification } from "@/hooks/useGamification";
 import { LevelPill } from "@/components/gamification/LevelBadge";
+import { Agent } from "@/components/agents/Agent";
 
 const Header = () => {
   const { xp, streak } = useProgress();
@@ -11,10 +12,10 @@ const Header = () => {
   return (
     <header className="fixed left-0 right-0 top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
       <div className="container flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
-          <Map className="h-6 w-6 text-primary" />
-          <span className="text-lg font-bold text-foreground">
-            Study<span className="text-primary">Maps</span>
+        <Link to="/" className="flex items-center gap-2" aria-label="StudyMaps — início">
+          <Agent kind="julgamento" size={30} />
+          <span className="font-display text-[17px] font-extrabold tracking-tight text-foreground [font-stretch:112%]">
+            studymaps
           </span>
         </Link>
 

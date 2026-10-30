@@ -25,6 +25,15 @@ describe("smoke — páginas renderizam sem quebrar", () => {
   // estado tornaria os seguintes dependentes da ordem.
   beforeEach(() => progressStore.resetAll());
 
+  it("a home mostra o time no palco", () => {
+    renderAt("/");
+    expect(
+      screen.getByRole("heading", { name: /Tire suas ideias do papel/i, level: 1 }),
+    ).toBeInTheDocument();
+    expect(screen.getAllByRole("img", { name: /^Agente / }).length).toBeGreaterThanOrEqual(6);
+    expect(screen.queryByText(/aprenda programação/i)).not.toBeInTheDocument();
+  });
+
   it("Home lista a trilha de entrega", () => {
     renderAt("/");
     expect(
