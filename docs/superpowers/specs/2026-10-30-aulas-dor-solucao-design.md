@@ -44,11 +44,12 @@ No mapa da trilha, cada aula mostra a dor que resolve embaixo do título:
 - A dor aparecendo no mapa e na lista da trilha.
 - O formato garantido por teste: aula `available` sem dor não passa.
 
+- **O app inteiro no visual dos agentes, antes das aulas.** Em 30/10 a autora
+  viu o app ainda com a cara antiga e pediu que tudo mude primeiro — sem nada
+  do visual antigo: sem quadriculado, sem neon, sem degradê. As maquetes
+  aprovadas em `mockups/` são a referência.
+
 **Não-objetivos**
-- O redesenho visual completo (agentes, tipografia, as telas novas). É o
-  próximo projeto, logo depois deste — a autora escolheu começar pelas aulas.
-  Os componentes novos desta etapa (cartão da dor, "o que resolve", "dor
-  resolvida") já nascem na paleta nova, para não serem refeitos.
 - Trilhas 2, 3 e 4.
 
 **Anti-objetivos**
