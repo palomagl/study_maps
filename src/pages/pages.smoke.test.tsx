@@ -41,12 +41,41 @@ describe("smoke — páginas renderizam sem quebrar", () => {
     ).toBeGreaterThan(0);
   });
 
-  it("RoadmapViewer mostra as fases do loop e a aula escrita", () => {
+  it("o mapa mostra as seis fases, cada uma com o seu agente", () => {
     renderAt(TRILHA);
-    expect(screen.getByText("Julgamento")).toBeInTheDocument();
+    for (const fase of ["Ideia", "Pedido", "Geração", "Julgamento", "Conserto", "No ar"]) {
+      expect(screen.getByRole("button", { name: new RegExp(`Fase \\d+: ${fase}`) })).toBeInTheDocument();
+    }
+  });
+
+  it("a lista mostra a aula escrita", () => {
+    renderAt(TRILHA);
+    fireEvent.click(screen.getByRole("tab", { name: "Lista" }));
     expect(
       screen.getAllByText("O que faz um resultado parecer genérico").length,
     ).toBeGreaterThan(0);
+  });
+
+  it("a trilha mostra o teu time", () => {
+    renderAt(TRILHA);
+    expect(screen.getByText(/TEU TIME/i)).toBeInTheDocument();
+    expect(screen.getByText("0/6")).toBeInTheDocument();
+  });
+
+  it("o mapa vem antes do cartão da prova", () => {
+    renderAt(TRILHA);
+    const mapa = screen.getByRole("tablist", { name: "Modo de visualização" });
+    const prova = screen.getByLabelText("Link do seu projeto publicado");
+    expect(mapa.compareDocumentPosition(prova) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it("a lista da trilha mostra a dor que cada aula resolve", () => {
+    renderAt(TRILHA);
+    fireEvent.click(screen.getByRole("tab", { name: "Lista" }));
+    expect(
+      screen.getByText(/Toda vez eu aceito o primeiro resultado que vem\./),
+    ).toBeInTheDocument();
+    expect(screen.getAllByText(/resolve:/).length).toBeGreaterThanOrEqual(12);
   });
 
   it("RoadmapViewer abre no mapa e alterna para a lista", () => {
@@ -61,13 +90,14 @@ describe("smoke — páginas renderizam sem quebrar", () => {
     expect(mapa).toHaveAttribute("aria-selected", "false");
   });
 
-  it("clicar num nó do mapa abre o painel com os passos da aula", () => {
+  it("clicar na carta da fase abre as aulas dela, com a dor de cada uma", () => {
     renderAt(TRILHA);
-    // No mapa a aula é um botão; na lista seria um link.
+    fireEvent.click(screen.getByRole("button", { name: /Fase 04: Julgamento/ }));
+
+    const fase = screen.getByRole("dialog", { name: "Fase: Julgamento" });
+    expect(within(fase).getByText(/Toda vez eu aceito o primeiro resultado que vem\./)).toBeInTheDocument();
     fireEvent.click(
-      screen.getByRole("button", {
-        name: /O que faz um resultado parecer genérico/,
-      }),
+      within(fase).getByRole("button", { name: /O que faz um resultado parecer genérico/ }),
     );
 
     const painel = screen.getByRole("dialog", {
