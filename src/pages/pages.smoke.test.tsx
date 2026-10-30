@@ -86,7 +86,7 @@ describe("smoke — páginas renderizam sem quebrar", () => {
 
   it("a trilha mostra o teu time", () => {
     renderAt(TRILHA);
-    expect(screen.getByText(/TEU TIME/i)).toBeInTheDocument();
+    expect(screen.getByText("TEU TIME")).toBeInTheDocument();
     expect(screen.getByText("0/6")).toBeInTheDocument();
   });
 
