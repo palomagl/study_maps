@@ -348,3 +348,18 @@ describe("a aula no formato dor → solução", () => {
     });
   });
 });
+
+describe("numeração dos passos", () => {
+  it("os passos da aula são numerados sem buraco, mesmo sem vídeo", () => {
+    render(
+      <MemoryRouter initialEntries={["/roadmap/app-no-ar/aula/ar-ideia-01-recortar"]}>
+        <AppRoutes />
+      </MemoryRouter>,
+    );
+    const nums = screen
+      .getAllByText(/^PASSO \d{2}$/)
+      .map((e) => Number(e.textContent!.replace("PASSO ", "")));
+    expect(nums.length).toBeGreaterThan(3);
+    expect(nums).toEqual(nums.map((_, i) => i + 1));
+  });
+});
