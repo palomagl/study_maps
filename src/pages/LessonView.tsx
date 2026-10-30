@@ -34,7 +34,7 @@ const LessonNotFound = () => (
     <Header />
     <div className="flex min-h-[60vh] items-center justify-center px-4 pt-16 text-center">
       <div>
-        <h1 className="mb-2 text-2xl font-bold text-foreground">Aula não encontrada</h1>
+        <h1 className="title-display mb-2 text-2xl text-foreground">Aula não encontrada</h1>
         <p className="mb-4 text-sm text-muted-foreground">
           Esse endereço não corresponde a nenhuma aula.
         </p>
@@ -80,7 +80,7 @@ const LessonView = () => {
   /* ---------- draft ---------- */
   if (lesson.status === "draft") {
     return (
-      <div className="min-h-screen bg-background bg-grid">
+      <div className="min-h-screen bg-ceu">
         <Header />
         <main className="mx-auto max-w-2xl px-4 pb-20 pt-28">
           <Link
@@ -92,7 +92,7 @@ const LessonView = () => {
           </Link>
           <div className="rounded-2xl border border-border bg-card p-8 text-center">
             <Construction className="mx-auto mb-3 h-8 w-8 text-muted-foreground" />
-            <h1 className="text-xl font-bold text-foreground">{lesson.title}</h1>
+            <h1 className="title-display text-xl text-foreground">{lesson.title}</h1>
             <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
               {lesson.summary}
             </p>

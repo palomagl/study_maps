@@ -44,7 +44,7 @@ const Onboarding = () => {
   const stepIndex = ["name", "goal", "experience", "result"].indexOf(step);
 
   return (
-    <div className="min-h-screen bg-background bg-grid">
+    <div className="min-h-screen bg-ceu">
       <Header />
       <main className="mx-auto flex min-h-screen max-w-lg flex-col justify-center px-4 py-24">
         {/* progresso */}
@@ -69,7 +69,7 @@ const Onboarding = () => {
           >
             {step === "name" && (
               <div>
-                <h1 className="text-2xl font-extrabold tracking-tight text-foreground">
+                <h1 className="title-display text-[1.9rem] text-foreground">
                   Vamos montar sua trilha
                 </h1>
                 <p className="mt-2 text-sm text-muted-foreground">
@@ -132,7 +132,7 @@ const Onboarding = () => {
                 <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                   Recomendação
                 </p>
-                <h1 className={`mt-1 text-2xl font-extrabold ${trail.colorClass}`}>
+                <h1 className={`title-display mt-2 text-2xl ${trail.colorClass}`}>
                   Trilha {trail.title}
                 </h1>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">
@@ -190,7 +190,7 @@ function ChoiceStep({
 }) {
   return (
     <div>
-      <h1 className="text-2xl font-extrabold tracking-tight text-foreground">
+      <h1 className="title-display text-[1.9rem] text-foreground">
         {title}
       </h1>
       <div className="mt-5 space-y-2">

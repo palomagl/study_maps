@@ -174,7 +174,7 @@ describe("smoke — páginas renderizam sem quebrar", () => {
   it("Dashboard (/painel) renderiza as seções principais", () => {
     renderAt("/painel");
     expect(
-      screen.getByRole("heading", { name: /Bem-vindo|Olá/, level: 1 }),
+      screen.getByRole("heading", { name: /E aí|Bora continuar/, level: 1 }),
     ).toBeInTheDocument();
     expect(screen.getByText(/Continuar estudando/)).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Missões" })).toBeInTheDocument();
