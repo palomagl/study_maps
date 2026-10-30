@@ -4,6 +4,8 @@ import { MemoryRouter } from "react-router-dom";
 import { AppRoutes } from "@/App";
 import { progressStore } from "@/lib/progress-store";
 import { getTrailStats } from "@/content";
+import { draftLesson } from "@/content/draft";
+import { appNoArTrail } from "@/content/trails/app-no-ar";
 
 /**
  * Renderiza as rotas REAIS do app — as mesmas que o usuário navega, incluindo
@@ -16,6 +18,31 @@ function renderAt(path: string) {
       <AppRoutes />
     </MemoryRouter>,
   );
+}
+
+/**
+ * Troca uma aula da trilha por um rascunho só durante o teste. Com as 12
+ * aulas escritas não sobra rascunho de verdade — mas a regra "rascunho
+ * mostra em produção e não desenha cartão vazio" vale pras próximas trilhas.
+ */
+function comRascunho(id: string, fn: () => void) {
+  const stage = appNoArTrail.phases
+    .flatMap((p) => p.stages)
+    .find((st) => st.lessons.some((l) => l.id === id))!;
+  const i = stage.lessons.findIndex((l) => l.id === id);
+  const original = stage.lessons[i];
+  stage.lessons[i] = draftLesson({
+    id,
+    slug: original.slug,
+    title: original.title,
+    summary: original.summary,
+    painQuote: original.pain?.quote,
+  });
+  try {
+    fn();
+  } finally {
+    stage.lessons[i] = original;
+  }
 }
 
 const TRILHA = "/roadmap/app-no-ar";
@@ -158,8 +185,10 @@ describe("smoke — páginas renderizam sem quebrar", () => {
   });
 
   it("LessonView em aula draft mostra 'em produção'", () => {
-    renderAt(`${TRILHA}/aula/ar-jul-02-checklist`);
-    expect(screen.getByText("Conteúdo em produção")).toBeInTheDocument();
+    comRascunho("ar-jul-02-checklist", () => {
+      renderAt(`${TRILHA}/aula/ar-jul-02-checklist`);
+      expect(screen.getByText("Conteúdo em produção")).toBeInTheDocument();
+    });
   });
 
   it("LessonView com id inválido mostra fallback", () => {
@@ -301,13 +330,15 @@ describe("a aula no formato dor → solução", () => {
   });
 
   it("a aula em rascunho não desenha cartões vazios", () => {
-    render(
-      <MemoryRouter initialEntries={["/roadmap/app-no-ar/aula/ar-jul-02-checklist"]}>
-        <AppRoutes />
-      </MemoryRouter>,
-    );
-    expect(screen.getByText("Conteúdo em produção")).toBeInTheDocument();
-    expect(screen.queryByText("O QUE RESOLVE")).not.toBeInTheDocument();
-    expect(screen.queryByText("DOR RESOLVIDA")).not.toBeInTheDocument();
+    comRascunho("ar-jul-02-checklist", () => {
+      render(
+        <MemoryRouter initialEntries={["/roadmap/app-no-ar/aula/ar-jul-02-checklist"]}>
+          <AppRoutes />
+        </MemoryRouter>,
+      );
+      expect(screen.getByText("Conteúdo em produção")).toBeInTheDocument();
+      expect(screen.queryByText("O QUE RESOLVE")).not.toBeInTheDocument();
+      expect(screen.queryByText("DOR RESOLVIDA")).not.toBeInTheDocument();
+    });
   });
 });

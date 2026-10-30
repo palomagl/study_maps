@@ -445,6 +445,9 @@ const ESCRITAS = [
   "ar-ideia-02-referencias",
   "ar-spec-01-briefing",
   "ar-spec-02-co-autoria",
+  "ar-ger-01-ferramenta-certa",
+  "ar-jul-02-checklist",
+  "ar-jul-03-feio-de-proposito",
 ];
 
 describe("aulas escritas da Trilha 1", () => {

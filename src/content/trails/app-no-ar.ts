@@ -1,5 +1,8 @@
 import type { Trail } from "@/content/types";
 import { draftLesson } from "@/content/draft";
+import { fazAVersaoFeia } from "@/content/lessons/ar-julgamento-03-feio";
+import { teuChecklist } from "@/content/lessons/ar-julgamento-02-checklist";
+import { aFerramentaCerta } from "@/content/lessons/ar-ger-01-ferramenta-certa";
 import { usaAIaProPedido } from "@/content/lessons/ar-spec-02-co-autoria";
 import { escreveOBriefing } from "@/content/lessons/ar-spec-01-briefing";
 import { juntaCincoReferencias } from "@/content/lessons/ar-ideia-02-referencias";
@@ -92,14 +95,7 @@ export const appNoArTrail: Trail = {
             "Qual ferramenta serve para qual pedaço, e o que entregar para ela junto do pedido.",
           difficulty: "iniciante",
           lessons: [
-            draftLesson({
-              id: "ar-ger-01-ferramenta-certa",
-              slug: "a-ferramenta-certa",
-              title: "A ferramenta certa pra cada pedaço",
-              painQuote: "Uso o ChatGPT pra tudo e fico travado.",
-              summary:
-                "Lovable, Claude, ChatGPT e Gemini: o que cada um faz melhor e como entregar a referência.",
-            }),
+            aFerramentaCerta,
           ],
         },
       ],
@@ -121,22 +117,8 @@ export const appNoArTrail: Trail = {
             "👀 Agora você enxerga o que está ruim — e consegue dizer por quê.",
           lessons: [
             oQueFazParecerGenerico,
-            draftLesson({
-              id: "ar-jul-02-checklist",
-              slug: "seu-checklist-de-julgamento",
-              title: "Teu checklist de julgamento",
-              painQuote: "Toda vez eu aceito o primeiro resultado que vem.",
-              summary:
-                "Seis perguntas que você faz a qualquer tela antes de aceitar o que a IA entregou.",
-            }),
-            draftLesson({
-              id: "ar-jul-03-feio-de-proposito",
-              slug: "a-versao-feia-de-proposito",
-              title: "Faz a versão feia de propósito",
-              painQuote: "Só percebo que tá ruim quando alguém me fala.",
-              summary:
-                "O exercício mais honesto do curso: gere o ruim de propósito e conserte. Treina o olho.",
-            }),
+            teuChecklist,
+            fazAVersaoFeia,
           ],
         },
       ],
