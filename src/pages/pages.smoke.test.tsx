@@ -135,7 +135,7 @@ describe("smoke — páginas renderizam sem quebrar", () => {
         level: 1,
       }),
     ).toBeInTheDocument();
-    expect(screen.getByText("O que você vai aprender")).toBeInTheDocument();
+    expect(screen.getByText("O QUE TU VAI APRENDER")).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: "Aprenda", level: 2 }),
     ).toBeInTheDocument();
@@ -274,5 +274,31 @@ describe("honestidade sobre o que já está escrito", () => {
     );
     expect(screen.getByText(/12 aulas/)).toBeInTheDocument();
     expect(screen.getByText(/1 escrita, o resto em produção/)).toBeInTheDocument();
+  });
+});
+
+describe("a aula no formato dor → solução", () => {
+  beforeEach(() => progressStore.resetAll());
+
+  it("a aula escrita abre pela dor e fecha com antes e agora", () => {
+    render(
+      <MemoryRouter initialEntries={["/roadmap/app-no-ar/aula/ar-jul-01-generico"]}>
+        <AppRoutes />
+      </MemoryRouter>,
+    );
+    expect(screen.getByText("A DOR")).toBeInTheDocument();
+    expect(screen.getByText("O QUE RESOLVE")).toBeInTheDocument();
+    expect(screen.getByText("DOR RESOLVIDA")).toBeInTheDocument();
+  });
+
+  it("a aula em rascunho não desenha cartões vazios", () => {
+    render(
+      <MemoryRouter initialEntries={["/roadmap/app-no-ar/aula/ar-jul-02-checklist"]}>
+        <AppRoutes />
+      </MemoryRouter>,
+    );
+    expect(screen.getByText("Conteúdo em produção")).toBeInTheDocument();
+    expect(screen.queryByText("O QUE RESOLVE")).not.toBeInTheDocument();
+    expect(screen.queryByText("DOR RESOLVIDA")).not.toBeInTheDocument();
   });
 });

@@ -21,9 +21,9 @@ export const appNoArTrail: Trail = {
   subtitle: "Da ideia ao link público, com IA",
   description:
     "Você chega com uma ideia e sai com um link para mandar para alguém. No caminho aprende o que separa um resultado genérico de um resultado seu: referência antes de gerar, pedido escrito, olho para julgar e conserto dirigido.",
-  glowClass: "glow-cyan",
-  colorClass: "text-neon-cyan",
-  accentHsl: "190 100% 50%",
+  glowClass: "glow-green",
+  colorClass: "text-primary",
+  accentHsl: "158 90% 60%",
 
   certifies: [
     "Recortar uma ideia grande até a primeira versão que já serve para alguém",
