@@ -1,5 +1,7 @@
 import type { Trail } from "@/content/types";
 import { draftLesson } from "@/content/draft";
+import { usaAIaProPedido } from "@/content/lessons/ar-spec-02-co-autoria";
+import { escreveOBriefing } from "@/content/lessons/ar-spec-01-briefing";
 import { juntaCincoReferencias } from "@/content/lessons/ar-ideia-02-referencias";
 import { recortaAIdeia } from "@/content/lessons/ar-ideia-01-recortar";
 import { oQueFazParecerGenerico } from "@/content/lessons/ar-julgamento-01-generico";
@@ -70,22 +72,8 @@ export const appNoArTrail: Trail = {
             "Transformar a ideia e as referências em um pedido que não deixa a ferramenta adivinhar.",
           difficulty: "iniciante",
           lessons: [
-            draftLesson({
-              id: "ar-spec-01-briefing",
-              slug: "escreva-o-briefing",
-              title: "Escreve o briefing antes do prompt",
-              painQuote: "A IA não faz o que eu tô pedindo.",
-              summary:
-                "Para quem é, o que a pessoa faz na tela, o que não entra. Em uma página.",
-            }),
-            draftLesson({
-              id: "ar-spec-02-co-autoria",
-              slug: "melhore-o-seu-pedido",
-              title: "Usa a IA pra melhorar teu pedido",
-              painQuote: "Só descubro o que faltava no pedido depois que vem errado.",
-              summary:
-                "Antes de pedir o resultado, peça as perguntas que faltam no seu briefing.",
-            }),
+            escreveOBriefing,
+            usaAIaProPedido,
           ],
         },
       ],
