@@ -33,10 +33,10 @@ export const oQueFazParecerGenerico: Lesson = {
   estimatedMinutes: 25,
 
   learningObjectives: [
-    "Reconhecer, olhando, a diferença entre um resultado genérico e um resultado específico",
+    "Ver a diferença entre genérico e feito pra ti",
     "Dar nome ao defeito em vez de dizer só que ficou feio",
-    "Aplicar o teste do olho semicerrado pra achar o que tá sem hierarquia",
-    "Entender por que a IA entrega a média quando o pedido é vago",
+    "Usar o teste do olho semicerrado",
+    "Entender por que pedido vago dá resultado genérico",
   ],
 
   content: [

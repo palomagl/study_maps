@@ -27,9 +27,9 @@ export const vercelOuRender: Lesson = {
   estimatedMinutes: 25,
 
   learningObjectives: [
-    "Responder se o teu app é só tela ou tem backend e banco",
-    "Escolher entre Vercel e Render a partir dessa resposta",
-    "Conhecer os limites do plano grátis antes de depender dele",
+    "Saber se teu app é só tela ou guarda dados",
+    "Escolher entre Vercel e Render com essa resposta",
+    "Saber os limites do grátis antes de depender dele",
   ],
 
   content: [

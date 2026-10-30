@@ -22,7 +22,7 @@ export const escreveOBriefing: Lesson = {
   learningObjectives: [
     "Entender por que pedido curto vira adivinhação",
     "Escrever um briefing com as cinco partes",
-    "Usar o “não quero” pra fechar a porta da média",
+    "Dizer o que tu não quer, pra não vir genérico",
   ],
 
   content: [

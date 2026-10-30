@@ -6,7 +6,8 @@ import type { Lesson } from "@/content/types";
  *
  * Fatos sobre o histórico de versões do Lovable conferidos na documentação
  * oficial em 30/10: toda mudança vira versão; reverter volta o código, não
- * os dados do banco; dá pra marcar uma versão boa.
+ * os dados do banco; dá pra marcar uma versão boa. Num agente de código, o
+ * ponto de volta é o commit (aula 6.1).
  */
 export const pedeACorrecao: Lesson = {
   id: "ar-cons-01-iteracao",
@@ -23,9 +24,9 @@ export const pedeACorrecao: Lesson = {
   estimatedMinutes: 20,
 
   learningObjectives: [
-    "Escrever um pedido de conserto com os três elementos",
+    "Pedir conserto dizendo o quê, onde e o que não mexer",
     "Consertar um defeito por vez",
-    "Usar o histórico de versões pra voltar quando estragar",
+    "Voltar pra versão boa quando estragar",
   ],
 
   content: [
@@ -72,7 +73,7 @@ Pedido de conserto:
       type: "callout",
       variant: "info",
       title: "Se estragou mesmo assim",
-      text: "O Lovable guarda cada mudança como uma versão, e dá pra voltar pra uma anterior pelo histórico. Voltar recupera o código, não os dados do banco. Quando chegar numa versão boa, marca ela — fica fácil de achar depois.",
+      text: "Toda ferramenta de construir guarda versões. Num construtor como o Lovable, cada mudança vira uma versão e dá pra voltar pelo histórico; num agente de código, o commit é o teu ponto de volta. Voltar recupera o código, não os dados do banco. Quando chegar numa versão boa, marca ela — fica fácil de achar depois.",
     },
     {
       type: "callout",
@@ -195,7 +196,7 @@ Pedido: "No ___, ___. Não mexe em ___."`,
       {
         id: "ar-cons-01-cp2",
         type: "boolean",
-        prompt: "Reverter pelo histórico do Lovable também volta os dados do banco.",
+        prompt: "Voltar pra uma versão anterior do código também volta os dados do banco.",
         concept: "historico de versoes",
         skill: "compreensao",
         hint: "A documentação separa código de dados.",

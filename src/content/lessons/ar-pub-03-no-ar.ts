@@ -25,8 +25,8 @@ export const noArComLink: Lesson = {
 
   learningObjectives: [
     "Publicar a partir do repositório",
-    "Guardar chave e senha fora do código, em variável de ambiente",
-    "Testar o link como outra pessoa, e registrar ele como prova",
+    "Guardar senha e chave fora do código",
+    "Testar o link como outra pessoa e registrar ele",
   ],
 
   content: [

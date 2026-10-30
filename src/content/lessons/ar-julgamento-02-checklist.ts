@@ -21,7 +21,7 @@ export const teuChecklist: Lesson = {
   learningObjectives: [
     "Ter seis perguntas fixas pra julgar qualquer tela",
     "Passar um resultado no checklist em dois minutos",
-    "Transformar cada “não” do checklist num defeito com nome",
+    "Virar cada “não” num defeito com nome",
   ],
 
   content: [
@@ -247,7 +247,7 @@ esqueci a senha`,
         explanation: "Porque a maioria vai abrir no celular primeiro. Uma tela que só funciona no computador falha com quase todo mundo.",
         options: [
           { id: "a", text: "Porque a maioria vai abrir no celular primeiro" },
-          { id: "b", text: "Porque o Lovable só funciona no celular" },
+          { id: "b", text: "Porque a IA só funciona no celular" },
           { id: "c", text: "Porque celular é mais bonito" },
         ],
         correctOptionIds: ["a"],

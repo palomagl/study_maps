@@ -19,9 +19,9 @@ export const recortaAIdeia: Lesson = {
   estimatedMinutes: 20,
 
   learningObjectives: [
-    "Transformar uma ideia grande numa lista do que ela tem",
-    "Achar a ação principal de quem vai usar",
-    "Cortar até sobrar uma primeira versão que cabe num fim de semana",
+    "Separar a ideia em pedaços",
+    "Achar a coisa principal que a pessoa faz no app",
+    "Escolher o pedaço que cabe num fim de semana",
   ],
 
   content: [
@@ -64,7 +64,7 @@ Depois:
       type: "callout",
       variant: "tip",
       title: "Uma pessoa, uma ação, um resultado",
-      text: "É a régua que o próprio Lovable recomenda pra primeira versão. Se a tua frase tem “e também”, ainda não recortou.",
+      text: "É a régua da primeira versão. Se a tua frase tem “e também”, ainda não recortou.",
     },
     {
       type: "callout",

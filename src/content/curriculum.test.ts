@@ -343,7 +343,7 @@ const DORES: Record<string, { titulo: string; quote: string; resolve: string; af
     titulo: "A ferramenta certa pra cada pedaço",
     quote: "Uso o ChatGPT pra tudo e fico travado.",
     resolve: "Saber qual ferramenta faz melhor cada pedaço do projeto.",
-    after: "Lovable pra tela, Claude ou ChatGPT pra pensar e escrever — cada um no seu lugar.",
+    after: "Sei onde pensar, onde construir e onde publicar — e começo de graça.",
   },
   "ar-jul-01-generico": {
     titulo: "O que faz um resultado parecer genérico",
@@ -371,7 +371,7 @@ const DORES: Record<string, { titulo: string; quote: string; resolve: string; af
   },
   "ar-pub-01-github": {
     titulo: "GitHub: onde teu projeto passa a existir",
-    quote: "Meu projeto só existe no meu computador — ou no preview do Lovable.",
+    quote: "Meu projeto só existe no meu computador — ou dentro da ferramenta onde eu fiz.",
     resolve: "Um repositório: o lugar de onde o deploy puxa o código.",
     after: "Meu código tá no GitHub, com histórico de tudo que mudou.",
   },
@@ -491,6 +491,35 @@ describe("aulas escritas da Trilha 1", () => {
         [...l.questions, ...l.checkpoint.questions].some((q) => q.type === "judge"),
         id,
       ).toBe(true);
+    }
+  });
+});
+
+/*
+ * Revisão da autora (§13 da spec): menos Lovable. O piso é grátis, mas a
+ * trilha não pode depender de uma ferramenta só — quem já paga ChatGPT,
+ * Claude ou Cursor segue a trilha inteira com elas.
+ */
+describe("a trilha não depende de uma ferramenta só", () => {
+  const trilha = flattenLessons(getTrail("app-no-ar")!).map((l) => l.lesson);
+
+  it("nenhum exercício exige o Lovable", () => {
+    for (const l of trilha.filter((x) => x.status === "available")) {
+      const { statement, steps = [], selfCheck } = l.exercise;
+      expect([statement, ...steps, ...selfCheck].join(" "), l.id).not.toMatch(/Lovable/);
+    }
+  });
+
+  it("a aula de ferramentas mostra ChatGPT, Claude e Cursor, e o caminho grátis e o pago", () => {
+    const texto = JSON.stringify(getLessonLocation("app-no-ar", "ar-ger-01-ferramenta-certa")!.lesson);
+    for (const nome of ["ChatGPT", "Claude", "Cursor", "grátis", "pago"]) {
+      expect(texto, nome).toContain(nome);
+    }
+  });
+
+  it("objetivo de aula é curto — dá pra entender numa lida", () => {
+    for (const l of trilha.filter((x) => x.status === "available")) {
+      for (const o of l.learningObjectives) expect(o.length, `${l.id}: ${o}`).toBeLessThanOrEqual(55);
     }
   });
 });
