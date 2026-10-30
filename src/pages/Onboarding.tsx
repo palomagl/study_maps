@@ -44,7 +44,7 @@ const Onboarding = () => {
   const stepIndex = ["name", "goal", "experience", "result"].indexOf(step);
 
   return (
-    <div className="min-h-screen bg-ceu">
+    <div className="min-h-screen overflow-x-hidden bg-ceu">
       <Header />
       <main className="mx-auto flex min-h-screen max-w-lg flex-col justify-center px-4 py-24">
         {/* progresso */}
