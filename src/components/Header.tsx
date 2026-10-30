@@ -14,8 +14,9 @@ const Header = () => {
       <div className="container flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center gap-2" aria-label="StudyMaps — início">
           <Agent kind="julgamento" size={30} />
+          {/* O wordmark da identidade: "study" claro, "maps" em menta. */}
           <span className="font-display text-[17px] font-extrabold tracking-tight text-foreground [font-stretch:112%]">
-            studymaps
+            study<span className="text-primary">maps</span>
           </span>
         </Link>
 

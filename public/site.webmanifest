@@ -1,0 +1,14 @@
+{
+  "name": "StudyMaps — Tire suas ideias do papel",
+  "short_name": "studymaps",
+  "description": "Trilhas que levam da ideia ao link publicado, usando IA.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0B0717",
+  "theme_color": "#0B0717",
+  "lang": "pt-BR",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
