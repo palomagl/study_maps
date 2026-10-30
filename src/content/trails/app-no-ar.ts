@@ -3,6 +3,7 @@ import { draftLesson } from "@/content/draft";
 import { noArComLink } from "@/content/lessons/ar-pub-03-no-ar";
 import { vercelOuRender } from "@/content/lessons/ar-pub-02-vercel-render";
 import { githubOndeExiste } from "@/content/lessons/ar-pub-01-github";
+import { gitNoTerminal } from "@/content/lessons/ar-pub-git-comandos";
 import { pedeACorrecao } from "@/content/lessons/ar-conserto-01-iteracao";
 import { fazAVersaoFeia } from "@/content/lessons/ar-julgamento-03-feio";
 import { teuChecklist } from "@/content/lessons/ar-julgamento-02-checklist";
@@ -163,6 +164,7 @@ export const appNoArTrail: Trail = {
             "🚀 Seu projeto existe fora do seu computador. Tem link e dá para mandar.",
           lessons: [
             githubOndeExiste,
+            gitNoTerminal,
             vercelOuRender,
             noArComLink,
           ],

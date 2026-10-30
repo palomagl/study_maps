@@ -217,8 +217,8 @@ describe("Trilha 1 — Coloque seu primeiro app no ar", () => {
     ]);
   });
 
-  it("a Trilha 1 tem 12 aulas", () => {
-    expect(getTrailStats("app-no-ar").lessons).toBe(12);
+  it("a Trilha 1 tem 13 aulas", () => {
+    expect(getTrailStats("app-no-ar").lessons).toBe(13);
   });
 });
 
@@ -375,6 +375,12 @@ const DORES: Record<string, { titulo: string; quote: string; resolve: string; af
     resolve: "Um repositório: o lugar de onde o deploy puxa o código.",
     after: "Meu código tá no GitHub, com histórico de tudo que mudou.",
   },
+  "ar-pub-git-comandos": {
+    titulo: "Git no terminal: sair da bolha",
+    quote: "Abri o terminal e travei: não sei nem o que digitar.",
+    resolve: "Seis comandos e um ciclo: muda, confere, salva, manda.",
+    after: "Salvo e mando meu código pelo terminal — e sei o que cada comando faz.",
+  },
   "ar-pub-02-vercel-render": {
     titulo: "Vercel ou Render: a decisão",
     quote: "Não sei onde colocar meu app no ar e tenho medo de virar conta pra pagar.",
@@ -401,6 +407,7 @@ const FALSAS: Record<string, string> = {
   "ar-jul-03-feio-de-proposito": "Esperar alguém te dar feedback.",
   "ar-cons-01-iteracao": "Gerar tudo de novo do zero até sair certo.",
   "ar-pub-01-github": "Mandar print do preview pros amigos.",
+  "ar-pub-git-comandos": "Fechar o terminal e voltar pro botão — todo mundo só faz o básico mesmo.",
   "ar-pub-02-vercel-render": "Escolher o primeiro que aparecer — ou desistir porque parece caro.",
   "ar-pub-03-no-ar": "Dizer \"tá pronto\" porque abriu no teu computador.",
 };
@@ -408,7 +415,7 @@ const FALSAS: Record<string, string> = {
 describe("dor → solução", () => {
   const trilha = flattenLessons(getTrail("app-no-ar")!).map((l) => l.lesson);
 
-  it("a tabela cobre as 12 aulas da trilha", () => {
+  it("a tabela cobre as 13 aulas da trilha", () => {
     expect(Object.keys(DORES).sort()).toEqual(trilha.map((l) => l.id).sort());
   });
 
@@ -472,6 +479,7 @@ const ESCRITAS = [
   "ar-jul-03-feio-de-proposito",
   "ar-cons-01-iteracao",
   "ar-pub-01-github",
+  "ar-pub-git-comandos",
   "ar-pub-02-vercel-render",
   "ar-pub-03-no-ar",
 ];
