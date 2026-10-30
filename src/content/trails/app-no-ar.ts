@@ -51,14 +51,16 @@ export const appNoArTrail: Trail = {
             draftLesson({
               id: "ar-ideia-01-recortar",
               slug: "recorte-a-ideia",
-              title: "Recorte a ideia até ela caber",
+              title: "Recorta a ideia até ela caber",
+              painQuote: "Tenho uma ideia gigante e não sei nem por onde começar.",
               summary:
                 "Ideia grande não sai do papel. Como achar a primeira versão que já serve para alguém.",
             }),
             draftLesson({
               id: "ar-ideia-02-referencias",
               slug: "junte-cinco-referencias",
-              title: "Junte cinco referências",
+              title: "Junta cinco referências",
+              painQuote: "Peço pra IA e sempre sai a mesma cara de site.",
               summary:
                 "Onde procurar, o que guardar e por que cinco — antes de escrever o primeiro prompt.",
             }),
@@ -83,14 +85,16 @@ export const appNoArTrail: Trail = {
             draftLesson({
               id: "ar-spec-01-briefing",
               slug: "escreva-o-briefing",
-              title: "Escreva o briefing antes do prompt",
+              title: "Escreve o briefing antes do prompt",
+              painQuote: "A IA não faz o que eu tô pedindo.",
               summary:
                 "Para quem é, o que a pessoa faz na tela, o que não entra. Em uma página.",
             }),
             draftLesson({
               id: "ar-spec-02-co-autoria",
               slug: "melhore-o-seu-pedido",
-              title: "Use a IA para melhorar o seu próprio pedido",
+              title: "Usa a IA pra melhorar teu pedido",
+              painQuote: "Só descubro o que faltava no pedido depois que vem errado.",
               summary:
                 "Antes de pedir o resultado, peça as perguntas que faltam no seu briefing.",
             }),
@@ -115,7 +119,8 @@ export const appNoArTrail: Trail = {
             draftLesson({
               id: "ar-ger-01-ferramenta-certa",
               slug: "a-ferramenta-certa",
-              title: "A ferramenta certa para cada pedaço",
+              title: "A ferramenta certa pra cada pedaço",
+              painQuote: "Uso o ChatGPT pra tudo e fico travado.",
               summary:
                 "Lovable, Claude, ChatGPT e Gemini: o que cada um faz melhor e como entregar a referência.",
             }),
@@ -143,14 +148,16 @@ export const appNoArTrail: Trail = {
             draftLesson({
               id: "ar-jul-02-checklist",
               slug: "seu-checklist-de-julgamento",
-              title: "Seu checklist de julgamento",
+              title: "Teu checklist de julgamento",
+              painQuote: "Toda vez eu aceito o primeiro resultado que vem.",
               summary:
                 "Seis perguntas que você faz a qualquer tela antes de aceitar o que a IA entregou.",
             }),
             draftLesson({
               id: "ar-jul-03-feio-de-proposito",
               slug: "a-versao-feia-de-proposito",
-              title: "Faça a versão feia de propósito",
+              title: "Faz a versão feia de propósito",
+              painQuote: "Só percebo que tá ruim quando alguém me fala.",
               summary:
                 "O exercício mais honesto do curso: gere o ruim de propósito e conserte. Treina o olho.",
             }),
@@ -175,7 +182,8 @@ export const appNoArTrail: Trail = {
             draftLesson({
               id: "ar-cons-01-iteracao",
               slug: "peca-a-correcao",
-              title: "Peça a correção, não outra tentativa",
+              title: "Pede a correção, não outra tentativa",
+              painQuote: "Pedi pra arrumar uma coisa e a IA estragou o que tava bom.",
               summary:
                 "Um ajuste por vez, com o defeito nomeado. E quando vale recomeçar de verdade.",
             }),
@@ -202,7 +210,8 @@ export const appNoArTrail: Trail = {
             draftLesson({
               id: "ar-pub-01-github",
               slug: "github-onde-o-projeto-existe",
-              title: "GitHub: onde o seu projeto passa a existir",
+              title: "GitHub: onde teu projeto passa a existir",
+              painQuote: "Meu projeto só existe no meu computador — ou no preview do Lovable.",
               summary:
                 "O que é um repositório, o que é um commit e por que o deploy precisa disso.",
             }),
@@ -210,13 +219,15 @@ export const appNoArTrail: Trail = {
               id: "ar-pub-02-vercel-render",
               slug: "vercel-ou-render",
               title: "Vercel ou Render: a decisão",
+              painQuote: "Não sei onde colocar meu app no ar e tenho medo de virar conta pra pagar.",
               summary:
                 "Tem backend e banco? Render. É só front? Vercel. E o que é um build no meio disso.",
             }),
             draftLesson({
               id: "ar-pub-03-no-ar",
               slug: "no-ar-com-link",
-              title: "No ar, com link para mandar",
+              title: "No ar, com link pra mandar",
+              painQuote: "Tá pronto, mas ninguém consegue ver.",
               summary:
                 "Variáveis de ambiente, o que nunca vai para o repositório, e o link que você registra como prova.",
             }),

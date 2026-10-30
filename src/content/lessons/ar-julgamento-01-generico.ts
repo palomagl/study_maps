@@ -16,6 +16,13 @@ export const oQueFazParecerGenerico: Lesson = {
   id: "ar-jul-01-generico",
   slug: "o-que-faz-parecer-generico",
   title: "O que faz um resultado parecer genérico",
+  pain: {
+    quote:
+      "Pedi um site pra IA e veio um site. Achei meio feio, mas não sei dizer o quê — então deixei assim.",
+    resolve: "Dar nome ao defeito. Quem nomeia, conserta.",
+    after:
+      "Tudo com o mesmo peso, três botões brigando e um texto que serve pra qualquer um.",
+  },
   summary:
     "Dois resultados do mesmo pedido, lado a lado. A diferença não é sorte — e tem nome.",
   estimatedMinutes: 25,

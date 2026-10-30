@@ -7,12 +7,16 @@ import type { Lesson } from "@/content/types";
  */
 export function draftLesson(
   input: Pick<Lesson, "id" | "slug" | "title" | "summary"> &
-    Partial<Pick<Lesson, "estimatedMinutes" | "learningObjectives">>,
+    Partial<Pick<Lesson, "estimatedMinutes" | "learningObjectives">> & {
+      /** A dor que a aula vai resolver — o mapa já mostra antes de ela existir. */
+      painQuote?: string;
+    },
 ): Lesson {
   return {
     id: input.id,
     slug: input.slug,
     title: input.title,
+    pain: input.painQuote ? { quote: input.painQuote } : undefined,
     summary: input.summary,
     estimatedMinutes: input.estimatedMinutes,
     learningObjectives: input.learningObjectives ?? [],
