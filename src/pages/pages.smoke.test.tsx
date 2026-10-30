@@ -3,6 +3,7 @@ import { fireEvent, render, screen, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { AppRoutes } from "@/App";
 import { progressStore } from "@/lib/progress-store";
+import { getTrailStats } from "@/content";
 
 /**
  * Renderiza as rotas REAIS do app — as mesmas que o usuário navega, incluindo
@@ -272,8 +273,16 @@ describe("honestidade sobre o que já está escrito", () => {
         <AppRoutes />
       </MemoryRouter>,
     );
-    expect(screen.getByText(/12 aulas/)).toBeInTheDocument();
-    expect(screen.getByText(/1 escrita, o resto em produção/)).toBeInTheDocument();
+    // A regra, não um número: enquanto houver rascunho, a trilha diz quantas
+    // estão escritas; quando todas estiverem, para de falar em "produção".
+    const stats = getTrailStats("app-no-ar");
+    expect(screen.getByText(new RegExp(`${stats.lessons} aulas`))).toBeInTheDocument();
+    if (stats.availableLessons < stats.lessons) {
+      const escritas = `${stats.availableLessons} escrita${stats.availableLessons === 1 ? "" : "s"}`;
+      expect(screen.getByText(new RegExp(`${escritas}, o resto em produção`))).toBeInTheDocument();
+    } else {
+      expect(screen.queryByText(/o resto em produção/)).not.toBeInTheDocument();
+    }
   });
 });
 

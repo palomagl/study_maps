@@ -144,7 +144,7 @@ describe("seletores", () => {
   it("getFirstLesson devolve a aula available da trilha", () => {
     const first = getFirstLesson("app-no-ar");
     expect(first?.lesson.status).toBe("available");
-    expect(first?.lesson.id).toBe("ar-jul-01-generico");
+    expect(first?.lesson.id).toBe("ar-ideia-01-recortar");
   });
 
   it("getLessonLocation resolve trilha/fase/etapa/aula", () => {
@@ -432,6 +432,34 @@ describe("tratamento em 'tu'", () => {
       // \b do JS não entende acento: com ele "você" nunca casaria e o teste
       // passaria à toa. A fronteira aqui é por letra Unicode.
       expect(texto, l.id).not.toMatch(/(^|[^\p{L}])vocês?(?=[^\p{L}]|$)/iu);
+    }
+  });
+});
+
+/*
+ * As onze aulas escritas no formato dor → solução (Tarefas 5–15). A lista
+ * cresce uma aula por vez: entrar na lista é o teste vermelho da aula.
+ */
+const ESCRITAS = [
+  "ar-ideia-01-recortar",
+  "ar-ideia-02-referencias",
+];
+
+describe("aulas escritas da Trilha 1", () => {
+  for (const id of ESCRITAS) {
+    it(`${id} está escrita`, () => {
+      expect(getLessonLocation("app-no-ar", id)!.lesson.status).toBe("available");
+    });
+  }
+
+  it("as aulas de julgamento têm questão de julgar (A/B)", () => {
+    for (const id of ["ar-jul-01-generico", "ar-jul-02-checklist", "ar-jul-03-feio-de-proposito"]) {
+      const l = getLessonLocation("app-no-ar", id)!.lesson;
+      if (l.status !== "available") continue;
+      expect(
+        [...l.questions, ...l.checkpoint.questions].some((q) => q.type === "judge"),
+        id,
+      ).toBe(true);
     }
   });
 });

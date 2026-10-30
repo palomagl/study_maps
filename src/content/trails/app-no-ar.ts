@@ -1,5 +1,7 @@
 import type { Trail } from "@/content/types";
 import { draftLesson } from "@/content/draft";
+import { juntaCincoReferencias } from "@/content/lessons/ar-ideia-02-referencias";
+import { recortaAIdeia } from "@/content/lessons/ar-ideia-01-recortar";
 import { oQueFazParecerGenerico } from "@/content/lessons/ar-julgamento-01-generico";
 
 /**
@@ -48,22 +50,8 @@ export const appNoArTrail: Trail = {
             "Recortar a ideia até ela caber, e juntar o material que vai dizer à ferramenta o que é bom.",
           difficulty: "iniciante",
           lessons: [
-            draftLesson({
-              id: "ar-ideia-01-recortar",
-              slug: "recorte-a-ideia",
-              title: "Recorta a ideia até ela caber",
-              painQuote: "Tenho uma ideia gigante e não sei nem por onde começar.",
-              summary:
-                "Ideia grande não sai do papel. Como achar a primeira versão que já serve para alguém.",
-            }),
-            draftLesson({
-              id: "ar-ideia-02-referencias",
-              slug: "junte-cinco-referencias",
-              title: "Junta cinco referências",
-              painQuote: "Peço pra IA e sempre sai a mesma cara de site.",
-              summary:
-                "Onde procurar, o que guardar e por que cinco — antes de escrever o primeiro prompt.",
-            }),
+            recortaAIdeia,
+            juntaCincoReferencias,
           ],
         },
       ],
