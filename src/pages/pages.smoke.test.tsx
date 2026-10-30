@@ -363,3 +363,18 @@ describe("numeração dos passos", () => {
     expect(nums).toEqual(nums.map((_, i) => i + 1));
   });
 });
+
+describe("o time explica como recrutar", () => {
+  beforeEach(() => progressStore.resetAll());
+
+  it("a caixa do time diz como ganhar cada agente", () => {
+    render(
+      <MemoryRouter initialEntries={["/roadmap/app-no-ar"]}>
+        <AppRoutes />
+      </MemoryRouter>,
+    );
+    expect(
+      screen.getByText(/Termina todas as aulas de uma fase e o agente dela entra pro teu time/),
+    ).toBeInTheDocument();
+  });
+});

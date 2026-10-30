@@ -23,6 +23,10 @@ export function TeamBox({ trail }: { trail: Trail }) {
           <Agent key={m.kind} kind={m.unlocked ? m.kind : "bloqueado"} size={30} />
         ))}
       </div>
+      {/* Sem esta linha, ninguém sabia como ganhar os agentes (achado da autora). */}
+      <p className="mt-2 max-w-[220px] text-[11px] leading-4 text-muted-foreground">
+        Termina todas as aulas de uma fase e o agente dela entra pro teu time.
+      </p>
     </div>
   );
 }
