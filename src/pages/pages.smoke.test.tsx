@@ -143,7 +143,7 @@ describe("smoke — páginas renderizam sem quebrar", () => {
       screen.getByRole("heading", { name: "Checkpoint", level: 2 }),
     ).toBeInTheDocument();
     // conteúdo real da aula
-    expect(screen.getByText(/Dê nome ao defeito/)).toBeInTheDocument();
+    expect(screen.getByText(/Troca o sentimento pelo nome/)).toBeInTheDocument();
   });
 
   it("LessonView mostra a comparação lado a lado da aula", () => {

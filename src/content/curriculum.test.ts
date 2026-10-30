@@ -423,3 +423,15 @@ describe("dor → solução", () => {
     for (const l of trilha) expect(l.pain!.quote, l.id).not.toMatch(/^["“]|["”]$/);
   });
 });
+
+describe("tratamento em 'tu'", () => {
+  it("aula available fala com 'tu', nunca com 'você'", () => {
+    const trilha = flattenLessons(getTrail("app-no-ar")!).map((l) => l.lesson);
+    for (const l of trilha.filter((x) => x.status === "available")) {
+      const texto = JSON.stringify(l);
+      // \b do JS não entende acento: com ele "você" nunca casaria e o teste
+      // passaria à toa. A fronteira aqui é por letra Unicode.
+      expect(texto, l.id).not.toMatch(/(^|[^\p{L}])vocês?(?=[^\p{L}]|$)/iu);
+    }
+  });
+});
