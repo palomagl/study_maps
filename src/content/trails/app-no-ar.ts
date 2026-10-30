@@ -1,5 +1,9 @@
 import type { Trail } from "@/content/types";
 import { draftLesson } from "@/content/draft";
+import { noArComLink } from "@/content/lessons/ar-pub-03-no-ar";
+import { vercelOuRender } from "@/content/lessons/ar-pub-02-vercel-render";
+import { githubOndeExiste } from "@/content/lessons/ar-pub-01-github";
+import { pedeACorrecao } from "@/content/lessons/ar-conserto-01-iteracao";
 import { fazAVersaoFeia } from "@/content/lessons/ar-julgamento-03-feio";
 import { teuChecklist } from "@/content/lessons/ar-julgamento-02-checklist";
 import { aFerramentaCerta } from "@/content/lessons/ar-ger-01-ferramenta-certa";
@@ -137,14 +141,7 @@ export const appNoArTrail: Trail = {
             "Como descrever o ajuste de forma que a ferramenta não desfaça o que já estava bom.",
           difficulty: "iniciante",
           lessons: [
-            draftLesson({
-              id: "ar-cons-01-iteracao",
-              slug: "peca-a-correcao",
-              title: "Pede a correção, não outra tentativa",
-              painQuote: "Pedi pra arrumar uma coisa e a IA estragou o que tava bom.",
-              summary:
-                "Um ajuste por vez, com o defeito nomeado. E quando vale recomeçar de verdade.",
-            }),
+            pedeACorrecao,
           ],
         },
       ],
@@ -165,30 +162,9 @@ export const appNoArTrail: Trail = {
           evolutionMoment:
             "🚀 Seu projeto existe fora do seu computador. Tem link e dá para mandar.",
           lessons: [
-            draftLesson({
-              id: "ar-pub-01-github",
-              slug: "github-onde-o-projeto-existe",
-              title: "GitHub: onde teu projeto passa a existir",
-              painQuote: "Meu projeto só existe no meu computador — ou no preview do Lovable.",
-              summary:
-                "O que é um repositório, o que é um commit e por que o deploy precisa disso.",
-            }),
-            draftLesson({
-              id: "ar-pub-02-vercel-render",
-              slug: "vercel-ou-render",
-              title: "Vercel ou Render: a decisão",
-              painQuote: "Não sei onde colocar meu app no ar e tenho medo de virar conta pra pagar.",
-              summary:
-                "Tem backend e banco? Render. É só front? Vercel. E o que é um build no meio disso.",
-            }),
-            draftLesson({
-              id: "ar-pub-03-no-ar",
-              slug: "no-ar-com-link",
-              title: "No ar, com link pra mandar",
-              painQuote: "Tá pronto, mas ninguém consegue ver.",
-              summary:
-                "Variáveis de ambiente, o que nunca vai para o repositório, e o link que você registra como prova.",
-            }),
+            githubOndeExiste,
+            vercelOuRender,
+            noArComLink,
           ],
         },
       ],

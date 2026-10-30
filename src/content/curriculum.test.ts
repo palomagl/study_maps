@@ -448,6 +448,10 @@ const ESCRITAS = [
   "ar-ger-01-ferramenta-certa",
   "ar-jul-02-checklist",
   "ar-jul-03-feio-de-proposito",
+  "ar-cons-01-iteracao",
+  "ar-pub-01-github",
+  "ar-pub-02-vercel-render",
+  "ar-pub-03-no-ar",
 ];
 
 describe("aulas escritas da Trilha 1", () => {

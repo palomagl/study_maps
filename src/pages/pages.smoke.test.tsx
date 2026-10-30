@@ -247,7 +247,8 @@ describe("smoke — páginas renderizam sem quebrar", () => {
   it("a trilha diz o que falta para o certificado", () => {
     renderAt(TRILHA);
     expect(screen.getByText(/Certificado:/)).toBeInTheDocument();
-    expect(screen.getByText(/abre quando a trilha estiver escrita/i)).toBeInTheDocument();
+    // Com as doze aulas escritas, a primeira lacuna é a da pessoa: concluir as aulas.
+    expect(screen.getByText(/falta concluir as aulas da trilha/i)).toBeInTheDocument();
   });
 
   it("certificado aberto por quem não tem direito mostra o que falta, não um papel em branco", () => {
@@ -255,13 +256,18 @@ describe("smoke — páginas renderizam sem quebrar", () => {
     expect(
       screen.getByRole("heading", { name: /Ainda não dá para emitir/ }),
     ).toBeInTheDocument();
+    // as três lacunas da pessoa, cada uma levando pra onde se resolve
+    expect(screen.getByRole("link", { name: "Concluir as aulas da trilha" })).toHaveAttribute(
+      "href",
+      "/roadmap/app-no-ar",
+    );
     expect(
-      screen.getByText("Esta trilha ainda está sendo escrita"),
-    ).toBeInTheDocument();
-    // lacuna que não depende da pessoa não vira link para lugar nenhum
-    expect(
-      screen.queryByRole("link", { name: "Esta trilha ainda está sendo escrita" }),
-    ).not.toBeInTheDocument();
+      screen.getByRole("link", { name: "Registrar o link do que tu publicou" }),
+    ).toHaveAttribute("href", "/roadmap/app-no-ar");
+    expect(screen.getByRole("link", { name: "Dizer teu nome no início" })).toHaveAttribute(
+      "href",
+      "/inicio",
+    );
     // nada de certificado em branco
     expect(screen.queryByText(/Certificado de conclusão/)).not.toBeInTheDocument();
   });
