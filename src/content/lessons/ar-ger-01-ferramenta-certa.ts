@@ -14,6 +14,7 @@ export const aFerramentaCerta: Lesson = {
   title: "A ferramenta certa pra cada pedaço",
   pain: {
     quote: "Uso o ChatGPT pra tudo e fico travado.",
+    belief: "Achar a ferramenta perfeita e usar ela pra tudo.",
     resolve: "Saber qual ferramenta faz melhor cada pedaço do projeto.",
     resolveDetail: "Pensar, construir a tela, achar referência e publicar são trabalhos diferentes.",
     after:

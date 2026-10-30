@@ -10,6 +10,7 @@ export const juntaCincoReferencias: Lesson = {
   title: "Junta cinco referências",
   pain: {
     quote: "Peço pra IA e sempre sai a mesma cara de site.",
+    belief: "Pedir de novo, com mais adjetivo: \"moderno\", \"clean\", \"bonito\".",
     resolve: "Juntar referência antes de abrir a IA.",
     resolveDetail: "Sem referência, a IA te dá a média. Com referência, ela te dá o que tu apontou.",
     after: "Tenho cinco referências e sei o que eu quero de cada uma.",

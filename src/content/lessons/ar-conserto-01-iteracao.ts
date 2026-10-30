@@ -14,6 +14,7 @@ export const pedeACorrecao: Lesson = {
   title: "Pede a correção, não outra tentativa",
   pain: {
     quote: "Pedi pra arrumar uma coisa e a IA estragou o que tava bom.",
+    belief: "Gerar tudo de novo do zero até sair certo.",
     resolve: "Um ajuste por vez: o defeito com nome, e o que não pode mexer.",
     resolveDetail: "“Melhora” é licença pra mexer em tudo. Diz o quê, onde, e o que fica quieto.",
     after: "Peço o conserto e o resto fica no lugar.",

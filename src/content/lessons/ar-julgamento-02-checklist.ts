@@ -10,6 +10,7 @@ export const teuChecklist: Lesson = {
   title: "Teu checklist de julgamento",
   pain: {
     quote: "Toda vez eu aceito o primeiro resultado que vem.",
+    belief: "Confiar que, se a IA fez, tá bom.",
     resolve: "Seis perguntas que tu faz a qualquer tela antes de aceitar.",
     resolveDetail: "Aceitar não é decidir. O checklist é o que transforma “tá ok” em decisão.",
     after: "Passo qualquer resultado no checklist antes de dizer 'tá bom'.",

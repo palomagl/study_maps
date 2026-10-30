@@ -15,6 +15,7 @@ export const githubOndeExiste: Lesson = {
   title: "GitHub: onde teu projeto passa a existir",
   pain: {
     quote: "Meu projeto só existe no meu computador — ou no preview do Lovable.",
+    belief: "Mandar print do preview pros amigos.",
     resolve: "Um repositório: o lugar de onde o deploy puxa o código.",
     resolveDetail: "Sem repositório, não tem de onde publicar. Com ele, tem — e tem histórico.",
     after: "Meu código tá no GitHub, com histórico de tudo que mudou.",

@@ -14,6 +14,7 @@ export const usaAIaProPedido: Lesson = {
   title: "Usa a IA pra melhorar teu pedido",
   pain: {
     quote: "Só descubro o que faltava no pedido depois que vem errado.",
+    belief: "Ir corrigindo depois que vier errado.",
     resolve: "Pedir as perguntas antes de pedir o resultado.",
     resolveDetail: "Quem vai construir sabe o que vai precisar saber. Deixa ela perguntar.",
     after: "A IA me pergunta o que faltava antes de gerar qualquer coisa.",

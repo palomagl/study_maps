@@ -21,6 +21,7 @@ export const oQueFazParecerGenerico: Lesson = {
   pain: {
     quote:
       "Pedi um site pra IA e veio um site. Achei meio feio, mas não sei dizer o quê — então deixei assim.",
+    belief: "Pedir pra IA \"deixar mais bonito\".",
     resolve: "Dar nome ao defeito. Quem nomeia, conserta.",
     resolveDetail:
       "“Meio feio” a IA não entende. “Três botões brigando” ela arruma em segundos.",

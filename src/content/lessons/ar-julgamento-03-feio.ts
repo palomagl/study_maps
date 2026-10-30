@@ -13,6 +13,7 @@ export const fazAVersaoFeia: Lesson = {
   title: "Faz a versão feia de propósito",
   pain: {
     quote: "Só percebo que tá ruim quando alguém me fala.",
+    belief: "Esperar alguém te dar feedback.",
     resolve: "Gerar o ruim de propósito pra treinar o olho.",
     resolveDetail: "Quem já fez o feio de propósito reconhece o feio por acidente.",
     after: "Eu vejo o defeito antes de alguém apontar.",

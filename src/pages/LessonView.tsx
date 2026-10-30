@@ -21,6 +21,7 @@ import { RewardPanel } from "@/components/lesson/RewardPanel";
 import { ResourceList, VideoCard } from "@/components/lesson/ResourceList";
 import { PremiumCallout } from "@/components/lesson/PremiumCallout";
 import { PainCard } from "@/components/lesson/pain/PainCard";
+import { BeliefCard } from "@/components/lesson/pain/BeliefCard";
 import { ResolveCard } from "@/components/lesson/pain/ResolveCard";
 import { PainResolved } from "@/components/lesson/pain/PainResolved";
 import { AGENTS, agentForPhase } from "@/lib/agents";
@@ -245,6 +246,7 @@ const LessonView = () => {
         {pain && (
           <>
             <PainCard quote={pain.quote} />
+            {pain.belief && <BeliefCard belief={pain.belief} />}
             <ResolveCard resolve={pain.resolve!} detail={pain.resolveDetail} agent={agent} />
           </>
         )}

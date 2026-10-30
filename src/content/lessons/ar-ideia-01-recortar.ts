@@ -9,9 +9,10 @@ export const recortaAIdeia: Lesson = {
   slug: "recorte-a-ideia",
   title: "Recorta a ideia até ela caber",
   pain: {
-    quote: "Tenho uma ideia gigante e não sei nem por onde começar.",
-    resolve: "Achar a menor versão que já serve pra alguém.",
-    resolveDetail: "Uma pessoa, uma ação, um resultado. O resto espera.",
+    quote: "Tenho uma ideia gigante — ou difícil demais — e não sei nem por onde começar.",
+    belief: "Abrir a IA e pedir tudo de uma vez, pra ver no que dá.",
+    resolve: "Separar em pedaços.",
+    resolveDetail: "A ideia só parece gigante porque tá inteira na tua cabeça. Separada em pedaços, tu escolhe o primeiro: uma pessoa, uma ação, um resultado.",
     after: "Sei qual é a primeira versão — e ela cabe num fim de semana.",
   },
   summary: "Ideia grande não sai do papel. Como achar a primeira versão que já serve pra alguém.",

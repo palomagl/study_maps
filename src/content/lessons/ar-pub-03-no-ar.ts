@@ -14,6 +14,7 @@ export const noArComLink: Lesson = {
   title: "No ar, com link pra mandar",
   pain: {
     quote: "Tá pronto, mas ninguém consegue ver.",
+    belief: "Dizer \"tá pronto\" porque abriu no teu computador.",
     resolve: "Publicar, guardar o que não pode vazar e registrar o link.",
     resolveDetail: "Pronto é quando outra pessoa abre no celular dela. Antes disso, é rascunho.",
     after: "Mandei o link pra alguém e abriu.",

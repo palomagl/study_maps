@@ -378,3 +378,19 @@ describe("o time explica como recrutar", () => {
     ).toBeInTheDocument();
   });
 });
+
+describe("o que tu acha que resolve", () => {
+  it("aparece entre a dor e o que resolve", () => {
+    render(
+      <MemoryRouter initialEntries={["/roadmap/app-no-ar/aula/ar-ideia-01-recortar"]}>
+        <AppRoutes />
+      </MemoryRouter>,
+    );
+    const dor = screen.getByRole("region", { name: "A dor" });
+    const falsa = screen.getByRole("region", { name: "O que tu acha que resolve" });
+    const resolve = screen.getByRole("region", { name: "O que resolve" });
+    expect(dor.compareDocumentPosition(falsa) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(falsa.compareDocumentPosition(resolve) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(within(falsa).getByText(/Abrir a IA e pedir tudo de uma vez/)).toBeInTheDocument();
+  });
+});

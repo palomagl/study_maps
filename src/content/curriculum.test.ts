@@ -317,8 +317,8 @@ describe("imagens de conteúdo", () => {
 const DORES: Record<string, { titulo: string; quote: string; resolve: string; after: string }> = {
   "ar-ideia-01-recortar": {
     titulo: "Recorta a ideia até ela caber",
-    quote: "Tenho uma ideia gigante e não sei nem por onde começar.",
-    resolve: "Achar a menor versão que já serve pra alguém.",
+    quote: "Tenho uma ideia gigante — ou difícil demais — e não sei nem por onde começar.",
+    resolve: "Separar em pedaços.",
     after: "Sei qual é a primeira versão — e ela cabe num fim de semana.",
   },
   "ar-ideia-02-referencias": {
@@ -389,6 +389,22 @@ const DORES: Record<string, { titulo: string; quote: string; resolve: string; af
   },
 };
 
+/* Verbatim da spec 2026-10-30 §13: o que a pessoa já faz achando que resolve. */
+const FALSAS: Record<string, string> = {
+  "ar-ideia-01-recortar": "Abrir a IA e pedir tudo de uma vez, pra ver no que dá.",
+  "ar-ideia-02-referencias": "Pedir de novo, com mais adjetivo: \"moderno\", \"clean\", \"bonito\".",
+  "ar-spec-01-briefing": "Repetir o mesmo pedido, só que mais irritado.",
+  "ar-spec-02-co-autoria": "Ir corrigindo depois que vier errado.",
+  "ar-ger-01-ferramenta-certa": "Achar a ferramenta perfeita e usar ela pra tudo.",
+  "ar-jul-01-generico": "Pedir pra IA \"deixar mais bonito\".",
+  "ar-jul-02-checklist": "Confiar que, se a IA fez, tá bom.",
+  "ar-jul-03-feio-de-proposito": "Esperar alguém te dar feedback.",
+  "ar-cons-01-iteracao": "Gerar tudo de novo do zero até sair certo.",
+  "ar-pub-01-github": "Mandar print do preview pros amigos.",
+  "ar-pub-02-vercel-render": "Escolher o primeiro que aparecer — ou desistir porque parece caro.",
+  "ar-pub-03-no-ar": "Dizer \"tá pronto\" porque abriu no teu computador.",
+};
+
 describe("dor → solução", () => {
   const trilha = flattenLessons(getTrail("app-no-ar")!).map((l) => l.lesson);
 
@@ -416,6 +432,12 @@ describe("dor → solução", () => {
     for (const l of trilha.filter((x) => x.status === "available")) {
       expect(l.pain?.resolve, l.id).toBe(DORES[l.id].resolve);
       expect(l.pain?.after, l.id).toBe(DORES[l.id].after);
+    }
+  });
+
+  it("aula available diz o que a pessoa acha que resolve, igual à tabela", () => {
+    for (const l of trilha.filter((x) => x.status === "available")) {
+      expect(l.pain?.belief, l.id).toBe(FALSAS[l.id]);
     }
   });
 

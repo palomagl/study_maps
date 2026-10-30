@@ -294,6 +294,12 @@ export type LessonStepId =
 export interface LessonPain {
   /** A dor, em primeira pessoa, sem aspas. É também o "antes" do fim. */
   quote: string;
+  /**
+   * A falsa solução: o que a pessoa já faz, de qualquer jeito, achando que
+   * resolve. Vem entre a dor e o "o que resolve" — mostrar o erro que ela já
+   * está cometendo é o que mais ensina. Obrigatório em aula `available`.
+   */
+  belief?: string;
   /** O que resolve, numa frase. Obrigatório em aula `available` (teste). */
   resolve?: string;
   /** Uma linha com o ganho concreto. Opcional sempre. */

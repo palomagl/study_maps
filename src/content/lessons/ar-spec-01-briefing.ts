@@ -10,6 +10,7 @@ export const escreveOBriefing: Lesson = {
   title: "Escreve o briefing antes do prompt",
   pain: {
     quote: "A IA não faz o que eu tô pedindo.",
+    belief: "Repetir o mesmo pedido, só que mais irritado.",
     resolve:
       "Dizer pra quem é, o que a pessoa faz na tela e o que não entra — antes do prompt.",
     resolveDetail: "A IA faz o que tu pediu. O problema é que tu pediu pouco.",

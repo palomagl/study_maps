@@ -18,6 +18,7 @@ export const vercelOuRender: Lesson = {
   title: "Vercel ou Render: a decisão",
   pain: {
     quote: "Não sei onde colocar meu app no ar e tenho medo de virar conta pra pagar.",
+    belief: "Escolher o primeiro que aparecer — ou desistir porque parece caro.",
     resolve: "Só front: Vercel. Tem backend e banco: Render. Nos dois, plano grátis.",
     resolveDetail: "Uma pergunta decide: teu app tem backend e banco, ou é só tela?",
     after: "Sei onde meu tipo de app vai morar — e de graça.",
