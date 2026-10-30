@@ -284,10 +284,30 @@ export type LessonStepId =
 /* Aula                                                               */
 /* ------------------------------------------------------------------ */
 
+/**
+ * A dor que a aula resolve, do jeito que a pessoa sente.
+ *
+ * Toda aula começa por aqui: a pessoa entra porque se reconheceu numa frase,
+ * não porque o assunto parece importante. A mesma frase volta no fim como o
+ * "antes", ao lado do `after`.
+ */
+export interface LessonPain {
+  /** A dor, em primeira pessoa, sem aspas. É também o "antes" do fim. */
+  quote: string;
+  /** O que resolve, numa frase. Obrigatório em aula `available` (teste). */
+  resolve?: string;
+  /** Uma linha com o ganho concreto. Opcional sempre. */
+  resolveDetail?: string;
+  /** A mesma pessoa depois da aula. Obrigatório em aula `available` (teste). */
+  after?: string;
+}
+
 export interface Lesson {
   id: string;
   slug: string;
   title: string;
+  /** A dor que a aula resolve. Rascunho pode ter só `quote`, para o mapa. */
+  pain?: LessonPain;
   /** Descrição curta. */
   summary: string;
   /** "O que você vai aprender". */

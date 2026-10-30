@@ -1,5 +1,9 @@
 import type { Trail } from "@/content/types";
 import { draftLesson } from "@/content/draft";
+import { usaAIaProPedido } from "@/content/lessons/ar-spec-02-co-autoria";
+import { escreveOBriefing } from "@/content/lessons/ar-spec-01-briefing";
+import { juntaCincoReferencias } from "@/content/lessons/ar-ideia-02-referencias";
+import { recortaAIdeia } from "@/content/lessons/ar-ideia-01-recortar";
 import { oQueFazParecerGenerico } from "@/content/lessons/ar-julgamento-01-generico";
 
 /**
@@ -21,9 +25,9 @@ export const appNoArTrail: Trail = {
   subtitle: "Da ideia ao link público, com IA",
   description:
     "Você chega com uma ideia e sai com um link para mandar para alguém. No caminho aprende o que separa um resultado genérico de um resultado seu: referência antes de gerar, pedido escrito, olho para julgar e conserto dirigido.",
-  glowClass: "glow-cyan",
-  colorClass: "text-neon-cyan",
-  accentHsl: "190 100% 50%",
+  glowClass: "glow-green",
+  colorClass: "text-primary",
+  accentHsl: "158 90% 60%",
 
   certifies: [
     "Recortar uma ideia grande até a primeira versão que já serve para alguém",
@@ -48,20 +52,8 @@ export const appNoArTrail: Trail = {
             "Recortar a ideia até ela caber, e juntar o material que vai dizer à ferramenta o que é bom.",
           difficulty: "iniciante",
           lessons: [
-            draftLesson({
-              id: "ar-ideia-01-recortar",
-              slug: "recorte-a-ideia",
-              title: "Recorte a ideia até ela caber",
-              summary:
-                "Ideia grande não sai do papel. Como achar a primeira versão que já serve para alguém.",
-            }),
-            draftLesson({
-              id: "ar-ideia-02-referencias",
-              slug: "junte-cinco-referencias",
-              title: "Junte cinco referências",
-              summary:
-                "Onde procurar, o que guardar e por que cinco — antes de escrever o primeiro prompt.",
-            }),
+            recortaAIdeia,
+            juntaCincoReferencias,
           ],
         },
       ],
@@ -80,20 +72,8 @@ export const appNoArTrail: Trail = {
             "Transformar a ideia e as referências em um pedido que não deixa a ferramenta adivinhar.",
           difficulty: "iniciante",
           lessons: [
-            draftLesson({
-              id: "ar-spec-01-briefing",
-              slug: "escreva-o-briefing",
-              title: "Escreva o briefing antes do prompt",
-              summary:
-                "Para quem é, o que a pessoa faz na tela, o que não entra. Em uma página.",
-            }),
-            draftLesson({
-              id: "ar-spec-02-co-autoria",
-              slug: "melhore-o-seu-pedido",
-              title: "Use a IA para melhorar o seu próprio pedido",
-              summary:
-                "Antes de pedir o resultado, peça as perguntas que faltam no seu briefing.",
-            }),
+            escreveOBriefing,
+            usaAIaProPedido,
           ],
         },
       ],
@@ -115,7 +95,8 @@ export const appNoArTrail: Trail = {
             draftLesson({
               id: "ar-ger-01-ferramenta-certa",
               slug: "a-ferramenta-certa",
-              title: "A ferramenta certa para cada pedaço",
+              title: "A ferramenta certa pra cada pedaço",
+              painQuote: "Uso o ChatGPT pra tudo e fico travado.",
               summary:
                 "Lovable, Claude, ChatGPT e Gemini: o que cada um faz melhor e como entregar a referência.",
             }),
@@ -143,14 +124,16 @@ export const appNoArTrail: Trail = {
             draftLesson({
               id: "ar-jul-02-checklist",
               slug: "seu-checklist-de-julgamento",
-              title: "Seu checklist de julgamento",
+              title: "Teu checklist de julgamento",
+              painQuote: "Toda vez eu aceito o primeiro resultado que vem.",
               summary:
                 "Seis perguntas que você faz a qualquer tela antes de aceitar o que a IA entregou.",
             }),
             draftLesson({
               id: "ar-jul-03-feio-de-proposito",
               slug: "a-versao-feia-de-proposito",
-              title: "Faça a versão feia de propósito",
+              title: "Faz a versão feia de propósito",
+              painQuote: "Só percebo que tá ruim quando alguém me fala.",
               summary:
                 "O exercício mais honesto do curso: gere o ruim de propósito e conserte. Treina o olho.",
             }),
@@ -175,7 +158,8 @@ export const appNoArTrail: Trail = {
             draftLesson({
               id: "ar-cons-01-iteracao",
               slug: "peca-a-correcao",
-              title: "Peça a correção, não outra tentativa",
+              title: "Pede a correção, não outra tentativa",
+              painQuote: "Pedi pra arrumar uma coisa e a IA estragou o que tava bom.",
               summary:
                 "Um ajuste por vez, com o defeito nomeado. E quando vale recomeçar de verdade.",
             }),
@@ -202,7 +186,8 @@ export const appNoArTrail: Trail = {
             draftLesson({
               id: "ar-pub-01-github",
               slug: "github-onde-o-projeto-existe",
-              title: "GitHub: onde o seu projeto passa a existir",
+              title: "GitHub: onde teu projeto passa a existir",
+              painQuote: "Meu projeto só existe no meu computador — ou no preview do Lovable.",
               summary:
                 "O que é um repositório, o que é um commit e por que o deploy precisa disso.",
             }),
@@ -210,13 +195,15 @@ export const appNoArTrail: Trail = {
               id: "ar-pub-02-vercel-render",
               slug: "vercel-ou-render",
               title: "Vercel ou Render: a decisão",
+              painQuote: "Não sei onde colocar meu app no ar e tenho medo de virar conta pra pagar.",
               summary:
                 "Tem backend e banco? Render. É só front? Vercel. E o que é um build no meio disso.",
             }),
             draftLesson({
               id: "ar-pub-03-no-ar",
               slug: "no-ar-com-link",
-              title: "No ar, com link para mandar",
+              title: "No ar, com link pra mandar",
+              painQuote: "Tá pronto, mas ninguém consegue ver.",
               summary:
                 "Variáveis de ambiente, o que nunca vai para o repositório, e o link que você registra como prova.",
             }),

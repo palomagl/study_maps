@@ -1,56 +1,62 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Tema dos agentes — roxo profundo, menta para a ação, um agente por fase.
+ * Referência: docs/superpowers/specs/mockups/telas-agentes.html.
+ * Nada do visual antigo fica: sem quadriculado, sem brilho neon, sem degradê.
+ */
 @layer base {
   :root {
-    --background: 220 20% 4%;
-    --foreground: 210 40% 96%;
+    --background: 255 54% 6%;        /* #0B0717 */
+    --foreground: 254 100% 97%;      /* #F2EEFF */
 
-    --card: 215 25% 8%;
-    --card-foreground: 210 40% 96%;
+    --card: 254 52% 10%;             /* #120C26 */
+    --card-foreground: 254 100% 97%;
 
-    --popover: 215 25% 8%;
-    --popover-foreground: 210 40% 96%;
+    --popover: 254 52% 10%;
+    --popover-foreground: 254 100% 97%;
 
-    --primary: 190 100% 50%;
-    --primary-foreground: 220 20% 4%;
+    --primary: 158 90% 60%;          /* menta #3DF5B0 — a ação */
+    --primary-foreground: 255 54% 6%;
 
-    --secondary: 215 25% 14%;
-    --secondary-foreground: 210 40% 90%;
+    --secondary: 253 51% 15%;        /* #1A1238 */
+    --secondary-foreground: 254 100% 97%;
 
-    --muted: 215 20% 12%;
-    --muted-foreground: 215 15% 55%;
+    --muted: 254 55% 12%;
+    --muted-foreground: 253 41% 73%; /* #A99CD6 */
 
-    --accent: 270 100% 65%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 252 100% 68%;          /* roxo #7C5CFF */
+    --accent-foreground: 254 100% 97%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 348 100% 71%;     /* coral #FF6B8A — a dor */
+    --destructive-foreground: 255 54% 6%;
 
-    --border: 215 20% 16%;
-    --input: 215 20% 16%;
-    --ring: 190 100% 50%;
+    --border: 253 43% 24%;           /* #2E2357 */
+    --input: 253 43% 24%;
+    --ring: 252 100% 68%;
 
     --radius: 0.75rem;
 
-    --neon-cyan: 190 100% 50%;
-    --neon-purple: 270 100% 65%;
-    --neon-green: 150 100% 50%;
-    --neon-pink: 330 100% 60%;
-    --neon-orange: 25 100% 55%;
-    --neon-blue: 220 100% 60%;
+    /* As antigas cores "neon" agora apontam para as cores dos agentes. */
+    --neon-cyan: 197 100% 59%;       /* No ar #2EC5FF */
+    --neon-purple: 252 100% 68%;     /* Julgamento #7C5CFF */
+    --neon-green: 158 90% 60%;       /* Pedido #3DF5B0 */
+    --neon-pink: 331 100% 62%;       /* Geração #FF3D9A */
+    --neon-orange: 18 100% 59%;      /* Conserto #FF6B2C */
+    --neon-blue: 252 100% 68%;
 
-    --sidebar-background: 220 20% 4%;
-    --sidebar-foreground: 210 40% 96%;
-    --sidebar-primary: 190 100% 50%;
-    --sidebar-primary-foreground: 220 20% 4%;
-    --sidebar-accent: 215 25% 14%;
-    --sidebar-accent-foreground: 210 40% 96%;
-    --sidebar-border: 215 20% 16%;
-    --sidebar-ring: 190 100% 50%;
+    --sidebar-background: 255 54% 6%;
+    --sidebar-foreground: 254 100% 97%;
+    --sidebar-primary: 158 90% 60%;
+    --sidebar-primary-foreground: 255 54% 6%;
+    --sidebar-accent: 253 51% 15%;
+    --sidebar-accent-foreground: 254 100% 97%;
+    --sidebar-border: 253 43% 24%;
+    --sidebar-ring: 252 100% 68%;
   }
 }
 
@@ -61,56 +67,45 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Inter', sans-serif;
   }
 }
 
 @layer utilities {
-  .glow-cyan {
-    box-shadow: 0 0 15px hsl(190 100% 50% / 0.15), 0 0 30px hsl(190 100% 50% / 0.05), inset 0 1px 0 hsl(190 100% 50% / 0.1);
-    border: 1px solid hsl(190 100% 50% / 0.2);
+  /* Título de marca: largo, pesado, caixa alta. */
+  .title-display {
+    font-family: "Archivo", system-ui, sans-serif;
+    font-stretch: 125%;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 0.95;
   }
 
-  .glow-purple {
-    box-shadow: 0 0 15px hsl(270 100% 65% / 0.15), 0 0 30px hsl(270 100% 65% / 0.05), inset 0 1px 0 hsl(270 100% 65% / 0.1);
-    border: 1px solid hsl(270 100% 65% / 0.2);
+  /* O céu roxo das maquetes. */
+  .bg-ceu {
+    background:
+      radial-gradient(ellipse 60% 55% at 50% 0%, rgb(124 92 255 / 0.28), transparent 70%),
+      radial-gradient(ellipse 40% 40% at 90% 100%, rgb(61 245 176 / 0.08), transparent 70%),
+      hsl(var(--background));
   }
 
-  .glow-green {
-    box-shadow: 0 0 15px hsl(150 100% 50% / 0.15), 0 0 30px hsl(150 100% 50% / 0.05), inset 0 1px 0 hsl(150 100% 50% / 0.1);
-    border: 1px solid hsl(150 100% 50% / 0.2);
-  }
-
-  .glow-pink {
-    box-shadow: 0 0 15px hsl(330 100% 60% / 0.15), 0 0 30px hsl(330 100% 60% / 0.05), inset 0 1px 0 hsl(330 100% 60% / 0.1);
-    border: 1px solid hsl(330 100% 60% / 0.2);
-  }
-
-  .glow-orange {
-    box-shadow: 0 0 15px hsl(25 100% 55% / 0.15), 0 0 30px hsl(25 100% 55% / 0.05), inset 0 1px 0 hsl(25 100% 55% / 0.1);
-    border: 1px solid hsl(25 100% 55% / 0.2);
-  }
-
-  .glow-blue {
-    box-shadow: 0 0 15px hsl(220 100% 60% / 0.15), 0 0 30px hsl(220 100% 60% / 0.05), inset 0 1px 0 hsl(220 100% 60% / 0.1);
-    border: 1px solid hsl(220 100% 60% / 0.2);
-  }
-
-  .text-glow-cyan {
-    text-shadow: 0 0 20px hsl(190 100% 50% / 0.5);
-  }
-
-  .gradient-text {
-    background: linear-gradient(135deg, hsl(190 100% 50%), hsl(270 100% 65%));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
+  /* Legado: o quadriculado saiu; quem ainda usa a classe ganha o céu. */
   .bg-grid {
-    background-image: 
-      linear-gradient(hsl(215 20% 16% / 0.5) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(215 20% 16% / 0.5) 1px, transparent 1px);
-    background-size: 60px 60px;
+    background:
+      radial-gradient(ellipse 60% 55% at 50% 0%, rgb(124 92 255 / 0.28), transparent 70%),
+      radial-gradient(ellipse 40% 40% at 90% 100%, rgb(61 245 176 / 0.08), transparent 70%),
+      hsl(var(--background));
   }
+
+  /* Legado: sem brilho neon — só uma borda discreta na cor. */
+  .glow-cyan { border: 1px solid rgb(46 197 255 / 0.35); }
+  .glow-purple { border: 1px solid rgb(124 92 255 / 0.45); }
+  .glow-green { border: 1px solid rgb(61 245 176 / 0.35); }
+  .glow-pink { border: 1px solid rgb(255 61 154 / 0.35); }
+  .glow-orange { border: 1px solid rgb(255 107 44 / 0.35); }
+  .glow-blue { border: 1px solid rgb(124 92 255 / 0.45); }
+
+  /* Legado: sem degradê no texto. */
+  .gradient-text { color: hsl(var(--primary)); }
+  .text-glow-cyan { text-shadow: none; }
 }

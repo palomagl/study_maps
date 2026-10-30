@@ -144,7 +144,7 @@ describe("seletores", () => {
   it("getFirstLesson devolve a aula available da trilha", () => {
     const first = getFirstLesson("app-no-ar");
     expect(first?.lesson.status).toBe("available");
-    expect(first?.lesson.id).toBe("ar-jul-01-generico");
+    expect(first?.lesson.id).toBe("ar-ideia-01-recortar");
   });
 
   it("getLessonLocation resolve trilha/fase/etapa/aula", () => {
@@ -283,6 +283,9 @@ describe("imagens de conteúdo", () => {
   });
 
   it("toda imagem de aula available existe em public/", () => {
+    // Aula sem imagem é permitida — a prova pode ser texto (spec 30/10 §10.2).
+    // O que não pode é uma imagem citada que não existe.
+    let total = 0;
     for (const l of allLessons.filter((x) => x.status === "available")) {
       const srcs: string[] = [];
 
@@ -295,10 +298,170 @@ describe("imagens de conteúdo", () => {
         for (const side of [q.left, q.right]) if (side.src) srcs.push(side.src);
       }
 
-      expect(srcs.length, `${l.id}: nenhuma imagem para checar`).toBeGreaterThan(0);
+      total += srcs.length;
       for (const src of srcs) {
         expect(existsSync(publicPath(src)), `${l.id}: ${src}`).toBe(true);
       }
+    }
+    // Para o teste não passar vazio.
+    expect(total, "nenhuma imagem na trilha para checar").toBeGreaterThan(0);
+  });
+});
+
+/* ------------------------------------------------------------------ */
+/* Dor → solução                                                      */
+/* ------------------------------------------------------------------ */
+/* Verbatim da tabela aprovada pela autora (spec 2026-10-30, §5).     */
+/* Trocar uma frase aqui é trocar uma decisão dela.                   */
+
+const DORES: Record<string, { titulo: string; quote: string; resolve: string; after: string }> = {
+  "ar-ideia-01-recortar": {
+    titulo: "Recorta a ideia até ela caber",
+    quote: "Tenho uma ideia gigante e não sei nem por onde começar.",
+    resolve: "Achar a menor versão que já serve pra alguém.",
+    after: "Sei qual é a primeira versão — e ela cabe num fim de semana.",
+  },
+  "ar-ideia-02-referencias": {
+    titulo: "Junta cinco referências",
+    quote: "Peço pra IA e sempre sai a mesma cara de site.",
+    resolve: "Juntar referência antes de abrir a IA.",
+    after: "Tenho cinco referências e sei o que eu quero de cada uma.",
+  },
+  "ar-spec-01-briefing": {
+    titulo: "Escreve o briefing antes do prompt",
+    quote: "A IA não faz o que eu tô pedindo.",
+    resolve: "Dizer pra quem é, o que a pessoa faz na tela e o que não entra — antes do prompt.",
+    after: "Meu pedido cabe numa página e não deixa a IA adivinhar.",
+  },
+  "ar-spec-02-co-autoria": {
+    titulo: "Usa a IA pra melhorar teu pedido",
+    quote: "Só descubro o que faltava no pedido depois que vem errado.",
+    resolve: "Pedir as perguntas antes de pedir o resultado.",
+    after: "A IA me pergunta o que faltava antes de gerar qualquer coisa.",
+  },
+  "ar-ger-01-ferramenta-certa": {
+    titulo: "A ferramenta certa pra cada pedaço",
+    quote: "Uso o ChatGPT pra tudo e fico travado.",
+    resolve: "Saber qual ferramenta faz melhor cada pedaço do projeto.",
+    after: "Lovable pra tela, Claude ou ChatGPT pra pensar e escrever — cada um no seu lugar.",
+  },
+  "ar-jul-01-generico": {
+    titulo: "O que faz um resultado parecer genérico",
+    quote: "Pedi um site pra IA e veio um site. Achei meio feio, mas não sei dizer o quê — então deixei assim.",
+    resolve: "Dar nome ao defeito. Quem nomeia, conserta.",
+    after: "Tudo com o mesmo peso, três botões brigando e um texto que serve pra qualquer um.",
+  },
+  "ar-jul-02-checklist": {
+    titulo: "Teu checklist de julgamento",
+    quote: "Toda vez eu aceito o primeiro resultado que vem.",
+    resolve: "Seis perguntas que tu faz a qualquer tela antes de aceitar.",
+    after: "Passo qualquer resultado no checklist antes de dizer 'tá bom'.",
+  },
+  "ar-jul-03-feio-de-proposito": {
+    titulo: "Faz a versão feia de propósito",
+    quote: "Só percebo que tá ruim quando alguém me fala.",
+    resolve: "Gerar o ruim de propósito pra treinar o olho.",
+    after: "Eu vejo o defeito antes de alguém apontar.",
+  },
+  "ar-cons-01-iteracao": {
+    titulo: "Pede a correção, não outra tentativa",
+    quote: "Pedi pra arrumar uma coisa e a IA estragou o que tava bom.",
+    resolve: "Um ajuste por vez: o defeito com nome, e o que não pode mexer.",
+    after: "Peço o conserto e o resto fica no lugar.",
+  },
+  "ar-pub-01-github": {
+    titulo: "GitHub: onde teu projeto passa a existir",
+    quote: "Meu projeto só existe no meu computador — ou no preview do Lovable.",
+    resolve: "Um repositório: o lugar de onde o deploy puxa o código.",
+    after: "Meu código tá no GitHub, com histórico de tudo que mudou.",
+  },
+  "ar-pub-02-vercel-render": {
+    titulo: "Vercel ou Render: a decisão",
+    quote: "Não sei onde colocar meu app no ar e tenho medo de virar conta pra pagar.",
+    resolve: "Só front: Vercel. Tem backend e banco: Render. Nos dois, plano grátis.",
+    after: "Sei onde meu tipo de app vai morar — e de graça.",
+  },
+  "ar-pub-03-no-ar": {
+    titulo: "No ar, com link pra mandar",
+    quote: "Tá pronto, mas ninguém consegue ver.",
+    resolve: "Publicar, guardar o que não pode vazar e registrar o link.",
+    after: "Mandei o link pra alguém e abriu.",
+  },
+};
+
+describe("dor → solução", () => {
+  const trilha = flattenLessons(getTrail("app-no-ar")!).map((l) => l.lesson);
+
+  it("a tabela cobre as 12 aulas da trilha", () => {
+    expect(Object.keys(DORES).sort()).toEqual(trilha.map((l) => l.id).sort());
+  });
+
+  it("toda aula da Trilha 1 tem a dor, para o mapa mostrar", () => {
+    for (const l of trilha) expect(l.pain?.quote?.trim(), l.id).toBeTruthy();
+  });
+
+  it("as dores não se repetem", () => {
+    const qs = trilha.map((l) => l.pain!.quote);
+    expect(new Set(qs).size).toBe(qs.length);
+  });
+
+  it("título e dor de cada aula batem com a tabela aprovada", () => {
+    for (const l of trilha) {
+      expect(l.title, l.id).toBe(DORES[l.id].titulo);
+      expect(l.pain!.quote, l.id).toBe(DORES[l.id].quote);
+    }
+  });
+
+  it("aula available tem a dor completa e igual à tabela", () => {
+    for (const l of trilha.filter((x) => x.status === "available")) {
+      expect(l.pain?.resolve, l.id).toBe(DORES[l.id].resolve);
+      expect(l.pain?.after, l.id).toBe(DORES[l.id].after);
+    }
+  });
+
+  it("a dor vai sem aspas — quem desenha as aspas é o componente", () => {
+    for (const l of trilha) expect(l.pain!.quote, l.id).not.toMatch(/^["“]|["”]$/);
+  });
+});
+
+describe("tratamento em 'tu'", () => {
+  it("aula available fala com 'tu', nunca com 'você'", () => {
+    const trilha = flattenLessons(getTrail("app-no-ar")!).map((l) => l.lesson);
+    for (const l of trilha.filter((x) => x.status === "available")) {
+      const texto = JSON.stringify(l);
+      // \b do JS não entende acento: com ele "você" nunca casaria e o teste
+      // passaria à toa. A fronteira aqui é por letra Unicode.
+      expect(texto, l.id).not.toMatch(/(^|[^\p{L}])vocês?(?=[^\p{L}]|$)/iu);
+    }
+  });
+});
+
+/*
+ * As onze aulas escritas no formato dor → solução (Tarefas 5–15). A lista
+ * cresce uma aula por vez: entrar na lista é o teste vermelho da aula.
+ */
+const ESCRITAS = [
+  "ar-ideia-01-recortar",
+  "ar-ideia-02-referencias",
+  "ar-spec-01-briefing",
+  "ar-spec-02-co-autoria",
+];
+
+describe("aulas escritas da Trilha 1", () => {
+  for (const id of ESCRITAS) {
+    it(`${id} está escrita`, () => {
+      expect(getLessonLocation("app-no-ar", id)!.lesson.status).toBe("available");
+    });
+  }
+
+  it("as aulas de julgamento têm questão de julgar (A/B)", () => {
+    for (const id of ["ar-jul-01-generico", "ar-jul-02-checklist", "ar-jul-03-feio-de-proposito"]) {
+      const l = getLessonLocation("app-no-ar", id)!.lesson;
+      if (l.status !== "available") continue;
+      expect(
+        [...l.questions, ...l.checkpoint.questions].some((q) => q.type === "judge"),
+        id,
+      ).toBe(true);
     }
   });
 });

@@ -8,6 +8,7 @@
 import type { Lesson, Phase, Stage, Trail } from "@/content/types";
 import { curriculum, flattenLessons, lessonSteps, type LessonLocation } from "@/content";
 import type { ProgressState } from "@/lib/progress-store";
+import { agentForPhase, type AgentKind } from "@/lib/agents";
 
 export interface LessonCompletion {
   doneSteps: number;
@@ -172,4 +173,26 @@ export function currentTrail(state: ProgressState): Trail | undefined {
 
 export function hasAnyProgress(state: ProgressState): boolean {
   return state.xp > 0 || Object.keys(state.lessons).length > 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* O time                                                             */
+/* ------------------------------------------------------------------ */
+
+export interface TeamMember {
+  kind: AgentKind;
+  phaseId: string;
+  /** Recrutado: as aulas escritas da fase estão todas concluídas. */
+  unlocked: boolean;
+}
+
+/** Um agente por fase da trilha, na ordem do loop. Fases sem agente ficam de fora. */
+export function teamStatus(state: ProgressState, trail: Trail): TeamMember[] {
+  const team: TeamMember[] = [];
+  for (const phase of trail.phases) {
+    const kind = agentForPhase(phase.id);
+    if (!kind) continue;
+    team.push({ kind, phaseId: phase.id, unlocked: phaseComplete(state, phase) });
+  }
+  return team;
 }

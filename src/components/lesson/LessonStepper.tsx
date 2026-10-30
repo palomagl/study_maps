@@ -37,21 +37,18 @@ export function LessonStepper({ present, doneMap, accentHsl }: LessonStepperProp
             <li key={item.id} className="flex items-center">
               <a
                 href={`#step-${item.id}`}
-                className="flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs transition-colors"
-                style={{
-                  borderColor: done ? `hsl(${accentHsl} / 0.5)` : "hsl(var(--border))",
-                  backgroundColor: done ? `hsl(${accentHsl} / 0.12)` : "transparent",
-                  color: done ? `hsl(${accentHsl})` : "hsl(var(--muted-foreground))",
-                }}
+                className="flex flex-col gap-1.5 px-1 py-0.5 font-mono text-[10px] uppercase tracking-wider transition-colors"
+                style={{ color: done ? `hsl(${accentHsl})` : "hsl(var(--muted-foreground))" }}
               >
-                <span aria-hidden>{item.emoji}</span>
-                <span className="font-medium">{item.label}</span>
+                {/* pílula fina: feita em menta, a fazer apagada */}
+                <span
+                  aria-hidden
+                  className="block h-1.5 w-16 rounded-full"
+                  style={{ backgroundColor: done ? `hsl(${accentHsl})` : "hsl(var(--secondary))" }}
+                />
+                <span>{item.label}</span>
               </a>
-              {i < items.length - 1 && (
-                <span className="mx-0.5 text-muted-foreground/40" aria-hidden>
-                  ·
-                </span>
-              )}
+              {i < items.length - 1 && <span className="w-0.5" aria-hidden />}
             </li>
           );
         })}

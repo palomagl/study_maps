@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="800" height="520" role="img" aria-label="Ilustração da mesma seção inicial com hierarquia visual: um título grande, um texto de apoio curto, um único botão principal e espaço em volta.">
+  <rect width="800" height="520" fill="#ffffff"/>
+
+  <!-- nav: marca com peso, links secundários mais leves -->
+  <text x="48" y="48" font-family="system-ui, sans-serif" font-size="15" font-weight="700" fill="#111111">Aurora</text>
+  <g font-family="system-ui, sans-serif" font-size="13" fill="#777777">
+    <text x="566" y="48">Como funciona</text>
+    <text x="676" y="48">Preços</text>
+  </g>
+  <rect x="726" y="33" width="26" height="20" rx="4" fill="#111111"/>
+
+  <!-- um título grande, uma coisa só, alinhado à esquerda -->
+  <text x="48" y="150" font-family="system-ui, sans-serif" font-size="36" font-weight="800" fill="#111111">Agende clientes</text>
+  <text x="48" y="192" font-family="system-ui, sans-serif" font-size="36" font-weight="800" fill="#111111">sem trocar mensagem.</text>
+
+  <!-- apoio curto, medida estreita, tom mais claro -->
+  <g font-family="system-ui, sans-serif" font-size="16" fill="#666666">
+    <text x="48" y="240">Seu cliente escolhe o horário que está livre</text>
+    <text x="48" y="264">e recebe a confirmação na hora.</text>
+  </g>
+
+  <!-- um botão principal, um link secundário -->
+  <rect x="48" y="296" width="176" height="46" rx="6" fill="#111111"/>
+  <text x="136" y="325" text-anchor="middle" font-family="system-ui, sans-serif" font-size="15" font-weight="600" fill="#ffffff">Criar minha agenda</text>
+  <text x="248" y="325" font-family="system-ui, sans-serif" font-size="15" fill="#666666">Ver uma agenda de exemplo</text>
+
+  <!-- prova social discreta, bem depois do botão -->
+  <g font-family="system-ui, sans-serif" font-size="12" fill="#999999">
+    <text x="48" y="384">USADO POR SALÕES, ESTÚDIOS E CONSULTÓRIOS</text>
+  </g>
+  <g fill="#e8e8e8">
+    <rect x="48" y="400" width="78" height="18" rx="3"/>
+    <rect x="138" y="400" width="64" height="18" rx="3"/>
+    <rect x="214" y="400" width="86" height="18" rx="3"/>
+  </g>
+
+  <!-- imagem à direita, ocupando o espaço que o texto não usa -->
+  <rect x="472" y="104" width="280" height="314" rx="10" fill="#f4f4f4" stroke="#e4e4e4"/>
+  <rect x="496" y="132" width="232" height="30" rx="5" fill="#ffffff" stroke="#e0e0e0"/>
+  <text x="510" y="152" font-family="system-ui, sans-serif" font-size="12" fill="#999999">Quinta, 14 de maio</text>
+  <g fill="#ffffff" stroke="#e0e0e0">
+    <rect x="496" y="176" width="232" height="34" rx="5"/>
+    <rect x="496" y="218" width="232" height="34" rx="5"/>
+    <rect x="496" y="260" width="232" height="34" rx="5"/>
+  </g>
+  <g font-family="system-ui, sans-serif" font-size="12" fill="#444444">
+    <text x="510" y="198">09:00 — livre</text>
+    <text x="510" y="240">10:30 — livre</text>
+    <text x="510" y="282">14:00 — livre</text>
+  </g>
+  <rect x="496" y="302" width="232" height="34" rx="5" fill="#111111"/>
+  <text x="612" y="324" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#ffffff">Confirmar 10:30</text>
+</svg>

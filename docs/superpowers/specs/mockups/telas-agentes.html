@@ -1,0 +1,323 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+<!-- ============ o time: um agente por passo do loop ============ -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <!-- sombra no chão -->
+    <ellipse id="sombra" cx="50" cy="112" rx="30" ry="5" fill="#000" opacity=".45"/>
+
+    <!-- agente: cápsula com visor. Olhar determinado, sem bochecha nem sorriso. -->
+    <!-- cada símbolo: corpo (cor), lado sombreado, brilho de borda, visor, olhos, pernas, distintivo da função -->
+
+    <symbol id="ag-ideia" viewBox="0 0 100 120">
+      <use href="#sombra"/>
+      <rect x="31" y="92" width="14" height="18" rx="7" fill="#B9790A"/><rect x="55" y="92" width="14" height="18" rx="7" fill="#B9790A"/>
+      <rect x="20" y="16" width="60" height="84" rx="30" fill="#FFB020"/>
+      <path d="M62 18 A30 30 0 0 1 80 46 L80 70 A30 30 0 0 1 62 98 Z" fill="#D98C0B" opacity=".55"/>
+      <path d="M30 26 A28 28 0 0 1 48 18" stroke="#FFE3A1" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <rect x="29" y="36" width="42" height="20" rx="10" fill="#120A24"/>
+      <rect x="35" y="43" width="11" height="5" rx="2.5" fill="#FFE3A1" transform="rotate(10 40 45)"/>
+      <rect x="54" y="43" width="11" height="5" rx="2.5" fill="#FFE3A1" transform="rotate(-10 60 45)"/>
+      <circle cx="50" cy="74" r="9" fill="#120A24"/>
+      <path d="M50 68 a4.5 4.5 0 0 1 2.6 8.2 v1.8 h-5.2 v-1.8 A4.5 4.5 0 0 1 50 68Z" fill="#FFE3A1"/>
+    </symbol>
+
+    <symbol id="ag-pedido" viewBox="0 0 100 120">
+      <use href="#sombra"/>
+      <rect x="31" y="92" width="14" height="18" rx="7" fill="#169E73"/><rect x="55" y="92" width="14" height="18" rx="7" fill="#169E73"/>
+      <rect x="20" y="16" width="60" height="84" rx="30" fill="#3DF5B0"/>
+      <path d="M62 18 A30 30 0 0 1 80 46 L80 70 A30 30 0 0 1 62 98 Z" fill="#1DBF88" opacity=".55"/>
+      <path d="M30 26 A28 28 0 0 1 48 18" stroke="#C8FFEA" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <rect x="29" y="36" width="42" height="20" rx="10" fill="#120A24"/>
+      <rect x="35" y="43" width="11" height="5" rx="2.5" fill="#C8FFEA" transform="rotate(10 40 45)"/>
+      <rect x="54" y="43" width="11" height="5" rx="2.5" fill="#C8FFEA" transform="rotate(-10 60 45)"/>
+      <circle cx="50" cy="74" r="9" fill="#120A24"/>
+      <path d="M46 78 l7-7 2 2 -7 7 -2.6.6Z" fill="#C8FFEA"/>
+    </symbol>
+
+    <symbol id="ag-geracao" viewBox="0 0 100 120">
+      <use href="#sombra"/>
+      <rect x="31" y="92" width="14" height="18" rx="7" fill="#B8156A"/><rect x="55" y="92" width="14" height="18" rx="7" fill="#B8156A"/>
+      <rect x="20" y="16" width="60" height="84" rx="30" fill="#FF3D9A"/>
+      <path d="M62 18 A30 30 0 0 1 80 46 L80 70 A30 30 0 0 1 62 98 Z" fill="#D11F7C" opacity=".55"/>
+      <path d="M30 26 A28 28 0 0 1 48 18" stroke="#FFC2E0" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <rect x="29" y="36" width="42" height="20" rx="10" fill="#120A24"/>
+      <rect x="35" y="43" width="11" height="5" rx="2.5" fill="#FFC2E0" transform="rotate(10 40 45)"/>
+      <rect x="54" y="43" width="11" height="5" rx="2.5" fill="#FFC2E0" transform="rotate(-10 60 45)"/>
+      <circle cx="50" cy="74" r="9" fill="#120A24"/>
+      <path d="M50 67.5 l1.8 4.7 4.7 1.8 -4.7 1.8 -1.8 4.7 -1.8-4.7 -4.7-1.8 4.7-1.8Z" fill="#FFC2E0"/>
+    </symbol>
+
+    <symbol id="ag-julgamento" viewBox="0 0 100 120">
+      <use href="#sombra"/>
+      <rect x="31" y="92" width="14" height="18" rx="7" fill="#4B33C9"/><rect x="55" y="92" width="14" height="18" rx="7" fill="#4B33C9"/>
+      <rect x="20" y="16" width="60" height="84" rx="30" fill="#7C5CFF"/>
+      <path d="M62 18 A30 30 0 0 1 80 46 L80 70 A30 30 0 0 1 62 98 Z" fill="#5A3DE6" opacity=".6"/>
+      <path d="M30 26 A28 28 0 0 1 48 18" stroke="#D6CCFF" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <!-- visor largo: o que olha -->
+      <rect x="25" y="34" width="50" height="24" rx="12" fill="#120A24"/>
+      <circle cx="40" cy="46" r="5.5" fill="#D6CCFF"/><circle cx="60" cy="46" r="5.5" fill="#D6CCFF"/>
+      <circle cx="40" cy="46" r="2.2" fill="#120A24"/><circle cx="60" cy="46" r="2.2" fill="#120A24"/>
+      <circle cx="50" cy="74" r="9" fill="#120A24"/>
+      <circle cx="49" cy="73" r="3.6" fill="none" stroke="#D6CCFF" stroke-width="2"/><line x1="51.6" y1="75.6" x2="54.5" y2="78.5" stroke="#D6CCFF" stroke-width="2.2" stroke-linecap="round"/>
+    </symbol>
+
+    <symbol id="ag-conserto" viewBox="0 0 100 120">
+      <use href="#sombra"/>
+      <rect x="31" y="92" width="14" height="18" rx="7" fill="#C24A12"/><rect x="55" y="92" width="14" height="18" rx="7" fill="#C24A12"/>
+      <rect x="20" y="16" width="60" height="84" rx="30" fill="#FF6B2C"/>
+      <path d="M62 18 A30 30 0 0 1 80 46 L80 70 A30 30 0 0 1 62 98 Z" fill="#DE5216" opacity=".55"/>
+      <path d="M30 26 A28 28 0 0 1 48 18" stroke="#FFD0B8" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <rect x="29" y="36" width="42" height="20" rx="10" fill="#120A24"/>
+      <rect x="35" y="43" width="11" height="5" rx="2.5" fill="#FFD0B8" transform="rotate(10 40 45)"/>
+      <rect x="54" y="43" width="11" height="5" rx="2.5" fill="#FFD0B8" transform="rotate(-10 60 45)"/>
+      <circle cx="50" cy="74" r="9" fill="#120A24"/>
+      <path d="M53.8 69.2 a3.6 3.6 0 0 0 -4.6 4.6 l-4 4 1.9 1.9 4-4 a3.6 3.6 0 0 0 4.6-4.6 l-2 2 -1.8-1.8Z" fill="#FFD0B8"/>
+    </symbol>
+
+    <symbol id="ag-noar" viewBox="0 0 100 120">
+      <use href="#sombra"/>
+      <rect x="31" y="92" width="14" height="18" rx="7" fill="#127FB8"/><rect x="55" y="92" width="14" height="18" rx="7" fill="#127FB8"/>
+      <rect x="20" y="16" width="60" height="84" rx="30" fill="#2EC5FF"/>
+      <path d="M62 18 A30 30 0 0 1 80 46 L80 70 A30 30 0 0 1 62 98 Z" fill="#159FD9" opacity=".55"/>
+      <path d="M30 26 A28 28 0 0 1 48 18" stroke="#C4F0FF" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <rect x="29" y="36" width="42" height="20" rx="10" fill="#120A24"/>
+      <rect x="35" y="43" width="11" height="5" rx="2.5" fill="#C4F0FF" transform="rotate(10 40 45)"/>
+      <rect x="54" y="43" width="11" height="5" rx="2.5" fill="#C4F0FF" transform="rotate(-10 60 45)"/>
+      <circle cx="50" cy="74" r="9" fill="#120A24"/>
+      <path d="M50 67.5 c3 2.2 4 5.4 3.4 8.6 l-1.6 1.6 h-3.6 l-1.6-1.6 c-.6-3.2.4-6.4 3.4-8.6Z M47 78 l-2 2.8 M53 78 l2 2.8" fill="#C4F0FF" stroke="#C4F0FF" stroke-width="1.2" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- bloqueado: silhueta com cadeado -->
+    <symbol id="ag-bloqueado" viewBox="0 0 100 120">
+      <use href="#sombra"/>
+      <rect x="31" y="92" width="14" height="18" rx="7" fill="#1E1440"/><rect x="55" y="92" width="14" height="18" rx="7" fill="#1E1440"/>
+      <rect x="20" y="16" width="60" height="84" rx="30" fill="#251A4D"/>
+      <rect x="29" y="36" width="42" height="20" rx="10" fill="#160E30"/>
+      <rect x="42" y="68" width="16" height="13" rx="3" fill="#3B2C73"/>
+      <path d="M45 68 v-3.5 a5 5 0 0 1 10 0 v3.5" stroke="#3B2C73" stroke-width="2.6" fill="none"/>
+    </symbol>
+  </defs>
+</svg>
+
+<style>
+  .tela { font-family: Inter, sans-serif; color: #F2EEFF; border-radius: 14px; overflow: hidden; position: relative; background: #0B0717; }
+  .tela * { box-sizing: border-box; margin: 0; }
+  .disp { font-family: Archivo, sans-serif; font-stretch: 125%; font-weight: 900; text-transform: uppercase; letter-spacing: -.01em; }
+  .mono { font-family: "JetBrains Mono", monospace; }
+  .brilho-fundo { background:
+      radial-gradient(ellipse 60% 55% at 50% 20%, rgba(124,92,255,.32), transparent 70%),
+      radial-gradient(ellipse 40% 40% at 90% 100%, rgba(61,245,176,.10), transparent 70%),
+      #0B0717; }
+
+  .nav { position: relative; z-index: 3; display: flex; justify-content: space-between; align-items: center; padding: 22px 36px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-family: Archivo, sans-serif; font-stretch: 112%; font-weight: 800; font-size: 17px; letter-spacing: -.01em; }
+  .logo svg { width: 22px; height: 26px; }
+  .nav .dir { display: flex; gap: 26px; align-items: center; font-size: 14px; color: #A99CD6; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px; border-radius: 10px; padding: 14px 22px; }
+  .btn.primario { background: #3DF5B0; color: #0B0717; }
+  .btn.secundario { border: 1.5px solid #2E2357; color: #F2EEFF; }
+  .btn.pequeno { padding: 9px 16px; font-size: 14px; }
+  .btn.claro { background: #F2EEFF; color: #0B0717; }
+
+  /* ---------- TELA 1 ---------- */
+  .t1 { min-height: 700px; text-align: center; }
+  .t1 .chamada { position: relative; z-index: 3; display: inline-flex; align-items: center; gap: 8px; margin-top: 28px; font-size: 12px; color: #A99CD6; border: 1px solid #2E2357; border-radius: 999px; padding: 6px 12px; }
+  .t1 .chamada i { width: 7px; height: 7px; border-radius: 50%; background: #3DF5B0; box-shadow: 0 0 10px #3DF5B0; }
+  .t1 h1 { position: relative; z-index: 3; font-size: 64px; line-height: .92; margin: 18px auto 0; max-width: 860px; }
+  .t1 h1 .verde { color: #3DF5B0; }
+  .t1 .sub { position: relative; z-index: 3; font-size: 18px; line-height: 1.55; color: #A99CD6; max-width: 560px; margin: 20px auto 0; }
+  .t1 .acoes { position: relative; z-index: 3; display: flex; gap: 12px; justify-content: center; margin-top: 30px; }
+  .palco { position: relative; height: 250px; margin-top: 26px; }
+  .palco .luz { position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%); width: 760px; height: 90px; border-radius: 50%;
+                background: radial-gradient(ellipse at 50% 50%, rgba(124,92,255,.45), rgba(124,92,255,.08) 55%, transparent 70%); }
+  .palco .aro { position: absolute; left: 50%; bottom: 34px; transform: translateX(-50%); width: 640px; height: 56px; border-radius: 50%; border: 1.5px solid rgba(124,92,255,.5); }
+  .palco .time { position: absolute; left: 50%; bottom: 40px; transform: translateX(-50%); display: flex; align-items: flex-end; gap: 14px; }
+  .palco .time svg { display: block; }
+  .t1 .legenda { position: relative; z-index: 3; padding-bottom: 30px; font-size: 13px; color: #6F64A0; }
+  .t1 .legenda b { color: #A99CD6; font-weight: 600; }
+
+  /* ---------- TELA 2 ---------- */
+  .t2 { min-height: 690px; }
+  .t2 .topo { position: relative; z-index: 3; padding: 2px 36px 0; display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; }
+  .t2 .rot { font-size: 12px; color: #3DF5B0; letter-spacing: .1em; }
+  .t2 h2 { font-size: 34px; line-height: .95; margin-top: 8px; max-width: 560px; }
+  .time-box { flex-shrink: 0; border: 1px solid #2E2357; background: #120C26; border-radius: 12px; padding: 12px 14px; }
+  .time-box .t { font-size: 11px; letter-spacing: .1em; color: #A99CD6; display: flex; justify-content: space-between; gap: 16px; }
+  .time-box .t b { color: #F2EEFF; }
+  .time-box .mini { display: flex; gap: 4px; margin-top: 8px; }
+  .time-box .mini svg { width: 24px; height: 29px; }
+  .rota { position: relative; height: 480px; margin-top: 8px; }
+  .rota svg.linhas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .no { position: absolute; transform: translate(-50%, -50%); width: 150px; text-align: center; }
+  .no .card { width: 110px; height: 128px; margin: 0 auto; border-radius: 18px; background: #120C26; border: 1.5px solid #2E2357; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 6px; position: relative; }
+  .no .card svg { width: 76px; height: 92px; }
+  .no.feito .card { border-color: rgba(61,245,176,.55); }
+  .no.atual .card { border-color: #7C5CFF; background: #1A1238; box-shadow: 0 0 0 6px rgba(124,92,255,.14), 0 18px 50px rgba(124,92,255,.35); }
+  .no .num { position: absolute; top: 8px; left: 10px; font-size: 10px; color: #6F64A0; }
+  .no .ok { position: absolute; top: 8px; right: 9px; font-size: 10px; font-weight: 700; color: #3DF5B0; }
+  .no .nome { margin-top: 10px; font-family: Archivo, sans-serif; font-stretch: 112%; font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: .01em; }
+  .no .info { font-size: 12px; color: #6F64A0; margin-top: 2px; }
+  .no.bloqueado .nome { color: #4A3F7A; }
+  .no .aqui { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); font-size: 11px; font-weight: 700; color: #0B0717; background: #7C5CFF; padding: 4px 10px; border-radius: 6px; white-space: nowrap; color: #fff; }
+
+  /* ---------- TELA 3 ---------- */
+  .t3 { min-height: 780px; }
+  .t3 .barra { display: flex; align-items: center; gap: 18px; padding: 18px 36px; border-bottom: 1px solid #1E1640; }
+  .t3 .barra .x { color: #6F64A0; font-size: 18px; }
+  .t3 .passos { display: flex; gap: 6px; flex: 1; }
+  .t3 .passos i { flex: 1; height: 6px; border-radius: 99px; background: #1E1640; }
+  .t3 .passos i.ok { background: #3DF5B0; }
+  .t3 .passos i.agora { background: linear-gradient(90deg, #7C5CFF 55%, #1E1640 55%); }
+  .t3 .xp { font-size: 13px; font-weight: 700; color: #F2EEFF; }
+  .t3 .xp span { color: #3DF5B0; }
+  .t3 .corpo { max-width: 780px; margin: 0 auto; padding: 32px 36px 40px; }
+  .t3 .rot { font-size: 12px; color: #7C5CFF; letter-spacing: .1em; }
+  .t3 h2 { font-size: 34px; line-height: .98; margin-top: 10px; }
+  .guia { display: flex; gap: 14px; align-items: center; margin-top: 26px; border: 1px solid #2E2357; background: #120C26; border-left: 3px solid #7C5CFF; border-radius: 12px; padding: 12px 16px 12px 12px; }
+  .guia svg { width: 40px; height: 48px; flex-shrink: 0; }
+  .guia .quem { font-size: 11px; color: #7C5CFF; letter-spacing: .1em; }
+  .guia p { font-size: 15px; line-height: 1.45; color: #DCD4FF; margin-top: 2px; }
+  .guia p b { color: #fff; }
+  .comparar { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+  .lado { border: 1px solid #2E2357; background: #120C26; border-radius: 14px; padding: 12px; }
+  .lado .r { display: flex; justify-content: space-between; font-size: 11px; color: #A99CD6; letter-spacing: .08em; margin-bottom: 10px; }
+  .lado img { display: block; width: 100%; border-radius: 8px; }
+  .perg { margin-top: 22px; border: 1px solid #2E2357; background: #120C26; border-radius: 14px; padding: 18px; }
+  .perg .q { font-weight: 700; font-size: 17px; }
+  .ops { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .op { border: 1.5px solid #2E2357; border-radius: 10px; padding: 14px; font-weight: 600; font-size: 15px; display: flex; gap: 12px; align-items: center; }
+  .op .k { width: 26px; height: 26px; border-radius: 6px; border: 1.5px solid #3B2F6E; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #A99CD6; flex-shrink: 0; }
+  .op.sel { border-color: #7C5CFF; background: #1A1238; }
+  .op.sel .k { background: #7C5CFF; border-color: #7C5CFF; color: #fff; }
+  .perg .rod { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; font-size: 12px; color: #6F64A0; }
+
+  .rotulo-tela { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #6B6577; margin: 34px 0 10px; }
+</style>
+
+<h2>Mesmo conceito, sem cara de criança</h2>
+<p class="subtitle">O que mudou: os personagens viraram um time de agentes — visor, olhar firme, um distintivo da função no peito; sem bochecha nem sorrisinho. Letra larga e pesada, tipo marca de esporte. Em vez de "encontrar bichinhos", você monta o seu time.</p>
+
+<!-- ================= TELA 1 ================= -->
+<p class="rotulo-tela">Tela 1 · Página inicial</p>
+<div class="tela brilho-fundo t1">
+  <div class="nav">
+    <span class="logo"><svg viewBox="0 0 100 120"><use href="#ag-julgamento"/></svg>studymaps</span>
+    <span class="dir"><span>Trilhas</span><span>Como funciona</span><span class="btn claro pequeno">Entrar</span></span>
+  </div>
+  <span class="chamada"><i></i>Trilha nova: do zero ao seu app no ar</span>
+  <h1 class="disp">Tire suas ideias <span class="verde">do papel.</span></h1>
+  <p class="sub">Todo mundo pede pra uma IA. Aqui você aprende a olhar o resultado, dizer o que tá errado — e colocar o seu projeto no ar.</p>
+  <div class="acoes"><span class="btn primario">Começar agora →</span><span class="btn secundario">Ver a trilha</span></div>
+  <div class="palco">
+    <div class="luz"></div><div class="aro"></div>
+    <div class="time">
+      <svg width="72" height="86" viewBox="0 0 100 120"><use href="#ag-ideia"/></svg>
+      <svg width="80" height="96" viewBox="0 0 100 120"><use href="#ag-pedido"/></svg>
+      <svg width="88" height="106" viewBox="0 0 100 120"><use href="#ag-geracao"/></svg>
+      <svg width="112" height="134" viewBox="0 0 100 120"><use href="#ag-julgamento"/></svg>
+      <svg width="88" height="106" viewBox="0 0 100 120"><use href="#ag-conserto"/></svg>
+      <svg width="80" height="96" viewBox="0 0 100 120"><use href="#ag-noar"/></svg>
+    </div>
+  </div>
+  <p class="legenda"><b>Seis especialistas, seis passos.</b> Você monta o seu time no caminho.</p>
+</div>
+
+<!-- ================= TELA 2 ================= -->
+<p class="rotulo-tela">Tela 2 · Mapa da trilha</p>
+<div class="tela brilho-fundo t2">
+  <div class="nav">
+    <span class="logo"><svg viewBox="0 0 100 120"><use href="#ag-julgamento"/></svg>studymaps</span>
+    <span class="dir"><span>Trilhas</span><span class="btn claro pequeno">Paloma</span></span>
+  </div>
+  <div class="topo">
+    <div>
+      <p class="rot mono">TRILHA 01</p>
+      <h2 class="disp">Coloque seu primeiro app no ar</h2>
+    </div>
+    <div class="time-box">
+      <p class="t mono"><span>SEU TIME</span><b>2/6</b></p>
+      <div class="mini">
+        <svg viewBox="0 0 100 120"><use href="#ag-ideia"/></svg>
+        <svg viewBox="0 0 100 120"><use href="#ag-pedido"/></svg>
+        <svg viewBox="0 0 100 120"><use href="#ag-bloqueado"/></svg>
+        <svg viewBox="0 0 100 120"><use href="#ag-bloqueado"/></svg>
+        <svg viewBox="0 0 100 120"><use href="#ag-bloqueado"/></svg>
+        <svg viewBox="0 0 100 120"><use href="#ag-bloqueado"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="rota">
+    <svg class="linhas" viewBox="0 0 1000 480" preserveAspectRatio="none">
+      <path d="M100 130 C 185 130, 185 330, 270 330 S 355 150, 440 150 S 525 330, 610 330 S 690 150, 770 150 S 845 330, 920 330"
+            stroke="#2E2357" stroke-width="3" fill="none" stroke-dasharray="8 10"/>
+      <path d="M100 130 C 185 130, 185 330, 270 330 S 355 150, 440 150"
+            stroke="#3DF5B0" stroke-width="3" fill="none"/>
+    </svg>
+
+    <div class="no feito" style="left:10%;top:130px">
+      <div class="card"><span class="num mono">01</span><span class="ok mono">✓</span><svg viewBox="0 0 100 120"><use href="#ag-ideia"/></svg></div>
+      <p class="nome">Ideia</p><p class="info">2 aulas · no time</p>
+    </div>
+    <div class="no feito" style="left:27%;top:330px">
+      <div class="card"><span class="num mono">02</span><span class="ok mono">✓</span><svg viewBox="0 0 100 120"><use href="#ag-pedido"/></svg></div>
+      <p class="nome">Pedido</p><p class="info">2 aulas · no time</p>
+    </div>
+    <div class="no atual" style="left:44%;top:150px">
+      <span class="aqui">VOCÊ ESTÁ AQUI</span>
+      <div class="card"><span class="num mono">03</span><svg viewBox="0 0 100 120"><use href="#ag-geracao"/></svg></div>
+      <p class="nome">Geração</p><p class="info">1 aula</p>
+    </div>
+    <div class="no bloqueado" style="left:61%;top:330px">
+      <div class="card"><span class="num mono">04</span><svg viewBox="0 0 100 120"><use href="#ag-bloqueado"/></svg></div>
+      <p class="nome">Julgamento</p><p class="info">3 aulas</p>
+    </div>
+    <div class="no bloqueado" style="left:77%;top:150px">
+      <div class="card"><span class="num mono">05</span><svg viewBox="0 0 100 120"><use href="#ag-bloqueado"/></svg></div>
+      <p class="nome">Conserto</p><p class="info">1 aula</p>
+    </div>
+    <div class="no bloqueado" style="left:92%;top:330px">
+      <div class="card"><span class="num mono">06</span><svg viewBox="0 0 100 120"><use href="#ag-bloqueado"/></svg></div>
+      <p class="nome">No ar</p><p class="info">3 aulas</p>
+    </div>
+  </div>
+</div>
+
+<!-- ================= TELA 3 ================= -->
+<p class="rotulo-tela">Tela 3 · Dentro da aula</p>
+<div class="tela t3">
+  <div class="barra">
+    <span class="x">✕</span>
+    <span class="passos"><i class="ok"></i><i class="ok"></i><i class="agora"></i><i></i><i></i><i></i></span>
+    <span class="xp mono"><span>+</span>45 XP</span>
+  </div>
+  <div class="corpo">
+    <p class="rot mono">04 · JULGAMENTO · AULA 1/3</p>
+    <h2 class="disp">O que faz um resultado parecer genérico</h2>
+
+    <div class="guia">
+      <svg viewBox="0 0 100 120"><use href="#ag-julgamento"/></svg>
+      <div>
+        <p class="quem mono">JULGAMENTO</p>
+        <p>Antes de eu explicar: <b>olha os dois.</b> Pra onde o teu olho vai primeiro?</p>
+      </div>
+    </div>
+
+    <div class="comparar">
+      <div class="lado"><p class="r mono"><span>PEDIDO PREGUIÇOSO</span><span>A</span></p><img src="aula-sem-ref.svg" alt=""></div>
+      <div class="lado"><p class="r mono"><span>COM REFERÊNCIA</span><span>B</span></p><img src="aula-com-ref.svg" alt=""></div>
+    </div>
+
+    <div class="perg">
+      <p class="q">Qual dos dois você abriria se fosse cliente?</p>
+      <div class="ops">
+        <div class="op"><span class="k mono">A</span>O da esquerda</div>
+        <div class="op sel"><span class="k mono">B</span>O da direita</div>
+      </div>
+      <div class="rod"><span class="mono">ENTER PRA CONFIRMAR</span><span class="btn primario pequeno">Responder</span></div>
+    </div>
+  </div>
+</div>

@@ -45,28 +45,31 @@ export function StepSection({
     >
       <header className="mb-4 flex items-start gap-3">
         <div
-          className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl text-base"
+          className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-[10px] border font-mono text-xs font-bold"
           style={{
-            backgroundColor: done
-              ? `hsl(${accentHsl} / 0.15)`
-              : "hsl(var(--secondary))",
+            borderColor: done ? `hsl(${accentHsl} / 0.5)` : "hsl(var(--border))",
+            backgroundColor: done ? `hsl(${accentHsl} / 0.12)` : "transparent",
+            color: done ? `hsl(${accentHsl})` : "hsl(var(--muted-foreground))",
           }}
           aria-hidden
+          data-emoji={emoji}
         >
           {done ? (
-            <Check className="h-4 w-4" style={{ color: `hsl(${accentHsl})` }} />
+            <Check className="h-4 w-4" />
           ) : locked && !forceOpen ? (
-            <Lock className="h-4 w-4 text-muted-foreground" />
+            <Lock className="h-4 w-4" />
           ) : (
-            <span>{emoji}</span>
+            String(index).padStart(2, "0")
           )}
         </div>
 
         <div className="min-w-0 flex-1">
-          <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-            Passo {index}
+          <p className="font-mono text-[11px] tracking-[0.1em] text-muted-foreground">
+            PASSO {String(index).padStart(2, "0")}
           </p>
-          <h2 className="text-base font-bold text-foreground">{title}</h2>
+          <h2 className="font-display text-lg font-extrabold text-foreground [font-stretch:110%]">
+            {title}
+          </h2>
           {subtitle && (
             <p className="mt-0.5 text-sm text-muted-foreground">{subtitle}</p>
           )}
@@ -74,7 +77,7 @@ export function StepSection({
 
         {done && (
           <span
-            className="flex-shrink-0 rounded-full px-2.5 py-1 text-[11px] font-semibold"
+            className="flex-shrink-0 rounded-md px-2.5 py-1 font-mono text-[11px] font-bold uppercase"
             style={{
               backgroundColor: `hsl(${accentHsl} / 0.15)`,
               color: `hsl(${accentHsl})`,

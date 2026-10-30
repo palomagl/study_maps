@@ -14,6 +14,8 @@ import type { LessonNode, MapNode, PhaseNode, StageNode } from "@/lib/roadmap-la
 import { useProgress } from "@/hooks/useProgress";
 import { FLOW } from "@/components/lesson/LessonStepper";
 import { buildStatusMap, type NodeStatus } from "./node-state";
+import { Agent } from "@/components/agents/Agent";
+import { agentForPhase } from "@/lib/agents";
 
 const difficultyLabel: Record<string, string> = {
   iniciante: "Iniciante",
@@ -239,36 +241,56 @@ function StagePanel({
   );
 }
 
+/**
+ * A fase, aberta a partir da carta do mapa: o agente dela, o que ela é, e as
+ * aulas — cada uma com a dor que resolve, que é o que faz clicar.
+ */
 function PhasePanel({
   node,
   statuses,
+  onPickLesson,
 }: {
   node: PhaseNode;
   statuses: Record<string, NodeStatus>;
+  onPickLesson: (lesson: Lesson, stageId: string) => void;
 }) {
+  const kind = agentForPhase(node.phase.id);
   return (
     <>
-      <p className="text-sm leading-6 text-muted-foreground">
-        {node.phase.description}
-      </p>
+      <div className="flex items-start gap-3">
+        {kind && <Agent kind={kind} size={64} className="flex-shrink-0" />}
+        <p className="text-sm leading-6 text-muted-foreground">{node.phase.description}</p>
+      </div>
       <section className="mt-5">
-        <h4 className="mb-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
-          Etapas
-        </h4>
-        <ul className="space-y-1.5">
-          {node.phase.stages.map((stage) => (
-            <li
-              key={stage.id}
-              className="flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm"
-            >
-              <span className="min-w-0 flex-1 truncate text-foreground">
-                {stage.title}
-              </span>
-              <span className="flex-shrink-0 text-xs text-muted-foreground">
-                {difficultyLabel[stage.difficulty]}
-              </span>
-            </li>
-          ))}
+        <h4 className="mb-2 font-mono text-[11px] tracking-[0.1em] text-muted-foreground">AULAS</h4>
+        <ul className="space-y-2">
+          {node.phase.stages.flatMap((stage) =>
+            stage.lessons.map((lesson) => {
+              const s = statuses[lesson.id];
+              return (
+                <li key={lesson.id}>
+                  <button
+                    type="button"
+                    onClick={() => onPickLesson(lesson, stage.id)}
+                    className="flex w-full items-start gap-2.5 rounded-xl border border-border bg-secondary/20 px-3 py-2.5 text-left transition-colors hover:border-accent/60"
+                  >
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-sm font-semibold text-foreground">{lesson.title}</span>
+                      {lesson.pain && (
+                        <span className="mt-1 block text-xs leading-5 text-muted-foreground">
+                          resolve: <span className="text-[#FF8FA6]">“{lesson.pain.quote}”</span>
+                        </span>
+                      )}
+                      <span className="mt-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground/70">
+                        {s?.state === "draft" ? "em produção" : `${s?.percent ?? 0}% feito`}
+                      </span>
+                    </span>
+                    <ArrowRight className="mt-1 h-3.5 w-3.5 flex-shrink-0 text-muted-foreground" />
+                  </button>
+                </li>
+              );
+            }),
+          )}
         </ul>
       </section>
     </>
@@ -357,7 +379,24 @@ const MapDrawer = ({ trail, node, onClose, onNavigate }: MapDrawerProps) => {
 
             <div className="flex-1 overflow-y-auto p-5">
               {node.kind === "phase" && (
-                <PhasePanel node={node} statuses={statuses} />
+                <PhasePanel
+                  node={node}
+                  statuses={statuses}
+                  onPickLesson={(lesson, stageId) =>
+                    onNavigate({
+                      kind: "lesson",
+                      id: lesson.id,
+                      lesson,
+                      stageId,
+                      phaseId: node.phase.id,
+                      side: "left",
+                      x: 0,
+                      y: 0,
+                      w: 0,
+                      h: 0,
+                    })
+                  }
+                />
               )}
               {node.kind === "stage" && (
                 <StagePanel

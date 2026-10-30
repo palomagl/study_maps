@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/collapsible";
 import type { Lesson, Stage, Trail } from "@/content/types";
 import { useProgress } from "@/hooks/useProgress";
+import { Agent } from "@/components/agents/Agent";
+import { AGENTS, agentForPhase } from "@/lib/agents";
 
 const difficultyLabel: Record<string, string> = {
   iniciante: "Iniciante",
@@ -70,12 +72,21 @@ const TrailList = ({ trail }: { trail: Trail }) => {
           <span className="block truncate text-sm font-medium text-foreground">
             {lesson.title}
           </span>
-          <span className="block truncate text-xs text-muted-foreground">
+          {lesson.pain ? (
+            <span className="mt-0.5 block text-xs leading-5 text-muted-foreground">
+              resolve: <span className="text-[#FF8FA6]">“{lesson.pain.quote}”</span>
+            </span>
+          ) : (
+            <span className="block truncate text-xs text-muted-foreground">{lesson.summary}</span>
+          )}
+          <span className="mt-0.5 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground/70">
             {isDraft
-              ? "Conteúdo em produção"
+              ? "em produção"
               : started
-                ? `${c.doneSteps}/${c.totalSteps} passos · ${lesson.summary}`
-                : lesson.summary}
+                ? `${c.doneSteps}/${c.totalSteps} passos`
+                : complete
+                  ? "feita"
+                  : "pra fazer"}
           </span>
         </span>
 
@@ -93,7 +104,9 @@ const TrailList = ({ trail }: { trail: Trail }) => {
     const stageProgress = getStageProgress(stage);
     const stageComplete = isStageComplete(stage);
     const hasAvailable = stage.lessons.some((l) => l.status === "available");
-    const defaultOpen = hasAvailable && !stageComplete;
+    // Toda etapa aberta: a dor de cada aula é o convite — escondida não convida.
+    const defaultOpen = true;
+    void hasAvailable;
 
     return (
       <Collapsible
@@ -180,8 +193,12 @@ const TrailList = ({ trail }: { trail: Trail }) => {
         return (
           <section key={phase.id}>
             <div className="mb-3 flex items-center gap-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                Fase {phaseIndex + 1}
+              {agentForPhase(phase.id) && <Agent kind={agentForPhase(phase.id)!} size={36} />}
+              <span className="font-mono text-xs tracking-wider text-muted-foreground">
+                {String(phaseIndex + 1).padStart(2, "0")} ·{" "}
+                {agentForPhase(phase.id)
+                  ? AGENTS[agentForPhase(phase.id)!].label.toUpperCase()
+                  : `FASE ${phaseIndex + 1}`}
               </span>
               <span className="h-px flex-1 bg-border" />
               <span
@@ -191,7 +208,7 @@ const TrailList = ({ trail }: { trail: Trail }) => {
                 {phaseProgress}%
               </span>
             </div>
-            <h2 className="text-lg font-bold text-foreground">{phase.title}</h2>
+            <h2 className="title-display text-xl text-foreground">{phase.title}</h2>
             <p className="mb-4 text-sm text-muted-foreground">
               {phase.description}
             </p>

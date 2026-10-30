@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, ExternalLink, Printer } from "lucide-react";
 import Header from "@/components/Header";
+import { Agent } from "@/components/agents/Agent";
 import { getTrail } from "@/content";
 import { useProgress } from "@/hooks/useProgress";
 import {
@@ -25,7 +26,7 @@ const CertificateView = () => {
       <div className="min-h-screen bg-background">
         <Header />
         <main className="mx-auto max-w-2xl px-4 pt-36 text-center">
-          <h1 className="text-2xl font-bold text-foreground">
+          <h1 className="title-display text-2xl text-foreground">
             Trilha não encontrada
           </h1>
           <Link to="/" className="mt-4 inline-block text-sm underline">
@@ -64,7 +65,7 @@ const CertificateView = () => {
 
         {!cert ? (
           <section className="rounded-xl border border-border bg-card/60 p-6">
-            <h1 className="text-xl font-bold text-foreground">
+            <h1 className="title-display text-xl text-foreground">
               Ainda não dá para emitir o seu certificado
             </h1>
             <p className="mt-2 text-[15px] leading-7 text-muted-foreground">
@@ -104,15 +105,17 @@ const CertificateView = () => {
           </section>
         ) : (
           <>
-            <article className="certificado rounded-2xl border border-border bg-card p-8 sm:p-12">
+            <article className="certificado relative rounded-2xl border border-border bg-card p-8 sm:p-12">
+              {/* O agente No ar assina: o certificado existe porque algo foi publicado. */}
+              <Agent kind="noar" size={84} className="absolute right-6 top-6 sm:right-10 sm:top-10" />
               <p
-                className="text-xs font-semibold uppercase tracking-[0.2em]"
+                className="font-mono text-xs uppercase tracking-[0.2em]"
                 style={{ color: `hsl(${trail.accentHsl})` }}
               >
                 Certificado de conclusão
               </p>
 
-              <h1 className="mt-6 text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+              <h1 className="title-display mt-6 text-3xl text-foreground sm:text-4xl">
                 {cert.learnerName}
               </h1>
 

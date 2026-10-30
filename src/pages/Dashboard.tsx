@@ -24,6 +24,9 @@ import { LevelCard } from "@/components/gamification/LevelBadge";
 import { AchievementsGrid } from "@/components/gamification/AchievementsGrid";
 import { MissionList } from "@/components/gamification/MissionList";
 import { ProjectCard } from "@/components/projects/ProjectCard";
+import { Agent } from "@/components/agents/Agent";
+import { TeamBox } from "@/components/trail/TeamBox";
+import { agentForPhase } from "@/lib/agents";
 
 const prettyConcept = (s: string) => s.replace(/-/g, " ");
 
@@ -38,10 +41,11 @@ const Dashboard = () => {
   const accent = trail.accentHsl;
 
   const name = state.profile.name?.trim();
-  const greeting = name ? `Olá, ${name.split(" ")[0]}` : "Bem-vindo(a) de volta";
+  const greeting = name ? `E aí, ${name.split(" ")[0]}` : "Bora continuar";
+  const nextAgent = next ? agentForPhase(next.phase.id) : null;
 
   return (
-    <div className="min-h-screen bg-background bg-grid">
+    <div className="min-h-screen bg-ceu">
       <Header />
 
       <main className="mx-auto max-w-5xl px-4 pb-20 pt-24">
@@ -50,16 +54,18 @@ const Dashboard = () => {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
-          className="mb-6 flex flex-wrap items-center justify-between gap-3"
+          className="mb-6 flex flex-wrap items-end justify-between gap-4"
         >
           <div>
-            <h1 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
+            <p className="font-mono text-xs tracking-[0.1em] text-primary">TEU PAINEL</p>
+            <h1 className="title-display mt-2 text-[2rem] text-foreground sm:text-[2.6rem]">
               {greeting}
             </h1>
-            <p className="text-sm text-muted-foreground">
+            <p className="mt-2 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
               Nível {level.level} · {level.title} · {level.xp} XP
             </p>
           </div>
+          <TeamBox trail={trail} />
           {streak.current > 0 && (
             <div className="flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2">
               <Flame className="h-4 w-4 text-orange-400" />
@@ -82,16 +88,24 @@ const Dashboard = () => {
           }}
         >
           {next ? (
-            <>
-              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                Continuar estudando · Trilha {next.trail.title}
+            <div className="flex items-start gap-5">
+              {nextAgent && <Agent kind={nextAgent} size={96} className="hidden flex-shrink-0 sm:block" />}
+              <div className="min-w-0">
+              <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-muted-foreground">
+                Continuar estudando · {next.trail.title}
               </p>
-              <h2 className="mt-1 text-xl font-bold text-foreground">
+              <h2 className="title-display mt-2 text-2xl text-foreground">
                 {next.lesson.title}
               </h2>
-              <p className="mt-1 text-sm text-muted-foreground">
-                {next.phase.title} · {next.stage.title}
-              </p>
+              {next.lesson.pain ? (
+                <p className="mt-2 text-sm text-muted-foreground">
+                  resolve: <span className="text-[#FF8FA6]">“{next.lesson.pain.quote}”</span>
+                </p>
+              ) : (
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {next.phase.title} · {next.stage.title}
+                </p>
+              )}
               <Link
                 to={`/roadmap/${next.trail.id}/aula/${next.lesson.id}`}
                 className="mt-4 inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold text-primary-foreground"
@@ -101,15 +115,16 @@ const Dashboard = () => {
                 {lessonsDone > 0 ? "Retomar" : "Começar agora"}
                 <ArrowRight className="h-4 w-4" />
               </Link>
-            </>
+              </div>
+            </div>
           ) : (
             <>
               <p className="text-sm font-semibold text-foreground">
-                Você concluiu todas as aulas disponíveis. 🎉
+                Tu fez todas as aulas que já estão escritas.
               </p>
               <p className="mt-1 text-sm text-muted-foreground">
-                Novas aulas estão a caminho. Aproveite para revisar ou explorar outra
-                trilha.
+                As próximas tão a caminho. Enquanto isso, revisa o que errou ou registra o
+                link do teu projeto.
               </p>
               <Link
                 to="/"
@@ -143,11 +158,11 @@ const Dashboard = () => {
 
         {/* progresso da trilha atual */}
         <section className="mt-8">
-          <SectionTitle>Sua trilha</SectionTitle>
+          <SectionTitle>Tua trilha</SectionTitle>
           <div className="rounded-2xl border border-border bg-card p-5">
             <div className="flex items-center justify-between">
               <h3 className={`text-sm font-bold ${trail.colorClass}`}>
-                Trilha {trail.title}
+                {trail.title}
               </h3>
               <Link
                 to={`/roadmap/${trail.id}`}
@@ -286,7 +301,7 @@ function SectionTitle({
 }) {
   return (
     <h2
-      className={`text-sm font-bold uppercase tracking-wider text-muted-foreground ${
+      className={`font-mono text-xs uppercase tracking-[0.1em] text-primary ${
         noMargin ? "" : "mb-3"
       }`}
     >

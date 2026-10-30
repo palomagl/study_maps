@@ -234,7 +234,7 @@ const ReviewView = () => {
 
 function Shell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-background bg-grid">
+    <div className="min-h-screen bg-ceu">
       <Header />
       <main className="mx-auto max-w-xl px-4 pb-20 pt-24">
         <Link
@@ -244,7 +244,7 @@ function Shell({ children }: { children: React.ReactNode }) {
           <ArrowLeft className="h-4 w-4" />
           Painel
         </Link>
-        <h1 className="mb-6 text-2xl font-extrabold tracking-tight text-foreground">
+        <h1 className="title-display mb-6 text-[1.9rem] text-foreground">
           Revisão
         </h1>
         {children}

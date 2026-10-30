@@ -14,12 +14,12 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen bg-background bg-grid">
+    <div className="min-h-screen bg-ceu">
       <Header />
       <div className="flex min-h-[70vh] items-center justify-center px-4">
         <div className="text-center">
           <Compass className="mx-auto mb-4 h-10 w-10 text-primary" />
-          <h1 className="mb-2 text-4xl font-extrabold text-foreground">404</h1>
+          <h1 className="title-display mb-2 text-7xl text-primary">404</h1>
           <p className="mb-6 text-muted-foreground">
             Essa página saiu do mapa. O endereço{" "}
             <code className="rounded bg-secondary px-1.5 py-0.5 text-sm">

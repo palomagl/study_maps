@@ -3,6 +3,7 @@ import { fireEvent, render, screen, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { AppRoutes } from "@/App";
 import { progressStore } from "@/lib/progress-store";
+import { getTrailStats } from "@/content";
 
 /**
  * Renderiza as rotas REAIS do app — as mesmas que o usuário navega, incluindo
@@ -25,6 +26,15 @@ describe("smoke — páginas renderizam sem quebrar", () => {
   // estado tornaria os seguintes dependentes da ordem.
   beforeEach(() => progressStore.resetAll());
 
+  it("a home mostra o time no palco", () => {
+    renderAt("/");
+    expect(
+      screen.getByRole("heading", { name: /Tire suas ideias do papel/i, level: 1 }),
+    ).toBeInTheDocument();
+    expect(screen.getAllByRole("img", { name: /^Agente / }).length).toBeGreaterThanOrEqual(6);
+    expect(screen.queryByText(/aprenda programação/i)).not.toBeInTheDocument();
+  });
+
   it("Home lista a trilha de entrega", () => {
     renderAt("/");
     expect(
@@ -32,12 +42,41 @@ describe("smoke — páginas renderizam sem quebrar", () => {
     ).toBeGreaterThan(0);
   });
 
-  it("RoadmapViewer mostra as fases do loop e a aula escrita", () => {
+  it("o mapa mostra as seis fases, cada uma com o seu agente", () => {
     renderAt(TRILHA);
-    expect(screen.getByText("Julgamento")).toBeInTheDocument();
+    for (const fase of ["Ideia", "Pedido", "Geração", "Julgamento", "Conserto", "No ar"]) {
+      expect(screen.getByRole("button", { name: new RegExp(`Fase \\d+: ${fase}`) })).toBeInTheDocument();
+    }
+  });
+
+  it("a lista mostra a aula escrita", () => {
+    renderAt(TRILHA);
+    fireEvent.click(screen.getByRole("tab", { name: "Lista" }));
     expect(
       screen.getAllByText("O que faz um resultado parecer genérico").length,
     ).toBeGreaterThan(0);
+  });
+
+  it("a trilha mostra o teu time", () => {
+    renderAt(TRILHA);
+    expect(screen.getByText(/TEU TIME/i)).toBeInTheDocument();
+    expect(screen.getByText("0/6")).toBeInTheDocument();
+  });
+
+  it("o mapa vem antes do cartão da prova", () => {
+    renderAt(TRILHA);
+    const mapa = screen.getByRole("tablist", { name: "Modo de visualização" });
+    const prova = screen.getByLabelText("Link do seu projeto publicado");
+    expect(mapa.compareDocumentPosition(prova) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it("a lista da trilha mostra a dor que cada aula resolve", () => {
+    renderAt(TRILHA);
+    fireEvent.click(screen.getByRole("tab", { name: "Lista" }));
+    expect(
+      screen.getByText(/Toda vez eu aceito o primeiro resultado que vem\./),
+    ).toBeInTheDocument();
+    expect(screen.getAllByText(/resolve:/).length).toBeGreaterThanOrEqual(12);
   });
 
   it("RoadmapViewer abre no mapa e alterna para a lista", () => {
@@ -52,13 +91,14 @@ describe("smoke — páginas renderizam sem quebrar", () => {
     expect(mapa).toHaveAttribute("aria-selected", "false");
   });
 
-  it("clicar num nó do mapa abre o painel com os passos da aula", () => {
+  it("clicar na carta da fase abre as aulas dela, com a dor de cada uma", () => {
     renderAt(TRILHA);
-    // No mapa a aula é um botão; na lista seria um link.
+    fireEvent.click(screen.getByRole("button", { name: /Fase 04: Julgamento/ }));
+
+    const fase = screen.getByRole("dialog", { name: "Fase: Julgamento" });
+    expect(within(fase).getByText(/Toda vez eu aceito o primeiro resultado que vem\./)).toBeInTheDocument();
     fireEvent.click(
-      screen.getByRole("button", {
-        name: /O que faz um resultado parecer genérico/,
-      }),
+      within(fase).getByRole("button", { name: /O que faz um resultado parecer genérico/ }),
     );
 
     const painel = screen.getByRole("dialog", {
@@ -96,7 +136,7 @@ describe("smoke — páginas renderizam sem quebrar", () => {
         level: 1,
       }),
     ).toBeInTheDocument();
-    expect(screen.getByText("O que você vai aprender")).toBeInTheDocument();
+    expect(screen.getByText("O QUE TU VAI APRENDER")).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: "Aprenda", level: 2 }),
     ).toBeInTheDocument();
@@ -104,7 +144,7 @@ describe("smoke — páginas renderizam sem quebrar", () => {
       screen.getByRole("heading", { name: "Checkpoint", level: 2 }),
     ).toBeInTheDocument();
     // conteúdo real da aula
-    expect(screen.getByText(/Dê nome ao defeito/)).toBeInTheDocument();
+    expect(screen.getByText(/Troca o sentimento pelo nome/)).toBeInTheDocument();
   });
 
   it("LessonView mostra a comparação lado a lado da aula", () => {
@@ -135,7 +175,7 @@ describe("smoke — páginas renderizam sem quebrar", () => {
   it("Dashboard (/painel) renderiza as seções principais", () => {
     renderAt("/painel");
     expect(
-      screen.getByRole("heading", { name: /Bem-vindo|Olá/, level: 1 }),
+      screen.getByRole("heading", { name: /E aí|Bora continuar/, level: 1 }),
     ).toBeInTheDocument();
     expect(screen.getByText(/Continuar estudando/)).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Missões" })).toBeInTheDocument();
@@ -221,5 +261,53 @@ describe("revisão de uma questão de julgamento", () => {
     );
     expect(screen.getByText("Versão A")).toBeInTheDocument();
     expect(screen.getByText("Versão B")).toBeInTheDocument();
+  });
+});
+
+describe("honestidade sobre o que já está escrito", () => {
+  beforeEach(() => progressStore.resetAll());
+
+  it("a trilha diz quantas aulas existem de verdade, não só quantas estão previstas", () => {
+    render(
+      <MemoryRouter initialEntries={["/roadmap/app-no-ar"]}>
+        <AppRoutes />
+      </MemoryRouter>,
+    );
+    // A regra, não um número: enquanto houver rascunho, a trilha diz quantas
+    // estão escritas; quando todas estiverem, para de falar em "produção".
+    const stats = getTrailStats("app-no-ar");
+    expect(screen.getByText(new RegExp(`${stats.lessons} aulas`))).toBeInTheDocument();
+    if (stats.availableLessons < stats.lessons) {
+      const escritas = `${stats.availableLessons} escrita${stats.availableLessons === 1 ? "" : "s"}`;
+      expect(screen.getByText(new RegExp(`${escritas}, o resto em produção`))).toBeInTheDocument();
+    } else {
+      expect(screen.queryByText(/o resto em produção/)).not.toBeInTheDocument();
+    }
+  });
+});
+
+describe("a aula no formato dor → solução", () => {
+  beforeEach(() => progressStore.resetAll());
+
+  it("a aula escrita abre pela dor e fecha com antes e agora", () => {
+    render(
+      <MemoryRouter initialEntries={["/roadmap/app-no-ar/aula/ar-jul-01-generico"]}>
+        <AppRoutes />
+      </MemoryRouter>,
+    );
+    expect(screen.getByText("A DOR")).toBeInTheDocument();
+    expect(screen.getByText("O QUE RESOLVE")).toBeInTheDocument();
+    expect(screen.getByText("DOR RESOLVIDA")).toBeInTheDocument();
+  });
+
+  it("a aula em rascunho não desenha cartões vazios", () => {
+    render(
+      <MemoryRouter initialEntries={["/roadmap/app-no-ar/aula/ar-jul-02-checklist"]}>
+        <AppRoutes />
+      </MemoryRouter>,
+    );
+    expect(screen.getByText("Conteúdo em produção")).toBeInTheDocument();
+    expect(screen.queryByText("O QUE RESOLVE")).not.toBeInTheDocument();
+    expect(screen.queryByText("DOR RESOLVIDA")).not.toBeInTheDocument();
   });
 });

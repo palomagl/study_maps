@@ -18,7 +18,7 @@ const ProjectsView = () => {
         <Header />
         <div className="flex min-h-[60vh] items-center justify-center px-4 text-center">
           <div>
-            <h1 className="mb-2 text-2xl font-bold text-foreground">
+            <h1 className="title-display mb-2 text-2xl text-foreground">
               Trilha não encontrada
             </h1>
             <Link to="/" className="text-primary hover:underline">
@@ -33,7 +33,7 @@ const ProjectsView = () => {
   const accent = trail.accentHsl;
 
   return (
-    <div className="min-h-screen bg-background bg-grid">
+    <div className="min-h-screen bg-ceu">
       <Header />
 
       <main className="mx-auto max-w-5xl px-4 pb-20 pt-24">
@@ -52,7 +52,7 @@ const ProjectsView = () => {
         >
           <div className="flex items-center gap-2">
             <Rocket className="h-5 w-5" style={{ color: `hsl(${accent})` }} />
-            <h1 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
+            <h1 className="title-display text-2xl text-foreground sm:text-3xl">
               O que você vai conseguir construir
             </h1>
           </div>

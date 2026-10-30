@@ -20,6 +20,10 @@ import { CheckpointRunner } from "@/components/lesson/CheckpointRunner";
 import { RewardPanel } from "@/components/lesson/RewardPanel";
 import { ResourceList, VideoCard } from "@/components/lesson/ResourceList";
 import { PremiumCallout } from "@/components/lesson/PremiumCallout";
+import { PainCard } from "@/components/lesson/pain/PainCard";
+import { ResolveCard } from "@/components/lesson/pain/ResolveCard";
+import { PainResolved } from "@/components/lesson/pain/PainResolved";
+import { AGENTS, agentForPhase } from "@/lib/agents";
 
 function prettyConcept(slug: string) {
   return slug.replace(/-/g, " ");
@@ -30,7 +34,7 @@ const LessonNotFound = () => (
     <Header />
     <div className="flex min-h-[60vh] items-center justify-center px-4 pt-16 text-center">
       <div>
-        <h1 className="mb-2 text-2xl font-bold text-foreground">Aula não encontrada</h1>
+        <h1 className="title-display mb-2 text-2xl text-foreground">Aula não encontrada</h1>
         <p className="mb-4 text-sm text-muted-foreground">
           Esse endereço não corresponde a nenhuma aula.
         </p>
@@ -76,7 +80,7 @@ const LessonView = () => {
   /* ---------- draft ---------- */
   if (lesson.status === "draft") {
     return (
-      <div className="min-h-screen bg-background bg-grid">
+      <div className="min-h-screen bg-ceu">
         <Header />
         <main className="mx-auto max-w-2xl px-4 pb-20 pt-28">
           <Link
@@ -88,7 +92,7 @@ const LessonView = () => {
           </Link>
           <div className="rounded-2xl border border-border bg-card p-8 text-center">
             <Construction className="mx-auto mb-3 h-8 w-8 text-muted-foreground" />
-            <h1 className="text-xl font-bold text-foreground">{lesson.title}</h1>
+            <h1 className="title-display text-xl text-foreground">{lesson.title}</h1>
             <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
               {lesson.summary}
             </p>
@@ -170,8 +174,16 @@ const LessonView = () => {
     </button>
   );
 
+  // A dor só aparece completa em aula escrita: rascunho tem só a frase, para o mapa.
+  const pain = lesson.status === "available" && lesson.pain?.resolve ? lesson.pain : undefined;
+  const agent = agentForPhase(phase.id);
+  const phaseNumber = trail.phases.indexOf(phase) + 1;
+  const phaseLessons = phase.stages.flatMap((s) => s.lessons);
+  const lessonsInPhase = phaseLessons.length;
+  const lessonNumberInPhase = phaseLessons.findIndex((l) => l.id === lesson.id) + 1;
+
   return (
-    <div className="min-h-screen bg-background bg-grid">
+    <div className="min-h-screen bg-ceu">
       <Header />
 
       {/* sub-barra fixa */}
@@ -209,34 +221,38 @@ const LessonView = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
         >
-          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-            {phase.title} · {stage.title}
+          <p className="font-mono text-xs tracking-[0.1em] text-accent">
+            {String(phaseNumber).padStart(2, "0")} ·{" "}
+            {(agent ? AGENTS[agent].label : phase.title).toUpperCase()} · AULA {lessonNumberInPhase}/
+            {lessonsInPhase}
           </p>
-          <h1 className="mt-1 text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
+          <h1 className="title-display mt-2.5 text-[1.9rem] text-foreground sm:text-[2.2rem]">
             {lesson.title}
           </h1>
-          <p className="mt-2 text-[15px] leading-7 text-muted-foreground">
-            {lesson.summary}
-          </p>
+          {!pain && (
+            <p className="mt-3 text-[15px] leading-7 text-muted-foreground">{lesson.summary}</p>
+          )}
           {lesson.estimatedMinutes && (
-            <p className="mt-2 inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-              <Clock className="h-3.5 w-3.5" />~{lesson.estimatedMinutes} min
+            <p className="mt-3 inline-flex items-center gap-1.5 font-mono text-[11px] text-muted-foreground">
+              <Clock className="h-3.5 w-3.5" />~{lesson.estimatedMinutes} MIN
             </p>
           )}
         </motion.div>
 
-        {/* o que você vai aprender */}
+        {/* a dor e o que resolve — a aula abre por aqui */}
+        {pain && (
+          <>
+            <PainCard quote={pain.quote} />
+            <ResolveCard resolve={pain.resolve!} detail={pain.resolveDetail} agent={agent} />
+          </>
+        )}
+
+        {/* o que tu vai aprender */}
         {lesson.learningObjectives.length > 0 && (
-          <div
-            className="mt-6 rounded-2xl border p-5"
-            style={{
-              borderColor: `hsl(${accent} / 0.3)`,
-              background: `hsl(${accent} / 0.05)`,
-            }}
-          >
-            <h2 className="mb-3 flex items-center gap-2 text-sm font-bold text-foreground">
+          <div className="mt-6 rounded-2xl border border-border bg-card p-5">
+            <h2 className="mb-3 flex items-center gap-2 font-mono text-[11px] tracking-[0.1em] text-muted-foreground">
               <Target className="h-4 w-4" style={{ color: `hsl(${accent})` }} />
-              O que você vai aprender
+              O QUE TU VAI APRENDER
             </h2>
             <ul className="space-y-2">
               {lesson.learningObjectives.map((o, i) => (
@@ -405,6 +421,11 @@ const LessonView = () => {
                 }}
               />
             </StepSection>
+          )}
+
+          {/* o fecho: antes e agora */}
+          {pain?.after && (
+            <PainResolved before={pain.quote} after={pain.after} agent={agent} />
           )}
 
           {/* ⭐ Recompensa + ➡️ Próxima */}

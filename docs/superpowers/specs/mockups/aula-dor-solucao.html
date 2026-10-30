@@ -1,0 +1,205 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <ellipse id="sombra" cx="50" cy="112" rx="30" ry="5" fill="#000" opacity=".45"/>
+    <symbol id="ag-julgamento" viewBox="0 0 100 120">
+      <use href="#sombra"/>
+      <rect x="31" y="92" width="14" height="18" rx="7" fill="#4B33C9"/><rect x="55" y="92" width="14" height="18" rx="7" fill="#4B33C9"/>
+      <rect x="20" y="16" width="60" height="84" rx="30" fill="#7C5CFF"/>
+      <path d="M62 18 A30 30 0 0 1 80 46 L80 70 A30 30 0 0 1 62 98 Z" fill="#5A3DE6" opacity=".6"/>
+      <path d="M30 26 A28 28 0 0 1 48 18" stroke="#D6CCFF" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <rect x="25" y="34" width="50" height="24" rx="12" fill="#120A24"/>
+      <circle cx="40" cy="46" r="5.5" fill="#D6CCFF"/><circle cx="60" cy="46" r="5.5" fill="#D6CCFF"/>
+      <circle cx="40" cy="46" r="2.2" fill="#120A24"/><circle cx="60" cy="46" r="2.2" fill="#120A24"/>
+      <circle cx="50" cy="74" r="9" fill="#120A24"/>
+      <circle cx="49" cy="73" r="3.6" fill="none" stroke="#D6CCFF" stroke-width="2"/><line x1="51.6" y1="75.6" x2="54.5" y2="78.5" stroke="#D6CCFF" stroke-width="2.2" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<style>
+  .tela { font-family: Inter, sans-serif; color: #F2EEFF; border-radius: 14px; overflow: hidden; background: #0B0717; }
+  .tela * { box-sizing: border-box; margin: 0; }
+  .disp { font-family: Archivo, sans-serif; font-stretch: 125%; font-weight: 900; text-transform: uppercase; letter-spacing: -.01em; }
+  .mono { font-family: "JetBrains Mono", monospace; }
+  .barra { display: flex; align-items: center; gap: 18px; padding: 18px 36px; border-bottom: 1px solid #1E1640; }
+  .barra .x { color: #6F64A0; font-size: 18px; }
+  .passos { display: flex; gap: 6px; flex: 1; }
+  .passos i { flex: 1; height: 6px; border-radius: 99px; background: #1E1640; }
+  .passos i.agora { background: linear-gradient(90deg, #7C5CFF 18%, #1E1640 18%); }
+  .xp { font-size: 13px; font-weight: 700; } .xp span { color: #3DF5B0; }
+  .corpo { max-width: 780px; margin: 0 auto; padding: 34px 36px 48px; }
+  .rot { font-size: 12px; letter-spacing: .1em; color: #7C5CFF; }
+  h2.titulo { font-size: 34px; line-height: .98; margin-top: 10px; }
+
+  /* ---------- A DOR ---------- */
+  .dor { margin-top: 28px; position: relative; border-radius: 16px; padding: 26px 26px 22px; background: linear-gradient(180deg, #1D0F2E, #150B26); border: 1px solid #3A1B4A; }
+  .dor .etq { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: .14em; color: #FF6B8A; }
+  .dor .etq i { width: 8px; height: 8px; border-radius: 2px; background: #FF6B8A; }
+  .dor blockquote { margin-top: 14px; font-family: Archivo, sans-serif; font-stretch: 100%; font-weight: 700; font-size: 26px; line-height: 1.22; letter-spacing: -.015em; color: #FFF; }
+  .dor blockquote::before { content: "“"; color: #FF6B8A; margin-right: 2px; }
+  .dor blockquote::after { content: "”"; color: #FF6B8A; margin-left: 2px; }
+  .dor .pe { margin-top: 14px; font-size: 14px; color: #B9A7C9; }
+
+  /* ---------- O QUE RESOLVE ---------- */
+  .resolve { display: flex; gap: 16px; align-items: center; margin-top: 14px; border-radius: 16px; padding: 18px 22px 18px 16px; background: #0F1E1A; border: 1px solid #1C4A3B; }
+  .resolve svg { width: 52px; height: 62px; flex-shrink: 0; }
+  .resolve .etq { font-size: 11px; letter-spacing: .14em; color: #3DF5B0; }
+  .resolve p.forte { margin-top: 4px; font-family: Archivo, sans-serif; font-stretch: 110%; font-weight: 800; font-size: 20px; line-height: 1.2; }
+  .resolve p.leve { margin-top: 4px; font-size: 14px; color: #9FD9C4; }
+
+  /* ---------- corpo da aula ---------- */
+  .secao { margin-top: 36px; }
+  .secao .n { font-size: 11px; letter-spacing: .14em; color: #6F64A0; }
+  .secao h3 { font-family: Archivo, sans-serif; font-stretch: 110%; font-weight: 800; font-size: 22px; line-height: 1.15; margin-top: 6px; }
+  .secao p { font-size: 16px; line-height: 1.7; color: #CFC6F0; margin-top: 12px; }
+  .secao p b { color: #fff; font-weight: 600; }
+  .comparar { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+  .lado { border: 1px solid #2E2357; background: #120C26; border-radius: 14px; padding: 12px; }
+  .lado .r { display: flex; justify-content: space-between; font-size: 11px; color: #A99CD6; letter-spacing: .08em; margin-bottom: 10px; }
+  .lado img { display: block; width: 100%; border-radius: 8px; }
+
+  .nomes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+  .nome { border: 1px solid #2E2357; background: #120C26; border-radius: 12px; padding: 14px; }
+  .nome .de { font-size: 13px; color: #8A7FB8; text-decoration: line-through; text-decoration-color: #FF6B8A; }
+  .nome .para { font-size: 15px; font-weight: 600; margin-top: 6px; line-height: 1.4; }
+
+  .dica { margin-top: 16px; border-left: 3px solid #FFB020; background: #1A140A; border-radius: 0 12px 12px 0; padding: 14px 16px; }
+  .dica .etq { font-size: 11px; letter-spacing: .14em; color: #FFB020; }
+  .dica p { margin-top: 4px; font-size: 15px; line-height: 1.55; color: #E8DDBF; }
+
+  .pratica { margin-top: 16px; display: flex; justify-content: space-between; align-items: center; gap: 16px; border: 1px solid #2E2357; background: #120C26; border-radius: 14px; padding: 16px 18px; }
+  .pratica .t { font-weight: 700; font-size: 16px; }
+  .pratica .s { font-size: 13px; color: #A99CD6; margin-top: 3px; }
+  .pratica .xp2 { font-size: 12px; color: #3DF5B0; white-space: nowrap; }
+
+  /* ---------- DOR RESOLVIDA ---------- */
+  .fecho { margin-top: 40px; border-radius: 16px; overflow: hidden; border: 1px solid #2E2357; }
+  .fecho .cab { padding: 14px 20px; background: #120C26; font-size: 11px; letter-spacing: .14em; color: #A99CD6; display: flex; justify-content: space-between; }
+  .fecho .cab b { color: #3DF5B0; }
+  .fecho .linhas { display: grid; grid-template-columns: 1fr 1fr; }
+  .fecho .antes, .fecho .agora { padding: 18px 20px 20px; }
+  .fecho .antes { background: #150B26; border-right: 1px solid #2E2357; }
+  .fecho .agora { background: #0F1E1A; }
+  .fecho .q { font-size: 11px; letter-spacing: .14em; }
+  .fecho .antes .q { color: #FF6B8A; } .fecho .agora .q { color: #3DF5B0; }
+  .fecho .fala { margin-top: 8px; font-size: 17px; line-height: 1.4; font-weight: 600; }
+  .fecho .antes .fala { color: #B9A7C9; }
+
+  /* ---------- no mapa ---------- */
+  .mapa-aulas { margin-top: 10px; display: grid; gap: 10px; }
+  .linha-aula { display: grid; grid-template-columns: 34px 1fr auto; gap: 14px; align-items: center; border: 1px solid #2E2357; background: #120C26; border-radius: 12px; padding: 14px 16px; }
+  .linha-aula .k { font-size: 12px; color: #6F64A0; }
+  .linha-aula .t { font-weight: 700; font-size: 15px; }
+  .linha-aula .d { font-size: 13px; color: #FF8FA6; margin-top: 4px; }
+  .linha-aula .d span { color: #6F64A0; }
+  .linha-aula .st { font-size: 11px; letter-spacing: .1em; color: #6F64A0; }
+  .linha-aula.atual { border-color: #7C5CFF; background: #1A1238; }
+  .linha-aula.atual .st { color: #7C5CFF; }
+
+  .rotulo-tela { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #6B6577; margin: 34px 0 10px; }
+</style>
+
+<h2>O molde: dor → solução</h2>
+<p class="subtitle">A primeira aula reescrita nesse formato, já com a cara dos robôs. Ela abre com a dor, do jeito que a pessoa sente; promete o que resolve; prova; dá a ferramenta; e fecha mostrando o antes e o agora. Se você aprovar, as outras onze seguem esse molde.</p>
+
+<p class="rotulo-tela">A aula</p>
+<div class="tela">
+  <div class="barra">
+    <span class="x">✕</span>
+    <span class="passos"><i class="agora"></i><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="xp mono"><span>+</span>0 XP</span>
+  </div>
+
+  <div class="corpo">
+    <p class="rot mono">04 · JULGAMENTO · AULA 1/3</p>
+    <h2 class="titulo disp">O que faz um resultado parecer genérico</h2>
+
+    <div class="dor">
+      <span class="etq mono"><i></i>A DOR</span>
+      <blockquote>Pedi um site pra IA e veio um site. Achei meio feio, mas não sei dizer o quê — então deixei assim.</blockquote>
+      <p class="pe">Se isso já aconteceu contigo, essa aula é tua.</p>
+    </div>
+
+    <div class="resolve">
+      <svg viewBox="0 0 100 120"><use href="#ag-julgamento"/></svg>
+      <div>
+        <p class="etq mono">O QUE RESOLVE</p>
+        <p class="forte">Dar nome ao defeito. Quem nomeia, conserta.</p>
+        <p class="leve">“Meio feio” a IA não entende. “Três botões brigando” ela arruma em segundos.</p>
+      </div>
+    </div>
+
+    <div class="secao">
+      <p class="n mono">01 · OLHA ANTES DE EU EXPLICAR</p>
+      <h3>O mesmo produto, dois pedidos</h3>
+      <p>Repara pra onde o teu olho vai primeiro em cada um. Não lê ainda — só olha.</p>
+      <div class="comparar">
+        <div class="lado"><p class="r mono"><span>PEDIDO PREGUIÇOSO</span><span>A</span></p><img src="aula-sem-ref.svg" alt=""></div>
+        <div class="lado"><p class="r mono"><span>COM REFERÊNCIA</span><span>B</span></p><img src="aula-com-ref.svg" alt=""></div>
+      </div>
+      <p>No A o olho fica passeando, sem destino. No B ele cai no título, desce e para no botão. <b>Você já sabia qual era melhor. O que faltava era o nome.</b></p>
+    </div>
+
+    <div class="secao">
+      <p class="n mono">02 · A FERRAMENTA</p>
+      <h3>Troca o sentimento pelo nome</h3>
+      <div class="nomes">
+        <div class="nome"><p class="de">sem graça</p><p class="para">Tudo com o mesmo peso. Nada pro olho achar primeiro.</p></div>
+        <div class="nome"><p class="de">genérico</p><p class="para">O texto serviria pra qualquer empresa.</p></div>
+        <div class="nome"><p class="de">bagunçado</p><p class="para">Três botões brigando pela mesma atenção.</p></div>
+        <div class="nome"><p class="de">carregado</p><p class="para">Cor demais. Nenhuma guardada pra ação principal.</p></div>
+      </div>
+      <div class="dica">
+        <p class="etq mono">TESTE DO OLHO SEMICERRADO</p>
+        <p>Aperta os olhos até a tela embaçar. O que continuar aparecendo é a tua hierarquia real. Virou um borrão uniforme? Achou o defeito.</p>
+      </div>
+    </div>
+
+    <div class="secao">
+      <p class="n mono">03 · NA PRÁTICA</p>
+      <h3>Faz a versão feia de propósito</h3>
+      <div class="pratica">
+        <div><p class="t">Gera o ruim, nomeia três defeitos, conserta</p><p class="s">5 itens pra marcar · fica salvo se você sair</p></div>
+        <span class="xp2 mono">+30 XP</span>
+      </div>
+      <div class="pratica">
+        <div><p class="t">Checkpoint</p><p class="s">3 perguntas · inclui uma de olhar e julgar</p></div>
+        <span class="xp2 mono">+80 XP</span>
+      </div>
+    </div>
+
+    <div class="fecho">
+      <div class="cab mono"><span>DOR RESOLVIDA</span><b>✓ JULGAMENTO NO TIME</b></div>
+      <div class="linhas">
+        <div class="antes"><p class="q mono">ANTES</p><p class="fala">“Achei meio feio, mas não sei o quê.”</p></div>
+        <div class="agora"><p class="q mono">AGORA</p><p class="fala">“Tudo com o mesmo peso, três botões brigando e um texto que serve pra qualquer um.”</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="rotulo-tela">E no mapa: cada aula mostra a dor que resolve</p>
+<div class="tela" style="padding: 22px 26px 26px;">
+  <p class="rot mono">04 · JULGAMENTO · 3 AULAS</p>
+  <div class="mapa-aulas">
+    <div class="linha-aula atual">
+      <span class="k mono">4.1</span>
+      <div><p class="t">O que faz um resultado parecer genérico</p><p class="d"><span>resolve: </span>“Achei meio feio, mas não sei o quê.”</p></div>
+      <span class="st mono">AGORA</span>
+    </div>
+    <div class="linha-aula">
+      <span class="k mono">4.2</span>
+      <div><p class="t">Seu checklist de julgamento</p><p class="d"><span>resolve: </span>“Toda vez eu aceito o primeiro que vem.”</p></div>
+      <span class="st mono">🔒</span>
+    </div>
+    <div class="linha-aula">
+      <span class="k mono">4.3</span>
+      <div><p class="t">Faz a versão feia de propósito</p><p class="d"><span>resolve: </span>“Só percebo que tá ruim quando alguém me fala.”</p></div>
+      <span class="st mono">🔒</span>
+    </div>
+  </div>
+</div>
