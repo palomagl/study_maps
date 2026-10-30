@@ -221,3 +221,51 @@ visual, junto com o desenho definitivo.
    - vale para todo texto das aulas, títulos incluídos ("Teu checklist de
      julgamento"). A aula 4.1, hoje em "você", é reescrita nesse tom na
      conversão.
+
+## 13. Revisão da autora depois de ler as aulas (30/10)
+
+Decidido na conversa, depois de a autora ler as aulas no app:
+
+1. **Novo cartão no molde: "O que tu acha que resolve".** Entre a dor e o
+   "o que resolve" entra a falsa solução — o que a pessoa já faz, de
+   qualquer jeito, achando que resolve. Mostrar o erro que ela já está
+   cometendo é o que mais ensina. Campo `pain.belief`, obrigatório em aula
+   escrita (teste).
+2. **A dor da 1.1 muda** (pedido da autora): "Tenho uma ideia gigante — ou
+   difícil demais — e não sei nem por onde começar." O "o que resolve"
+   passa a ser "Separar em pedaços." — a ideia só é gigante na cabeça;
+   escrita, fica bem menor.
+3. **Texto mais simples.** A autora achou trechos difíceis de entender
+   ("transformar uma ideia grande numa lista do que ela tem"). Objetivos e
+   frases-chave são reescritos do jeito que se explica pra um amigo: frase
+   curta, uma ideia por frase, sem jargão.
+4. **Menos Lovable.** ChatGPT, Claude e Cursor hoje constroem bastante, e
+   muita gente paga (por volta de R$100 por mês é realista). Regra nova:
+   **o grátis continua sendo o piso** (ninguém fica travado), mas as aulas
+   mostram também o caminho pago, com ChatGPT, Claude e Cursor ao lado do
+   Lovable. A lista de ferramentas que a autora vai mandar ajusta isso.
+   Substitui a §12.4 da spec original ("plano grátis é requisito").
+5. **Recurso em inglês é avisado** no cartão do recurso.
+6. **Como ganhar os robôs fica explicado na tela**, junto do time.
+7. **Verificação de verdade do link publicado.** Uma função pequena na
+   própria Vercel abre o link por trás, confere que a página carrega, que
+   não é página de erro da Vercel ou da Render, e lê o título. Muda a regra
+   "sem servidor" da spec original — decidido pela autora. Não julga se o
+   projeto é bom (isso seria IA analisando a página, fora deste escopo).
+
+### As falsas soluções das 12 aulas
+
+| Aula | O que tu acha que resolve |
+|---|---|
+| 1.1 | Abrir a IA e pedir tudo de uma vez, pra ver no que dá. |
+| 1.2 | Pedir de novo, com mais adjetivo: "moderno", "clean", "bonito". |
+| 2.1 | Repetir o mesmo pedido, só que mais irritado. |
+| 2.2 | Ir corrigindo depois que vier errado. |
+| 3.1 | Achar a ferramenta perfeita e usar ela pra tudo. |
+| 4.1 | Pedir pra IA "deixar mais bonito". |
+| 4.2 | Confiar que, se a IA fez, tá bom. |
+| 4.3 | Esperar alguém te dar feedback. |
+| 5.1 | Gerar tudo de novo do zero até sair certo. |
+| 6.1 | Mandar print do preview pros amigos. |
+| 6.2 | Escolher o primeiro que aparecer — ou desistir porque parece caro. |
+| 6.3 | Dizer "tá pronto" porque abriu no teu computador. |
