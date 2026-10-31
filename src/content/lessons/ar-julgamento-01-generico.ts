@@ -21,6 +21,7 @@ export const oQueFazParecerGenerico: Lesson = {
   pain: {
     quote:
       "Pedi um site pra IA e veio um site. Achei meio feio, mas não sei dizer o quê — então deixei assim.",
+    belief: "Pedir pra IA \"deixar mais bonito\".",
     resolve: "Dar nome ao defeito. Quem nomeia, conserta.",
     resolveDetail:
       "“Meio feio” a IA não entende. “Três botões brigando” ela arruma em segundos.",
@@ -32,10 +33,10 @@ export const oQueFazParecerGenerico: Lesson = {
   estimatedMinutes: 25,
 
   learningObjectives: [
-    "Reconhecer, olhando, a diferença entre um resultado genérico e um resultado específico",
+    "Ver a diferença entre genérico e feito pra ti",
     "Dar nome ao defeito em vez de dizer só que ficou feio",
-    "Aplicar o teste do olho semicerrado pra achar o que tá sem hierarquia",
-    "Entender por que a IA entrega a média quando o pedido é vago",
+    "Usar o teste do olho semicerrado",
+    "Entender por que pedido vago dá resultado genérico",
   ],
 
   content: [

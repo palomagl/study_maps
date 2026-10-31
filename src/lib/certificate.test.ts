@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { flattenLessons, lessonSteps } from "@/content";
 import type { Trail } from "@/content/types";
 import { appNoArTrail } from "@/content/trails/app-no-ar";
+import { draftLesson } from "@/content/draft";
 import {
   defaultProfile,
   defaultState,
@@ -13,7 +14,34 @@ import {
   gapHref,
 } from "@/lib/certificate";
 
-/** A mesma trilha, como ela ficará quando as 12 aulas estiverem escritas. */
+/**
+ * A mesma trilha com a primeira aula de volta a rascunho — a situação de
+ * qualquer trilha nova enquanto está sendo escrita.
+ */
+const trilhaComRascunho: Trail = {
+  ...appNoArTrail,
+  phases: appNoArTrail.phases.map((p, i) =>
+    i !== 0
+      ? p
+      : {
+          ...p,
+          stages: p.stages.map((s, j) =>
+            j !== 0
+              ? s
+              : {
+                  ...s,
+                  lessons: s.lessons.map((l, k) =>
+                    k !== 0
+                      ? l
+                      : draftLesson({ id: l.id, slug: l.slug, title: l.title, summary: l.summary }),
+                  ),
+                },
+          ),
+        },
+  ),
+};
+
+/** A trilha só com as aulas escritas (hoje, as doze). */
 const trilhaEscrita: Trail = {
   ...appNoArTrail,
   phases: appNoArTrail.phases
@@ -123,14 +151,20 @@ describe("certificado", () => {
 describe("trilha ainda sendo escrita", () => {
   it("não emite certificado mesmo com tudo que a pessoa podia fazer feito", () => {
     const state = comProva(comNome(stateWithTrailComplete()));
-    expect(certificateGaps(state, appNoArTrail)).toEqual(["trail-unwritten"]);
-    expect(buildCertificate(state, appNoArTrail)).toBeNull();
+    expect(certificateGaps(state, trilhaComRascunho)).toEqual(["trail-unwritten"]);
+    expect(buildCertificate(state, trilhaComRascunho)).toBeNull();
   });
 
   it("é a única lacuna mostrada — não há o que a pessoa fazer a respeito", () => {
-    expect(certificateGaps(defaultState(), appNoArTrail)).toEqual([
+    expect(certificateGaps(defaultState(), trilhaComRascunho)).toEqual([
       "trail-unwritten",
     ]);
+  });
+
+  it("com as doze aulas escritas, a Trilha 1 já emite certificado", () => {
+    const state = comProva(comNome(stateWithTrailComplete()));
+    expect(certificateGaps(state, appNoArTrail)).toEqual([]);
+    expect(buildCertificate(state, appNoArTrail)).not.toBeNull();
   });
 });
 

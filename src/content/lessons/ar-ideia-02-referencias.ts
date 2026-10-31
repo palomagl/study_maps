@@ -10,6 +10,7 @@ export const juntaCincoReferencias: Lesson = {
   title: "Junta cinco referências",
   pain: {
     quote: "Peço pra IA e sempre sai a mesma cara de site.",
+    belief: "Pedir de novo, com mais adjetivo: \"moderno\", \"clean\", \"bonito\".",
     resolve: "Juntar referência antes de abrir a IA.",
     resolveDetail: "Sem referência, a IA te dá a média. Com referência, ela te dá o que tu apontou.",
     after: "Tenho cinco referências e sei o que eu quero de cada uma.",
@@ -18,9 +19,9 @@ export const juntaCincoReferencias: Lesson = {
   estimatedMinutes: 20,
 
   learningObjectives: [
-    "Entender por que pedido sem referência sai com cara de média",
+    "Entender por que pedido sem exemplo sai genérico",
     "Achar referências em lugares que tu já usa",
-    "Anotar o que tu quer de cada referência, em vez de copiar ela inteira",
+    "Anotar o que tu quer de cada uma, sem copiar inteira",
   ],
 
   content: [
@@ -73,7 +74,7 @@ Pasta B:
       type: "callout",
       variant: "info",
       title: "Na hora de pedir",
-      text: "O Lovable aceita imagem anexada no chat como referência visual — print, mockup, rascunho. Anexa a referência e escreve a anotação junto.",
+      text: "ChatGPT, Claude, Gemini e os construtores aceitam imagem anexada na conversa — print, mockup, rascunho. Anexa a referência e escreve a anotação junto.",
     },
     {
       type: "callout",

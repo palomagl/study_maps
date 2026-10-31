@@ -74,9 +74,12 @@ describe("conquistas", () => {
     expect(ach("sem-medo").test(s)).toBe(true); // tem passo challenge
   });
 
-  it("etapa completa (só a etapa 1 do front tem 1 aula) → 'primeira-etapa'", () => {
-    const s = storeWithFullLesson().getState();
-    expect(ach("primeira-etapa").test(s)).toBe(true);
+  it("etapa completa → 'primeira-etapa'", () => {
+    // A etapa da Geração tem uma aula só: concluir ela completa a etapa.
+    const ger = getLessonLocation("app-no-ar", "ar-ger-01-ferramenta-certa")!.lesson;
+    const store = createTestStore();
+    for (const st of lessonSteps(ger)) store.completeStep(ger.id, st, 0);
+    expect(ach("primeira-etapa").test(store.getState())).toBe(true);
   });
 
   it("sequência longa → 'constancia' e 'sequencia-7'", () => {

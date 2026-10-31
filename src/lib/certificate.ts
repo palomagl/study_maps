@@ -91,9 +91,9 @@ export function gapLabel(gap: CertificateGap): string {
     case "lessons":
       return "Concluir as aulas da trilha";
     case "proof":
-      return "Registrar o link do que você publicou";
+      return "Registrar o link do que tu publicou";
     case "name":
-      return "Dizer o seu nome no início";
+      return "Dizer teu nome no início";
   }
 }
 

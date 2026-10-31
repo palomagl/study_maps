@@ -217,8 +217,8 @@ describe("Trilha 1 — Coloque seu primeiro app no ar", () => {
     ]);
   });
 
-  it("a Trilha 1 tem 12 aulas", () => {
-    expect(getTrailStats("app-no-ar").lessons).toBe(12);
+  it("a Trilha 1 tem 13 aulas", () => {
+    expect(getTrailStats("app-no-ar").lessons).toBe(13);
   });
 });
 
@@ -317,8 +317,8 @@ describe("imagens de conteúdo", () => {
 const DORES: Record<string, { titulo: string; quote: string; resolve: string; after: string }> = {
   "ar-ideia-01-recortar": {
     titulo: "Recorta a ideia até ela caber",
-    quote: "Tenho uma ideia gigante e não sei nem por onde começar.",
-    resolve: "Achar a menor versão que já serve pra alguém.",
+    quote: "Tenho uma ideia gigante — ou difícil demais — e não sei nem por onde começar.",
+    resolve: "Separar em pedaços.",
     after: "Sei qual é a primeira versão — e ela cabe num fim de semana.",
   },
   "ar-ideia-02-referencias": {
@@ -343,7 +343,7 @@ const DORES: Record<string, { titulo: string; quote: string; resolve: string; af
     titulo: "A ferramenta certa pra cada pedaço",
     quote: "Uso o ChatGPT pra tudo e fico travado.",
     resolve: "Saber qual ferramenta faz melhor cada pedaço do projeto.",
-    after: "Lovable pra tela, Claude ou ChatGPT pra pensar e escrever — cada um no seu lugar.",
+    after: "Sei onde pensar, onde construir e onde publicar — e começo de graça.",
   },
   "ar-jul-01-generico": {
     titulo: "O que faz um resultado parecer genérico",
@@ -371,9 +371,15 @@ const DORES: Record<string, { titulo: string; quote: string; resolve: string; af
   },
   "ar-pub-01-github": {
     titulo: "GitHub: onde teu projeto passa a existir",
-    quote: "Meu projeto só existe no meu computador — ou no preview do Lovable.",
+    quote: "Meu projeto só existe no meu computador — ou dentro da ferramenta onde eu fiz.",
     resolve: "Um repositório: o lugar de onde o deploy puxa o código.",
     after: "Meu código tá no GitHub, com histórico de tudo que mudou.",
+  },
+  "ar-pub-git-comandos": {
+    titulo: "Git no terminal: sair da bolha",
+    quote: "Abri o terminal e travei: não sei nem o que digitar.",
+    resolve: "Seis comandos e um ciclo: muda, confere, salva, manda.",
+    after: "Salvo e mando meu código pelo terminal — e sei o que cada comando faz.",
   },
   "ar-pub-02-vercel-render": {
     titulo: "Vercel ou Render: a decisão",
@@ -389,10 +395,27 @@ const DORES: Record<string, { titulo: string; quote: string; resolve: string; af
   },
 };
 
+/* Verbatim da spec 2026-10-30 §13: o que a pessoa já faz achando que resolve. */
+const FALSAS: Record<string, string> = {
+  "ar-ideia-01-recortar": "Abrir a IA e pedir tudo de uma vez, pra ver no que dá.",
+  "ar-ideia-02-referencias": "Pedir de novo, com mais adjetivo: \"moderno\", \"clean\", \"bonito\".",
+  "ar-spec-01-briefing": "Repetir o mesmo pedido, só que mais irritado.",
+  "ar-spec-02-co-autoria": "Ir corrigindo depois que vier errado.",
+  "ar-ger-01-ferramenta-certa": "Achar a ferramenta perfeita e usar ela pra tudo.",
+  "ar-jul-01-generico": "Pedir pra IA \"deixar mais bonito\".",
+  "ar-jul-02-checklist": "Confiar que, se a IA fez, tá bom.",
+  "ar-jul-03-feio-de-proposito": "Esperar alguém te dar feedback.",
+  "ar-cons-01-iteracao": "Gerar tudo de novo do zero até sair certo.",
+  "ar-pub-01-github": "Mandar print do preview pros amigos.",
+  "ar-pub-git-comandos": "Fechar o terminal e voltar pro botão — todo mundo só faz o básico mesmo.",
+  "ar-pub-02-vercel-render": "Escolher o primeiro que aparecer — ou desistir porque parece caro.",
+  "ar-pub-03-no-ar": "Dizer \"tá pronto\" porque abriu no teu computador.",
+};
+
 describe("dor → solução", () => {
   const trilha = flattenLessons(getTrail("app-no-ar")!).map((l) => l.lesson);
 
-  it("a tabela cobre as 12 aulas da trilha", () => {
+  it("a tabela cobre as 13 aulas da trilha", () => {
     expect(Object.keys(DORES).sort()).toEqual(trilha.map((l) => l.id).sort());
   });
 
@@ -416,6 +439,12 @@ describe("dor → solução", () => {
     for (const l of trilha.filter((x) => x.status === "available")) {
       expect(l.pain?.resolve, l.id).toBe(DORES[l.id].resolve);
       expect(l.pain?.after, l.id).toBe(DORES[l.id].after);
+    }
+  });
+
+  it("aula available diz o que a pessoa acha que resolve, igual à tabela", () => {
+    for (const l of trilha.filter((x) => x.status === "available")) {
+      expect(l.pain?.belief, l.id).toBe(FALSAS[l.id]);
     }
   });
 
@@ -445,6 +474,14 @@ const ESCRITAS = [
   "ar-ideia-02-referencias",
   "ar-spec-01-briefing",
   "ar-spec-02-co-autoria",
+  "ar-ger-01-ferramenta-certa",
+  "ar-jul-02-checklist",
+  "ar-jul-03-feio-de-proposito",
+  "ar-cons-01-iteracao",
+  "ar-pub-01-github",
+  "ar-pub-git-comandos",
+  "ar-pub-02-vercel-render",
+  "ar-pub-03-no-ar",
 ];
 
 describe("aulas escritas da Trilha 1", () => {
@@ -462,6 +499,35 @@ describe("aulas escritas da Trilha 1", () => {
         [...l.questions, ...l.checkpoint.questions].some((q) => q.type === "judge"),
         id,
       ).toBe(true);
+    }
+  });
+});
+
+/*
+ * Revisão da autora (§13 da spec): menos Lovable. O piso é grátis, mas a
+ * trilha não pode depender de uma ferramenta só — quem já paga ChatGPT,
+ * Claude ou Cursor segue a trilha inteira com elas.
+ */
+describe("a trilha não depende de uma ferramenta só", () => {
+  const trilha = flattenLessons(getTrail("app-no-ar")!).map((l) => l.lesson);
+
+  it("nenhum exercício exige o Lovable", () => {
+    for (const l of trilha.filter((x) => x.status === "available")) {
+      const { statement, steps = [], selfCheck } = l.exercise;
+      expect([statement, ...steps, ...selfCheck].join(" "), l.id).not.toMatch(/Lovable/);
+    }
+  });
+
+  it("a aula de ferramentas mostra ChatGPT, Claude e Cursor, e o caminho grátis e o pago", () => {
+    const texto = JSON.stringify(getLessonLocation("app-no-ar", "ar-ger-01-ferramenta-certa")!.lesson);
+    for (const nome of ["ChatGPT", "Claude", "Cursor", "grátis", "pago"]) {
+      expect(texto, nome).toContain(nome);
+    }
+  });
+
+  it("objetivo de aula é curto — dá pra entender numa lida", () => {
+    for (const l of trilha.filter((x) => x.status === "available")) {
+      for (const o of l.learningObjectives) expect(o.length, `${l.id}: ${o}`).toBeLessThanOrEqual(55);
     }
   });
 });

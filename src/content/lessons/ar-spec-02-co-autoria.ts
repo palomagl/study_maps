@@ -4,9 +4,9 @@ import type { Lesson } from "@/content/types";
  * Trilha "Coloque seu primeiro app no ar" — Fase 2 (Pedido), aula 2.
  * Molde: ar-julgamento-01-generico.ts. Tratamento em "tu".
  *
- * Fatos sobre o Lovable conferidos na documentação oficial em 30/10:
- * existem os modos Build, Chat e Plan; o Plan pergunta e escreve um plano
- * antes de mexer, e nunca altera o código; mensagem no Plan gasta crédito.
+ * Fatos conferidos na documentação oficial em 30/10: no Lovable e no Claude
+ * Code existe o modo Plan, que pergunta e escreve um plano antes de mexer e
+ * não altera o código; no Lovable, mensagem no Plan gasta crédito.
  */
 export const usaAIaProPedido: Lesson = {
   id: "ar-spec-02-co-autoria",
@@ -14,6 +14,7 @@ export const usaAIaProPedido: Lesson = {
   title: "Usa a IA pra melhorar teu pedido",
   pain: {
     quote: "Só descubro o que faltava no pedido depois que vem errado.",
+    belief: "Ir corrigindo depois que vier errado.",
     resolve: "Pedir as perguntas antes de pedir o resultado.",
     resolveDetail: "Quem vai construir sabe o que vai precisar saber. Deixa ela perguntar.",
     after: "A IA me pergunta o que faltava antes de gerar qualquer coisa.",
@@ -24,7 +25,7 @@ export const usaAIaProPedido: Lesson = {
   learningObjectives: [
     "Pedir as perguntas antes de pedir o resultado",
     "Usar o modo de planejar da ferramenta pra isso",
-    "Responder antes de gerar, e só então construir",
+    "Responder as perguntas e só então construir",
   ],
 
   content: [
@@ -68,8 +69,8 @@ Caminho 2 — perguntar antes:
     {
       type: "callout",
       variant: "info",
-      title: "No Lovable isso tem nome",
-      text: "O modo **Plan** faz perguntas, escreve um plano que tu pode editar e aprovar, e não mexe no código enquanto isso. Tem também o modo **Chat**, pra conversar sem construir. Repara que mensagem no Plan gasta crédito — vale usar no pedido grande, não em cada ajuste.",
+      title: "Nas ferramentas de construir, isso tem nome",
+      text: "No Claude Code e no Lovable existe o modo **Plan**: ele faz as perguntas, escreve um plano que tu pode ajustar e aprovar, e não mexe no código enquanto isso. Planejar também gasta o limite do plano — vale no pedido grande, não em cada ajuste.",
     },
     {
       type: "callout",
@@ -139,7 +140,7 @@ Caminho 2 — perguntar antes:
     {
       id: "ar-spec-02-q3",
       type: "boolean",
-      prompt: "No Lovable, o modo Plan muda o código enquanto faz as perguntas.",
+      prompt: "O modo Plan muda o código enquanto faz as perguntas.",
       concept: "modo plan",
       skill: "compreensao",
       hint: "Pra que serve planejar antes?",

@@ -4,6 +4,8 @@ import { MemoryRouter } from "react-router-dom";
 import { AppRoutes } from "@/App";
 import { progressStore } from "@/lib/progress-store";
 import { getTrailStats } from "@/content";
+import { draftLesson } from "@/content/draft";
+import { appNoArTrail } from "@/content/trails/app-no-ar";
 
 /**
  * Renderiza as rotas REAIS do app — as mesmas que o usuário navega, incluindo
@@ -16,6 +18,31 @@ function renderAt(path: string) {
       <AppRoutes />
     </MemoryRouter>,
   );
+}
+
+/**
+ * Troca uma aula da trilha por um rascunho só durante o teste. Com as 12
+ * aulas escritas não sobra rascunho de verdade — mas a regra "rascunho
+ * mostra em produção e não desenha cartão vazio" vale pras próximas trilhas.
+ */
+function comRascunho(id: string, fn: () => void) {
+  const stage = appNoArTrail.phases
+    .flatMap((p) => p.stages)
+    .find((st) => st.lessons.some((l) => l.id === id))!;
+  const i = stage.lessons.findIndex((l) => l.id === id);
+  const original = stage.lessons[i];
+  stage.lessons[i] = draftLesson({
+    id,
+    slug: original.slug,
+    title: original.title,
+    summary: original.summary,
+    painQuote: original.pain?.quote,
+  });
+  try {
+    fn();
+  } finally {
+    stage.lessons[i] = original;
+  }
 }
 
 const TRILHA = "/roadmap/app-no-ar";
@@ -59,7 +86,7 @@ describe("smoke — páginas renderizam sem quebrar", () => {
 
   it("a trilha mostra o teu time", () => {
     renderAt(TRILHA);
-    expect(screen.getByText(/TEU TIME/i)).toBeInTheDocument();
+    expect(screen.getByText("TEU TIME")).toBeInTheDocument();
     expect(screen.getByText("0/6")).toBeInTheDocument();
   });
 
@@ -158,8 +185,10 @@ describe("smoke — páginas renderizam sem quebrar", () => {
   });
 
   it("LessonView em aula draft mostra 'em produção'", () => {
-    renderAt(`${TRILHA}/aula/ar-jul-02-checklist`);
-    expect(screen.getByText("Conteúdo em produção")).toBeInTheDocument();
+    comRascunho("ar-jul-02-checklist", () => {
+      renderAt(`${TRILHA}/aula/ar-jul-02-checklist`);
+      expect(screen.getByText("Conteúdo em produção")).toBeInTheDocument();
+    });
   });
 
   it("LessonView com id inválido mostra fallback", () => {
@@ -218,7 +247,8 @@ describe("smoke — páginas renderizam sem quebrar", () => {
   it("a trilha diz o que falta para o certificado", () => {
     renderAt(TRILHA);
     expect(screen.getByText(/Certificado:/)).toBeInTheDocument();
-    expect(screen.getByText(/abre quando a trilha estiver escrita/i)).toBeInTheDocument();
+    // Com as doze aulas escritas, a primeira lacuna é a da pessoa: concluir as aulas.
+    expect(screen.getByText(/falta concluir as aulas da trilha/i)).toBeInTheDocument();
   });
 
   it("certificado aberto por quem não tem direito mostra o que falta, não um papel em branco", () => {
@@ -226,13 +256,18 @@ describe("smoke — páginas renderizam sem quebrar", () => {
     expect(
       screen.getByRole("heading", { name: /Ainda não dá para emitir/ }),
     ).toBeInTheDocument();
+    // as três lacunas da pessoa, cada uma levando pra onde se resolve
+    expect(screen.getByRole("link", { name: "Concluir as aulas da trilha" })).toHaveAttribute(
+      "href",
+      "/roadmap/app-no-ar",
+    );
     expect(
-      screen.getByText("Esta trilha ainda está sendo escrita"),
-    ).toBeInTheDocument();
-    // lacuna que não depende da pessoa não vira link para lugar nenhum
-    expect(
-      screen.queryByRole("link", { name: "Esta trilha ainda está sendo escrita" }),
-    ).not.toBeInTheDocument();
+      screen.getByRole("link", { name: "Registrar o link do que tu publicou" }),
+    ).toHaveAttribute("href", "/roadmap/app-no-ar");
+    expect(screen.getByRole("link", { name: "Dizer teu nome no início" })).toHaveAttribute(
+      "href",
+      "/inicio",
+    );
     // nada de certificado em branco
     expect(screen.queryByText(/Certificado de conclusão/)).not.toBeInTheDocument();
   });
@@ -301,13 +336,61 @@ describe("a aula no formato dor → solução", () => {
   });
 
   it("a aula em rascunho não desenha cartões vazios", () => {
+    comRascunho("ar-jul-02-checklist", () => {
+      render(
+        <MemoryRouter initialEntries={["/roadmap/app-no-ar/aula/ar-jul-02-checklist"]}>
+          <AppRoutes />
+        </MemoryRouter>,
+      );
+      expect(screen.getByText("Conteúdo em produção")).toBeInTheDocument();
+      expect(screen.queryByText("O QUE RESOLVE")).not.toBeInTheDocument();
+      expect(screen.queryByText("DOR RESOLVIDA")).not.toBeInTheDocument();
+    });
+  });
+});
+
+describe("numeração dos passos", () => {
+  it("os passos da aula são numerados sem buraco, mesmo sem vídeo", () => {
     render(
-      <MemoryRouter initialEntries={["/roadmap/app-no-ar/aula/ar-jul-02-checklist"]}>
+      <MemoryRouter initialEntries={["/roadmap/app-no-ar/aula/ar-ideia-01-recortar"]}>
         <AppRoutes />
       </MemoryRouter>,
     );
-    expect(screen.getByText("Conteúdo em produção")).toBeInTheDocument();
-    expect(screen.queryByText("O QUE RESOLVE")).not.toBeInTheDocument();
-    expect(screen.queryByText("DOR RESOLVIDA")).not.toBeInTheDocument();
+    const nums = screen
+      .getAllByText(/^PASSO \d{2}$/)
+      .map((e) => Number(e.textContent!.replace("PASSO ", "")));
+    expect(nums.length).toBeGreaterThan(3);
+    expect(nums).toEqual(nums.map((_, i) => i + 1));
+  });
+});
+
+describe("o time explica como recrutar", () => {
+  beforeEach(() => progressStore.resetAll());
+
+  it("a caixa do time diz como ganhar cada agente", () => {
+    render(
+      <MemoryRouter initialEntries={["/roadmap/app-no-ar"]}>
+        <AppRoutes />
+      </MemoryRouter>,
+    );
+    expect(
+      screen.getByText(/Termina todas as aulas de uma fase e o agente dela entra pro teu time/),
+    ).toBeInTheDocument();
+  });
+});
+
+describe("o que tu acha que resolve", () => {
+  it("aparece entre a dor e o que resolve", () => {
+    render(
+      <MemoryRouter initialEntries={["/roadmap/app-no-ar/aula/ar-ideia-01-recortar"]}>
+        <AppRoutes />
+      </MemoryRouter>,
+    );
+    const dor = screen.getByRole("region", { name: "A dor" });
+    const falsa = screen.getByRole("region", { name: "O que tu acha que resolve" });
+    const resolve = screen.getByRole("region", { name: "O que resolve" });
+    expect(dor.compareDocumentPosition(falsa) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(falsa.compareDocumentPosition(resolve) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(within(falsa).getByText(/Abrir a IA e pedir tudo de uma vez/)).toBeInTheDocument();
   });
 });

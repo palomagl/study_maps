@@ -21,6 +21,7 @@ import { RewardPanel } from "@/components/lesson/RewardPanel";
 import { ResourceList, VideoCard } from "@/components/lesson/ResourceList";
 import { PremiumCallout } from "@/components/lesson/PremiumCallout";
 import { PainCard } from "@/components/lesson/pain/PainCard";
+import { BeliefCard } from "@/components/lesson/pain/BeliefCard";
 import { ResolveCard } from "@/components/lesson/pain/ResolveCard";
 import { PainResolved } from "@/components/lesson/pain/PainResolved";
 import { AGENTS, agentForPhase } from "@/lib/agents";
@@ -118,6 +119,8 @@ const LessonView = () => {
   /* ---------- estado dos passos ---------- */
   const steps = lessonSteps(lesson);
   const has = (s: LessonStepId) => steps.includes(s);
+  // Numerado pelos passos que a aula tem: sem vídeo, o Explore vira o 02, não o 03.
+  const stepNumber = (s: LessonStepId) => steps.indexOf(s) + 1;
   const done = (s: LessonStepId) => isStepDone(lesson.id, s);
 
   const learnDone = done("learn");
@@ -243,6 +246,7 @@ const LessonView = () => {
         {pain && (
           <>
             <PainCard quote={pain.quote} />
+            {pain.belief && <BeliefCard belief={pain.belief} />}
             <ResolveCard resolve={pain.resolve!} detail={pain.resolveDetail} agent={agent} />
           </>
         )}
@@ -276,7 +280,7 @@ const LessonView = () => {
           <StepSection
             id="step-learn"
             emoji="📖"
-            index={1}
+            index={stepNumber("learn")}
             title="Aprenda"
             subtitle="Leia com calma. É a base de todo o resto."
             done={learnDone}
@@ -293,7 +297,7 @@ const LessonView = () => {
             <StepSection
               id="step-watch"
               emoji="🎥"
-              index={2}
+              index={stepNumber("watch")}
               title="Assista"
               subtitle="Um vídeo para fixar o que você acabou de ler."
               done={watchDone}
@@ -311,7 +315,7 @@ const LessonView = () => {
             <StepSection
               id="step-explore"
               emoji="🔗"
-              index={3}
+              index={stepNumber("explore")}
               title="Explore"
               subtitle="Fontes confiáveis para consultar agora e depois."
               done={exploreDone}
@@ -334,7 +338,7 @@ const LessonView = () => {
             <StepSection
               id="step-quiz"
               emoji="🧠"
-              index={4}
+              index={stepNumber("quiz")}
               title="Teste"
               subtitle="Perguntas de compreensão, aplicação e raciocínio."
               done={quizDone}
@@ -357,7 +361,7 @@ const LessonView = () => {
             <StepSection
               id="step-practice"
               emoji="💻"
-              index={5}
+              index={stepNumber("practice")}
               title="Pratique"
               subtitle="Sair da teoria: faça algo com o conceito."
               done={practiceDone}
@@ -379,7 +383,7 @@ const LessonView = () => {
             <StepSection
               id="step-challenge"
               emoji="🔥"
-              index={6}
+              index={stepNumber("challenge")}
               title="Desafio"
               subtitle="Opcional, um degrau acima. Vale XP extra."
               done={challengeDone}
@@ -401,7 +405,7 @@ const LessonView = () => {
             <StepSection
               id="step-checkpoint"
               emoji="🏆"
-              index={7}
+              index={stepNumber("checkpoint")}
               title="Checkpoint"
               subtitle={`Acerte ${lesson.checkpoint.passThreshold} de ${lesson.checkpoint.questions.length} para concluir a aula.`}
               done={checkpointDone}
