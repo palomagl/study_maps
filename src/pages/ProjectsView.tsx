@@ -53,11 +53,11 @@ const ProjectsView = () => {
           <div className="flex items-center gap-2">
             <Rocket className="h-5 w-5" style={{ color: `hsl(${accent})` }} />
             <h1 className="title-display text-2xl text-foreground sm:text-3xl">
-              O que você vai conseguir construir
+              O que tu vai conseguir construir
             </h1>
           </div>
           <p className="mt-2 max-w-2xl text-[15px] leading-7 text-muted-foreground">
-            Cada projeto abaixo é um alvo real da trilha {trail.title}. Você pode não
+            Cada projeto abaixo é um alvo real da trilha {trail.title}. Tu pode não
             saber fazer todos agora — a ideia é exatamente essa: olhar, mirar e voltar
             aqui quando destravar.
           </p>

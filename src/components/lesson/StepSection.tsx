@@ -94,7 +94,7 @@ export function StepSection({
       ) : (
         <div className="rounded-xl border border-dashed border-border bg-secondary/30 p-4 text-center">
           <p className="text-sm text-muted-foreground">
-            {lockHint ?? "Conclua os passos anteriores para liberar."}
+            {lockHint ?? "Conclui os passos anteriores pra liberar."}
           </p>
           <button
             onClick={() => setForceOpen(true)}

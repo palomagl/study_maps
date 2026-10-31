@@ -46,8 +46,8 @@ const ReviewView = () => {
             Nada para revisar agora. 🎯
           </p>
           <p className="mx-auto mt-1 max-w-sm text-sm text-muted-foreground">
-            Quando você errar uma pergunta, o conceito entra aqui como flashcard
-            até você revisá-lo.
+            Quando tu errar uma pergunta, o conceito entra aqui como flashcard
+            até tu revisar ele.
           </p>
           <Link
             to="/painel"

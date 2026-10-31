@@ -70,7 +70,7 @@ export function CheckpointRunner({
         </p>
         <p className="mx-auto mt-1 max-w-sm text-xs text-muted-foreground">
           Sem dicas desta vez — é a hora de mostrar que o conteúdo ficou. Errou? Sem
-          drama: você vê o que revisar e pode refazer.
+          drama: tu vê o que revisar e pode refazer.
         </p>
         {record && record.attempts > 0 && (
           <p className="mt-2 text-xs text-muted-foreground">
@@ -161,7 +161,7 @@ export function CheckpointRunner({
             </p>
           </div>
           <p className="mt-2 text-sm text-muted-foreground">
-            Você acertou {finalOutcome.correct} de {finalOutcome.total}. +80 XP.
+            Tu acertou {finalOutcome.correct} de {finalOutcome.total}. +80 XP.
           </p>
         </>
       ) : (
@@ -173,7 +173,7 @@ export function CheckpointRunner({
           {finalOutcome.weakConcepts.length > 0 && (
             <div className="mt-3">
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Revise antes de tentar de novo
+                Revisa antes de tentar de novo
               </p>
               <ul className="mt-1.5 flex flex-wrap gap-1.5">
                 {finalOutcome.weakConcepts.map((c) => (

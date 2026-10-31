@@ -69,7 +69,7 @@ export function Quiz({
 
       {settledCount === questions.length && (
         <p className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-3 text-sm text-muted-foreground">
-          <span className="font-semibold text-foreground">Bloco concluído.</span> Você
+          <span className="font-semibold text-foreground">Bloco concluído.</span> Tu
           revisou todas as perguntas — hora de praticar.
         </p>
       )}

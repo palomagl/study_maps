@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Flame, RotateCcw, Sparkles, Star } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -26,6 +27,8 @@ export function RewardPanel({
   trailHref,
   onReviewLesson,
 }: RewardPanelProps) {
+  // Refazer apaga o progresso da aula: um toque só não pode bastar.
+  const [confirmingReset, setConfirmingReset] = useState(false);
   return (
     <motion.section
       id="step-reward"
@@ -99,14 +102,37 @@ export function RewardPanel({
         {nextHref && nextTitle && (
           <span className="text-xs text-muted-foreground">a seguir: {nextTitle}</span>
         )}
-        <button
-          type="button"
-          onClick={onReviewLesson}
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground underline hover:text-foreground"
-        >
-          <RotateCcw className="h-3.5 w-3.5" />
-          Refazer esta aula
-        </button>
+        {confirmingReset ? (
+          <span className="inline-flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+            Isso apaga o teu progresso desta aula.
+            <button
+              type="button"
+              onClick={() => {
+                setConfirmingReset(false);
+                onReviewLesson();
+              }}
+              className="rounded-md border border-border px-2 py-1 font-medium text-foreground hover:bg-secondary"
+            >
+              Sim, refazer
+            </button>
+            <button
+              type="button"
+              onClick={() => setConfirmingReset(false)}
+              className="font-medium underline hover:text-foreground"
+            >
+              Deixa assim
+            </button>
+          </span>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setConfirmingReset(true)}
+            className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground underline hover:text-foreground"
+          >
+            <RotateCcw className="h-3.5 w-3.5" />
+            Refazer esta aula
+          </button>
+        )}
       </div>
     </motion.section>
   );

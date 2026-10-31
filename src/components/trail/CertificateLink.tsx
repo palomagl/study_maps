@@ -20,7 +20,7 @@ export function CertificateLink({ trail }: { trail: Trail }) {
         style={{ backgroundColor: `hsl(${trail.accentHsl})` }}
       >
         <Award className="h-4 w-4" />
-        Ver o seu certificado
+        Ver o teu certificado
       </Link>
     );
   }

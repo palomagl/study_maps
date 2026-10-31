@@ -70,7 +70,7 @@ const Onboarding = () => {
             {step === "name" && (
               <div>
                 <h1 className="title-display text-[1.9rem] text-foreground">
-                  Vamos montar sua trilha
+                  Vamos montar tua trilha
                 </h1>
                 <p className="mt-2 text-sm text-muted-foreground">
                   Leva menos de um minuto. Primeiro: como podemos te chamar?
@@ -80,7 +80,7 @@ const Onboarding = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && setStep("goal")}
-                  placeholder="Seu nome (opcional)"
+                  placeholder="Teu nome (opcional)"
                   className="mt-5 w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-foreground outline-none focus:border-primary/50"
                 />
                 <div className="mt-5 flex items-center gap-3">
@@ -103,7 +103,7 @@ const Onboarding = () => {
 
             {step === "goal" && (
               <ChoiceStep
-                title="Qual é o seu objetivo?"
+                title="Qual é o teu objetivo?"
                 options={GOAL_OPTIONS}
                 selected={goal}
                 onSelect={(id) => {
@@ -116,7 +116,7 @@ const Onboarding = () => {
 
             {step === "experience" && (
               <ChoiceStep
-                title="Qual seu nível hoje?"
+                title="Qual teu nível hoje?"
                 options={EXPERIENCE_OPTIONS}
                 selected={experience}
                 onSelect={(id) => {

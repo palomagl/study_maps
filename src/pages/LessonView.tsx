@@ -184,6 +184,10 @@ const LessonView = () => {
   const phaseLessons = phase.stages.flatMap((s) => s.lessons);
   const lessonsInPhase = phaseLessons.length;
   const lessonNumberInPhase = phaseLessons.findIndex((l) => l.id === lesson.id) + 1;
+  // O agente da fase só entra pro time quando todas as aulas escritas dela acabam.
+  const remainingInPhase = phaseLessons.filter(
+    (l) => l.status === "available" && !getLessonCompletion(l).complete,
+  ).length;
 
   return (
     <div className="min-h-screen bg-ceu">
@@ -282,7 +286,7 @@ const LessonView = () => {
             emoji="📖"
             index={stepNumber("learn")}
             title="Aprenda"
-            subtitle="Leia com calma. É a base de todo o resto."
+            subtitle="Lê com calma. É a base de todo o resto."
             done={learnDone}
             accentHsl={accent}
           >
@@ -299,7 +303,7 @@ const LessonView = () => {
               emoji="🎥"
               index={stepNumber("watch")}
               title="Assista"
-              subtitle="Um vídeo para fixar o que você acabou de ler."
+              subtitle="Um vídeo para fixar o que tu acabou de ler."
               done={watchDone}
               accentHsl={accent}
             >
@@ -343,7 +347,7 @@ const LessonView = () => {
               subtitle="Perguntas de compreensão, aplicação e raciocínio."
               done={quizDone}
               locked={quizLocked && !quizDone}
-              lockHint="Leia o conteúdo, assista ao vídeo e explore os recursos antes de testar."
+              lockHint="Lê o conteúdo, assiste o vídeo e olha os recursos antes de testar."
               accentHsl={accent}
             >
               <Quiz
@@ -410,7 +414,7 @@ const LessonView = () => {
               subtitle={`Acerte ${lesson.checkpoint.passThreshold} de ${lesson.checkpoint.questions.length} para concluir a aula.`}
               done={checkpointDone}
               locked={checkpointLocked && !checkpointDone}
-              lockHint="Conclua o Teste e a Prática antes do checkpoint."
+              lockHint="Conclui o Teste e a Prática antes do checkpoint."
               accentHsl={accent}
             >
               <CheckpointRunner
@@ -429,7 +433,12 @@ const LessonView = () => {
 
           {/* o fecho: antes e agora */}
           {pain?.after && (
-            <PainResolved before={pain.quote} after={pain.after} agent={agent} />
+            <PainResolved
+              before={pain.quote}
+              after={pain.after}
+              agent={agent}
+              remaining={remainingInPhase}
+            />
           )}
 
           {/* ⭐ Recompensa + ➡️ Próxima */}

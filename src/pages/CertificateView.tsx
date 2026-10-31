@@ -66,10 +66,10 @@ const CertificateView = () => {
         {!cert ? (
           <section className="rounded-xl border border-border bg-card/60 p-6">
             <h1 className="title-display text-xl text-foreground">
-              Ainda não dá para emitir o seu certificado
+              Ainda não dá para emitir o teu certificado
             </h1>
             <p className="mt-2 text-[15px] leading-7 text-muted-foreground">
-              Ele não é de participação. Ele diz que você entregou — então
+              Ele não é de participação. Ele diz que tu entregou — então
               precisa de uma entrega. Falta:
             </p>
             <ul className="mt-4 space-y-2">
@@ -108,14 +108,15 @@ const CertificateView = () => {
             <article className="certificado relative rounded-2xl border border-border bg-card p-8 sm:p-12">
               {/* O agente No ar assina: o certificado existe porque algo foi publicado. */}
               <Agent kind="noar" size={84} className="absolute right-6 top-6 sm:right-10 sm:top-10" />
+              {/* pr-24: o texto não passa por baixo do agente, que fica no canto. */}
               <p
-                className="font-mono text-xs uppercase tracking-[0.2em]"
+                className="pr-24 font-mono text-xs uppercase tracking-[0.2em] sm:pr-28"
                 style={{ color: `hsl(${trail.accentHsl})` }}
               >
                 Certificado de conclusão
               </p>
 
-              <h1 className="title-display mt-6 text-3xl text-foreground sm:text-4xl">
+              <h1 className="title-display mt-6 break-words pr-24 text-3xl text-foreground sm:pr-28 sm:text-4xl">
                 {cert.learnerName}
               </h1>
 

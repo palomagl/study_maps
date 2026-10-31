@@ -200,7 +200,7 @@ describe("seletores", () => {
 /* Trilha de entrega                                                  */
 /* ------------------------------------------------------------------ */
 
-describe("Trilha 1 — Coloque seu primeiro app no ar", () => {
+describe("Trilha 1 — Coloca teu primeiro app no ar", () => {
   it("a trilha de entrega principal é a primeira do currículo", () => {
     expect(curriculum[0].id).toBe("app-no-ar");
   });

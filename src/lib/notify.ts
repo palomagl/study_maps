@@ -17,7 +17,7 @@ export function notifyAchievement(a: AchievementDef): void {
 
 export function notifyLevelUp(level: LevelProgress): void {
   toast(`⭐  Nível ${level.level}`, {
-    description: `Agora você é ${level.title}.`,
+    description: `Agora tu é ${level.title}.`,
     duration: 4000,
   });
 }

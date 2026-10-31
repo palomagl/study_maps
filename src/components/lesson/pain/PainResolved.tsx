@@ -8,11 +8,18 @@ export function PainResolved({
   before,
   after,
   agent,
+  remaining,
 }: {
   before: string;
   after: string;
   agent: AgentKind | null;
+  /**
+   * Aulas da fase ainda não concluídas. O agente só entra pro time quando a
+   * fase inteira acaba — antes disso, a aula diz quanto falta.
+   */
+  remaining: number;
 }) {
+  const label = agent ? AGENTS[agent].label.toUpperCase() : null;
   return (
     <section
       aria-label="Dor resolvida"
@@ -20,9 +27,14 @@ export function PainResolved({
     >
       <div className="flex justify-between gap-4 bg-card px-5 py-3.5 font-mono text-[11px] tracking-[0.14em] text-muted-foreground">
         <span>DOR RESOLVIDA</span>
-        {agent && (
-          <b className="text-primary">✓ {AGENTS[agent].label.toUpperCase()} NO TIME</b>
-        )}
+        {label &&
+          (remaining === 0 ? (
+            <b className="text-primary">✓ {label} NO TIME</b>
+          ) : (
+            <span>
+              {remaining === 1 ? `FALTA 1 AULA PRO ${label}` : `FALTAM ${remaining} AULAS PRO ${label}`}
+            </span>
+          ))}
       </div>
       <div className="grid sm:grid-cols-2">
         <div className="border-b border-border bg-[#150B26] px-5 pb-5 pt-4 sm:border-b-0 sm:border-r">

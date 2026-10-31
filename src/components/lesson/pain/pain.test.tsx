@@ -37,7 +37,7 @@ describe("os cartões da dor", () => {
   });
 
   it("PainResolved mostra antes, agora e o agente que entrou pro time", () => {
-    render(<PainResolved before="Achei feio." after="Três botões brigando." agent="julgamento" />);
+    render(<PainResolved before="Achei feio." after="Três botões brigando." agent="julgamento" remaining={0} />);
     expect(screen.getByText("ANTES")).toBeInTheDocument();
     expect(screen.getByText("AGORA")).toBeInTheDocument();
     expect(screen.getByText(/Achei feio\./)).toBeInTheDocument();
