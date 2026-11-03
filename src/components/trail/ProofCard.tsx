@@ -31,7 +31,9 @@ export function ProofCard({
       setEditing(false);
       setError(null);
     } else {
-      setError("Isso não parece um link. Ele começa com https:// e você consegue abrir numa aba nova.");
+      setError(
+        "Isso não parece um link de algo publicado. Cola o endereço que a Vercel ou a Render te deu — localhost só abre no teu computador.",
+      );
     }
   };
 
@@ -46,7 +48,7 @@ export function ProofCard({
           className="flex items-center gap-2 text-sm font-semibold text-foreground"
         >
           <Link2 className="h-4 w-4" style={{ color: `hsl(${accentHsl})` }} />
-          O seu projeto está no ar
+          O teu projeto tá no ar
         </h2>
         <a
           href={saved.url}
@@ -86,11 +88,11 @@ export function ProofCard({
         className="flex items-center gap-2 text-sm font-semibold text-foreground"
       >
         <Link2 className="h-4 w-4 text-muted-foreground" />
-        Registre o link do que você publicou
+        Registra o link do que tu publicou
       </h2>
       <p className="mt-1 text-[13px] leading-6 text-muted-foreground">
-        É o que separa “fiz um projeto” de “olha ele aqui”. Cole o endereço
-        público do seu app — ele destrava o seu certificado.
+        É o que separa “fiz um projeto” de “olha ele aqui”. Cola o endereço
+        público do teu app — ele destrava o teu certificado.
       </p>
 
       <form onSubmit={submit} className="mt-3 flex flex-col gap-2 sm:flex-row">
@@ -103,7 +105,7 @@ export function ProofCard({
             setError(null);
           }}
           placeholder="https://meu-app.vercel.app"
-          aria-label="Link do seu projeto publicado"
+          aria-label="Link do teu projeto publicado"
           aria-invalid={error ? true : undefined}
           className="flex-1 rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60"
         />

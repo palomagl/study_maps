@@ -9,6 +9,7 @@ import type { Lesson, Phase, Stage, Trail } from "@/content/types";
 import { curriculum, flattenLessons, lessonSteps, type LessonLocation } from "@/content";
 import type { ProgressState } from "@/lib/progress-store";
 import { agentForPhase, type AgentKind } from "@/lib/agents";
+import { questionsForConcept } from "@/lib/review";
 
 export interface LessonCompletion {
   doneSteps: number;
@@ -21,7 +22,9 @@ export function lessonCompletion(
   state: ProgressState,
   lesson: Lesson,
 ): LessonCompletion {
-  const steps = lessonSteps(lesson);
+  // O desafio é "opcional, um degrau acima" na tela: dá XP, mas não trava a
+  // aula — senão quem pula ele, como a tela sugere, nunca conclui a fase.
+  const steps = lessonSteps(lesson).filter((s) => s !== "challenge");
   const stored = state.lessons[lesson.id]?.steps ?? {};
   const done = steps.filter((s) => stored[s] === true).length;
   const total = steps.length || 1;
@@ -118,10 +121,14 @@ export interface ConceptToReview {
   lessons: string[];
 }
 
-/** Conceitos com erro e ainda não resolvidos, do mais recente ao mais antigo. */
+/**
+ * Conceitos com erro e ainda não resolvidos, do mais recente ao mais antigo.
+ * Só os que ainda têm pergunta no currículo: conceito de trilha arquivada
+ * não tem como ser revisado, e ficaria no painel pra sempre.
+ */
 export function conceptsToReview(state: ProgressState): ConceptToReview[] {
   return Object.entries(state.concepts)
-    .filter(([, c]) => !c.resolved && c.errors > 0)
+    .filter(([concept, c]) => !c.resolved && c.errors > 0 && questionsForConcept(concept).length > 0)
     .map(([concept, c]) => ({
       concept,
       errors: c.errors,

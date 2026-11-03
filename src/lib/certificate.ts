@@ -1,6 +1,6 @@
 import type { Trail } from "@/content/types";
 import { flattenLessons } from "@/content";
-import type { ProgressState } from "@/lib/progress-store";
+import type { IssuedCertificate, ProgressState } from "@/lib/progress-store";
 import { trailComplete } from "@/lib/progress-selectors";
 
 /**
@@ -36,6 +36,13 @@ export function certificateGaps(
   state: ProgressState,
   trail: Trail,
 ): CertificateGap[] {
+  // Certificado que já saiu continua valendo: refazer uma aula ou a trilha
+  // ganhar aula nova não tira de ninguém o que já foi entregue. Só o nome
+  // precisa estar lá pra ele ser mostrado.
+  if (state.certificates[trail.id]) {
+    return state.profile.name?.trim() ? [] : ["name"];
+  }
+
   // Sozinha: as outras lacunas sugeririam que a pessoa pode resolver isso.
   if (flattenLessons(trail).some((l) => l.lesson.status !== "available")) {
     return ["trail-unwritten"];
@@ -70,9 +77,20 @@ export function buildCertificate(
 ): CertificateData | null {
   if (certificateGaps(state, trail).length > 0) return null;
 
-  const proof = state.proofs[trail.id];
   const name = state.profile.name!.trim();
+  const issued = state.certificates[trail.id];
+  if (issued) {
+    return {
+      learnerName: name,
+      trailTitle: trail.title,
+      certifies: trail.certifies,
+      proofUrl: issued.proofUrl,
+      issuedAt: issued.issuedAt,
+      code: issued.code,
+    };
+  }
 
+  const proof = state.proofs[trail.id];
   return {
     learnerName: name,
     trailTitle: trail.title,
@@ -107,5 +125,25 @@ export function gapHref(gap: CertificateGap, trailId: string): string | null {
     case "lessons":
     case "proof":
       return `/roadmap/${trailId}`;
+  }
+}
+
+/**
+ * Guarda cada certificado que acabou de ficar pronto e ainda não foi
+ * guardado. Roda a cada mudança de progresso (ver CertificateKeeper no App):
+ * assim o certificado fica guardado no momento em que é conquistado, mesmo
+ * que a pessoa nunca abra a página dele antes de refazer uma aula.
+ */
+export function issueEarnedCertificates(
+  state: ProgressState,
+  trails: Trail[],
+  record: (trailId: string, cert: IssuedCertificate) => void,
+  now: number = Date.now(),
+): void {
+  for (const trail of trails) {
+    if (state.certificates[trail.id]) continue;
+    const cert = buildCertificate(state, trail, now);
+    if (!cert) continue;
+    record(trail.id, { issuedAt: cert.issuedAt, proofUrl: cert.proofUrl, code: cert.code });
   }
 }

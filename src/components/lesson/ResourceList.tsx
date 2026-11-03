@@ -15,11 +15,24 @@ const kindMeta = {
   course: { icon: GraduationCap, label: "Curso" },
 } as const;
 
-const langLabel: Record<string, string> = {
-  "pt-BR": "PT",
-  en: "EN",
-  es: "ES",
+/**
+ * Recurso em outra língua ganha etiqueta visível: um "EN" no fim da linha
+ * passava batido, e quem clica num link em inglês sem aviso desanima.
+ */
+const foreignTag: Record<string, string> = {
+  en: "EM INGLÊS",
+  es: "EM ESPANHOL",
 };
+
+function LangTag({ lang }: { lang?: string }) {
+  const tag = lang ? foreignTag[lang] : undefined;
+  if (!tag) return null;
+  return (
+    <span className="ml-2 inline-block rounded border border-[#FFB020]/40 bg-[#FFB020]/10 px-1.5 py-px align-middle font-mono text-[10px] tracking-[0.08em] text-[#FFB020]">
+      {tag}
+    </span>
+  );
+}
 
 function VideoMeta({ video }: { video: RecommendedVideo }) {
   return (
@@ -27,7 +40,6 @@ function VideoMeta({ video }: { video: RecommendedVideo }) {
       <p className="text-xs text-muted-foreground">
         {video.channel ? `${video.channel} · ` : ""}
         {video.provider}
-        {video.lang ? ` · ${langLabel[video.lang] ?? video.lang}` : ""}
       </p>
       {video.description && (
         <p className="mt-1 text-xs text-muted-foreground/80">{video.description}</p>
@@ -65,6 +77,7 @@ export function VideoCard({
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-medium text-foreground group-hover:text-primary">
             {video.title}
+            <LangTag lang={video.lang} />
           </p>
           <VideoMeta video={video} />
         </div>
@@ -116,7 +129,10 @@ export function VideoCard({
 
       <div className="flex items-start gap-3 p-4">
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-medium text-foreground">{video.title}</p>
+          <p className="text-sm font-medium text-foreground">
+            {video.title}
+            <LangTag lang={video.lang} />
+          </p>
           <VideoMeta video={video} />
         </div>
         <a
@@ -134,9 +150,22 @@ export function VideoCard({
 }
 
 export function ResourceList({ resources }: { resources: FreeResource[] }) {
+  // Português primeiro; o sort é estável, então a ordem do autor se mantém
+  // dentro de cada grupo.
+  const sorted = [...resources].sort(
+    (a, b) => Number(!!a.lang && a.lang in foreignTag) - Number(!!b.lang && b.lang in foreignTag),
+  );
+  const hasForeign = sorted.some((r) => r.lang && r.lang in foreignTag);
   return (
+    <>
+    {hasForeign && (
+      <p className="mb-2 text-xs text-muted-foreground">
+        Alguns links são em inglês. O tradutor do navegador resolve: clica com o
+        botão direito na página e escolhe “Traduzir para o português”.
+      </p>
+    )}
     <ul className="space-y-2">
-      {resources.map((r, i) => {
+      {sorted.map((r, i) => {
         const meta = kindMeta[r.kind];
         const Icon = meta.icon;
         return (
@@ -151,10 +180,10 @@ export function ResourceList({ resources }: { resources: FreeResource[] }) {
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-medium text-foreground group-hover:text-primary">
                   {r.title}
+                  <LangTag lang={r.lang} />
                 </p>
                 <p className="text-xs text-muted-foreground">
                   {meta.label} · {r.provider}
-                  {r.lang ? ` · ${langLabel[r.lang] ?? r.lang}` : ""}
                   {r.durationLabel ? ` · ${r.durationLabel}` : ""}
                 </p>
                 {r.description && (
@@ -169,5 +198,6 @@ export function ResourceList({ resources }: { resources: FreeResource[] }) {
         );
       })}
     </ul>
+    </>
   );
 }

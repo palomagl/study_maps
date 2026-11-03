@@ -92,7 +92,7 @@ function LessonPanel({
       {!draft && lesson.learningObjectives.length > 0 && (
         <section className="mt-5">
           <h4 className="mb-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
-            O que você vai aprender
+            O que tu vai aprender
           </h4>
           <ul className="space-y-1.5">
             {lesson.learningObjectives.map((o) => (

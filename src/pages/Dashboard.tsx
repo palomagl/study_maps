@@ -213,7 +213,7 @@ const Dashboard = () => {
             <SectionTitle>Para revisar</SectionTitle>
             {review.length === 0 ? (
               <div className="rounded-2xl border border-dashed border-border bg-secondary/10 p-5 text-sm text-muted-foreground">
-                Nada pendente por aqui. Conceitos que você errar nas perguntas
+                Nada pendente por aqui. Conceitos que tu errar nas perguntas
                 aparecem nesta lista para revisão.
               </div>
             ) : (
@@ -221,7 +221,7 @@ const Dashboard = () => {
                 {hasRecurringDifficulty(state) && (
                   <p className="mb-3 flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/5 p-2.5 text-xs text-muted-foreground">
                     <Sparkles className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-amber-400" />
-                    Você tropeçou mais de uma vez em alguns conceitos. Vale uma
+                    Tu tropeçou mais de uma vez em alguns conceitos. Vale uma
                     revisão focada.
                   </p>
                 )}
@@ -260,7 +260,7 @@ const Dashboard = () => {
         {/* projetos */}
         <section className="mt-8">
           <div className="mb-3 flex items-center justify-between">
-            <SectionTitle noMargin>O que você vai conseguir construir</SectionTitle>
+            <SectionTitle noMargin>O que tu vai conseguir construir</SectionTitle>
             <Link
               to={`/roadmap/${trail.id}/projetos`}
               className="text-xs font-medium text-muted-foreground underline hover:text-foreground"

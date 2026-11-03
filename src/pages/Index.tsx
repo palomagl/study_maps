@@ -45,7 +45,7 @@ const Index = () => {
           </span>
 
           <h1 className="title-display mx-auto mt-5 max-w-4xl text-[2.6rem] sm:text-6xl lg:text-[4.2rem]">
-            Tire suas ideias <span className="text-primary">do papel.</span>
+            Tira tuas ideias <span className="text-primary">do papel.</span>
           </h1>
 
           <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">

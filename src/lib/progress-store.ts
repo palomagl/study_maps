@@ -88,17 +88,59 @@ export interface ProgressState {
   missionsClaimed: string[];
   /** Link publicado por trilha. Chave = TrailId. */
   proofs: Record<string, ProofRecord>;
+  /** Certificado já emitido, por trilha. Chave = TrailId. */
+  certificates: Record<string, IssuedCertificate>;
   profile: ProfileState;
 }
 
-/** Aceita só http(s). Devolve a url normalizada, ou null. */
+/** O que fica guardado quando o certificado sai pela primeira vez. */
+export interface IssuedCertificate {
+  issuedAt: number;
+  proofUrl: string;
+  code: string;
+}
+
+const MAX_PROOF_URL = 2000;
+
+/**
+ * Raiz de plataforma sozinha não é o app de ninguém — é o endereço da
+ * plataforma. O app mora num subdomínio dela.
+ */
+const PLATFORM_ROOTS = new Set([
+  "vercel.app",
+  "onrender.com",
+  "netlify.app",
+  "github.io",
+  "lovable.app",
+]);
+
+/** Endereço que só abre no computador da pessoa ou na rede da casa dela. */
+function isLocalHost(host: string): boolean {
+  const h = host.replace(/^\[|\]$/g, "");
+  if (h === "localhost" || h.endsWith(".localhost") || h === "::1" || h === "0.0.0.0") return true;
+  if (!h.includes(".")) return true; // "meu-pc", nome de máquina
+  const ip = h.match(/^(\d+)\.(\d+)\.\d+\.\d+$/);
+  if (!ip) return false;
+  const [a, b] = [Number(ip[1]), Number(ip[2])];
+  return a === 127 || a === 10 || (a === 192 && b === 168) || (a === 172 && b >= 16 && b <= 31);
+}
+
+/**
+ * Aceita só http(s) de algo publicado: nada de localhost, rede de casa ou
+ * raiz de plataforma. Link copiado sem o https:// ganha o https:// — a
+ * Vercel mostra o domínio assim no painel. Devolve o texto (com o https://
+ * quando faltou), ou null.
+ */
 export function parseProofUrl(value: string): string | null {
-  const trimmed = value.trim();
-  if (!trimmed) return null;
+  let text = value.trim();
+  if (!text || text.length > MAX_PROOF_URL || /\s/.test(text)) return null;
+  if (!/^[a-z][a-z0-9+.-]*:/i.test(text)) text = `https://${text}`;
   try {
-    const url = new URL(trimmed);
+    const url = new URL(text);
     if (url.protocol !== "http:" && url.protocol !== "https:") return null;
-    return trimmed;
+    const host = url.hostname.toLowerCase();
+    if (isLocalHost(host) || PLATFORM_ROOTS.has(host)) return null;
+    return text;
   } catch {
     return null;
   }
@@ -118,6 +160,7 @@ export function defaultState(): ProgressState {
     achievements: [],
     missionsClaimed: [],
     proofs: {},
+    certificates: {},
     profile: defaultProfile(),
   };
 }
@@ -231,6 +274,16 @@ export function parseState(rawJson: string | null): ProgressState {
     }
   }
 
+  const certificates: ProgressState["certificates"] = {};
+  if (isObject(parsed.certificates)) {
+    for (const [trailId, raw] of Object.entries(parsed.certificates)) {
+      if (!isObject(raw) || typeof raw.proofUrl !== "string" || typeof raw.code !== "string") continue;
+      const proofUrl = parseProofUrl(raw.proofUrl);
+      if (!proofUrl) continue;
+      certificates[trailId] = { issuedAt: Number(raw.issuedAt) || 0, proofUrl, code: raw.code };
+    }
+  }
+
   const rawProfile = isObject(parsed.profile) ? parsed.profile : {};
   const str = (v: unknown): string | null => (typeof v === "string" ? v : null);
   const profile: ProfileState = {
@@ -250,6 +303,7 @@ export function parseState(rawJson: string | null): ProgressState {
     achievements: strArray(parsed.achievements),
     missionsClaimed: strArray(parsed.missionsClaimed),
     proofs,
+    certificates,
     profile,
   };
 }
@@ -499,6 +553,19 @@ export class ProgressStore {
       },
     });
     return true;
+  }
+
+  /**
+   * Guarda o certificado na primeira vez que ele sai, e nunca sobrescreve.
+   * Daí em diante ele vale mesmo que a pessoa refaça uma aula ou que a
+   * trilha ganhe aula nova — certificado não é pra sumir.
+   */
+  recordCertificate(trailId: string, cert: IssuedCertificate): void {
+    if (this.state.certificates[trailId]) return;
+    this.commit({
+      ...this.state,
+      certificates: { ...this.state.certificates, [trailId]: cert },
+    });
   }
 
   /* -------- perfil / onboarding -------- */

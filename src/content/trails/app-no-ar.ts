@@ -15,7 +15,7 @@ import { recortaAIdeia } from "@/content/lessons/ar-ideia-01-recortar";
 import { oQueFazParecerGenerico } from "@/content/lessons/ar-julgamento-01-generico";
 
 /**
- * Trilha 1 — Coloque seu primeiro app no ar.
+ * Trilha 1 — Coloca teu primeiro app no ar.
  *
  * As seis fases são os seis passos do loop que o projeto ensina:
  * ideia e referência → especificação → geração → julgamento → conserto →
@@ -29,10 +29,10 @@ import { oQueFazParecerGenerico } from "@/content/lessons/ar-julgamento-01-gener
  */
 export const appNoArTrail: Trail = {
   id: "app-no-ar",
-  title: "Coloque seu primeiro app no ar",
+  title: "Coloca teu primeiro app no ar",
   subtitle: "Da ideia ao link público, com IA",
   description:
-    "Você chega com uma ideia e sai com um link para mandar para alguém. No caminho aprende o que separa um resultado genérico de um resultado seu: referência antes de gerar, pedido escrito, olho para julgar e conserto dirigido.",
+    "Tu chega com uma ideia e sai com um link pra mandar pra alguém. No caminho aprende o que separa um resultado genérico de um resultado teu: referência antes de gerar, pedido escrito, olho pra julgar e conserto dirigido.",
   glowClass: "glow-green",
   colorClass: "text-primary",
   accentHsl: "158 90% 60%",
@@ -51,7 +51,7 @@ export const appNoArTrail: Trail = {
       id: "ar-p1",
       title: "Ideia e referência",
       description:
-        "O que fazer antes de abrir qualquer IA. Sem referência, o resultado é a média da internet — porque foi isso que você pediu.",
+        "O que fazer antes de abrir qualquer IA. Sem referência, o resultado é a média da internet — porque foi isso que tu pediu.",
       stages: [
         {
           id: "ar-s1",
@@ -71,11 +71,11 @@ export const appNoArTrail: Trail = {
       id: "ar-p2",
       title: "Especificação",
       description:
-        "Dizer o que você quer de verdade. Aqui a IA é co-autora do pedido, não executora ainda.",
+        "Dizer o que tu quer de verdade. Aqui a IA é co-autora do pedido, não executora ainda.",
       stages: [
         {
           id: "ar-s2",
-          title: "Dizer o que você quer",
+          title: "Dizer o que tu quer",
           description:
             "Transformar a ideia e as referências em um pedido que não deixa a ferramenta adivinhar.",
           difficulty: "iniciante",
@@ -116,10 +116,10 @@ export const appNoArTrail: Trail = {
           id: "ar-s4",
           title: "Aprender a enxergar",
           description:
-            "Comparar, nomear o defeito e ter um checklist que você aplica em qualquer coisa que gerar.",
+            "Comparar, nomear o defeito e ter um checklist que tu aplica em qualquer coisa que gerar.",
           difficulty: "iniciante",
           evolutionMoment:
-            "👀 Agora você enxerga o que está ruim — e consegue dizer por quê.",
+            "👀 Agora tu enxerga o que tá ruim — e consegue dizer por quê.",
           lessons: [
             oQueFazParecerGenerico,
             teuChecklist,
@@ -158,10 +158,10 @@ export const appNoArTrail: Trail = {
           id: "ar-s6",
           title: "Colocar no ar",
           description:
-            "GitHub porque é de lá que o deploy puxa o código; Vercel ou Render conforme o que o seu projeto tem dentro.",
+            "GitHub porque é de lá que o deploy puxa o código; Vercel ou Render conforme o que o teu projeto tem dentro.",
           difficulty: "iniciante",
           evolutionMoment:
-            "🚀 Seu projeto existe fora do seu computador. Tem link e dá para mandar.",
+            "🚀 Teu projeto existe fora do teu computador. Tem link e dá pra mandar.",
           lessons: [
             githubOndeExiste,
             gitNoTerminal,
@@ -180,10 +180,10 @@ export const appNoArTrail: Trail = {
   projects: [
     {
       id: "ar-proj-seu-app",
-      title: "O seu app, no ar",
-      tagline: "Um link que funciona e você pode mandar para alguém",
+      title: "O teu app, no ar",
+      tagline: "Um link que funciona e tu pode mandar pra alguém",
       description:
-        "A entrega desta trilha não é um exercício: é a sua própria ideia, publicada. Você escolhe o que construir na primeira aula e carrega essa ideia pelas seis fases, até ela ter endereço público.",
+        "A entrega desta trilha não é um exercício: é a tua própria ideia, publicada. Tu escolhe o que construir na primeira aula e carrega essa ideia pelas seis fases, até ela ter endereço público.",
       difficulty: "iniciante",
       technologies: ["Lovable", "GitHub", "Vercel ou Render"],
       skills: [

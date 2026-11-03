@@ -56,7 +56,7 @@ describe("smoke — páginas renderizam sem quebrar", () => {
   it("a home mostra o time no palco", () => {
     renderAt("/");
     expect(
-      screen.getByRole("heading", { name: /Tire suas ideias do papel/i, level: 1 }),
+      screen.getByRole("heading", { name: /Tira tuas ideias do papel/i, level: 1 }),
     ).toBeInTheDocument();
     expect(screen.getAllByRole("img", { name: /^Agente / }).length).toBeGreaterThanOrEqual(6);
     expect(screen.queryByText(/aprenda programação/i)).not.toBeInTheDocument();
@@ -65,7 +65,7 @@ describe("smoke — páginas renderizam sem quebrar", () => {
   it("Home lista a trilha de entrega", () => {
     renderAt("/");
     expect(
-      screen.getAllByText("Coloque seu primeiro app no ar").length,
+      screen.getAllByText("Coloca teu primeiro app no ar").length,
     ).toBeGreaterThan(0);
   });
 
@@ -93,7 +93,7 @@ describe("smoke — páginas renderizam sem quebrar", () => {
   it("o mapa vem antes do cartão da prova", () => {
     renderAt(TRILHA);
     const mapa = screen.getByRole("tablist", { name: "Modo de visualização" });
-    const prova = screen.getByLabelText("Link do seu projeto publicado");
+    const prova = screen.getByLabelText("Link do teu projeto publicado");
     expect(mapa.compareDocumentPosition(prova) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
@@ -214,34 +214,34 @@ describe("smoke — páginas renderizam sem quebrar", () => {
   it("Onboarding (/inicio) começa pedindo o nome", () => {
     renderAt("/inicio");
     expect(
-      screen.getByRole("heading", { name: /Vamos montar sua trilha/ }),
+      screen.getByRole("heading", { name: /Vamos montar tua trilha/ }),
     ).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/Seu nome/)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/Teu nome/)).toBeInTheDocument();
   });
 
   it("ProjectsView lista a entrega da trilha", () => {
     renderAt(`${TRILHA}/projetos`);
     expect(
-      screen.getByRole("heading", { name: /O que você vai conseguir construir/ }),
+      screen.getByRole("heading", { name: /O que tu vai conseguir construir/ }),
     ).toBeInTheDocument();
-    expect(screen.getByText("O seu app, no ar")).toBeInTheDocument();
+    expect(screen.getByText("O teu app, no ar")).toBeInTheDocument();
   });
 
   it("RoadmapViewer oferece registrar o link publicado", () => {
     renderAt(TRILHA);
     expect(
-      screen.getByLabelText("Link do seu projeto publicado"),
+      screen.getByLabelText("Link do teu projeto publicado"),
     ).toBeInTheDocument();
   });
 
   it("link inválido no registro da prova avisa e não salva", () => {
     renderAt(TRILHA);
-    fireEvent.change(screen.getByLabelText("Link do seu projeto publicado"), {
+    fireEvent.change(screen.getByLabelText("Link do teu projeto publicado"), {
       target: { value: "meu app ta pronto" },
     });
     fireEvent.click(screen.getByRole("button", { name: "Salvar" }));
     expect(screen.getByRole("alert")).toHaveTextContent(/não parece um link/i);
-    expect(screen.queryByText("O seu projeto está no ar")).not.toBeInTheDocument();
+    expect(screen.queryByText("O teu projeto tá no ar")).not.toBeInTheDocument();
   });
 
   it("a trilha diz o que falta para o certificado", () => {

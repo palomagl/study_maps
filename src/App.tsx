@@ -13,6 +13,7 @@ import ReviewView from "./pages/ReviewView";
 import CertificateView from "./pages/CertificateView";
 import NotFound from "./pages/NotFound";
 import GamificationRuntime from "./components/GamificationRuntime";
+import CertificateKeeper from "@/components/CertificateKeeper";
 
 /** Para onde vai quem chega por um link antigo de trilha de código. */
 const CURRENT_TRAIL = "/roadmap/app-no-ar";
@@ -65,6 +66,7 @@ const App = () => (
     <Toaster />
     <Sonner />
     <GamificationRuntime />
+    <CertificateKeeper />
     <BrowserRouter>
       <AppRoutes />
     </BrowserRouter>

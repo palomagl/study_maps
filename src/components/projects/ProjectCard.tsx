@@ -70,7 +70,7 @@ export function ProjectCard({
           <>
             <div className="mt-3">
               <p className="mb-1 flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                <Wrench className="h-3 w-3" /> Você vai praticar
+                <Wrench className="h-3 w-3" /> Tu vai praticar
               </p>
               <div className="flex flex-wrap gap-1">
                 {project.skills.map((s) => (
@@ -100,7 +100,7 @@ export function ProjectCard({
 
         <div className="mt-auto pt-3">
           <div className="mb-1 flex justify-between text-[11px] text-muted-foreground">
-            <span>{unlocked ? "Você já pode construir" : "Preparo da trilha"}</span>
+            <span>{unlocked ? "Tu já pode construir" : "Preparo da trilha"}</span>
             <span>{readiness}%</span>
           </div>
           <div className="h-1.5 overflow-hidden rounded-full bg-secondary">

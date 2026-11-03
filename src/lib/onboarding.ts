@@ -66,7 +66,7 @@ export function recommendTrail(
     return {
       trailId: "app-no-ar",
       reason:
-        "O caminho é o mesmo — recortar, especificar, julgar e publicar. Faça esta trilha com a sua tarefa chata no lugar do app.",
+        "O caminho é o mesmo — recortar, especificar, julgar e publicar. Faz esta trilha com a tua tarefa chata no lugar do app.",
     };
   }
 
@@ -75,13 +75,13 @@ export function recommendTrail(
       return {
         trailId: "app-no-ar",
         reason:
-          "Você já faz coisas com IA. Aqui o ganho é o passo que quase ninguém tem: julgar o resultado e consertar com precisão.",
+          "Tu já faz coisas com IA. Aqui o ganho é o passo que quase ninguém tem: julgar o resultado e consertar com precisão.",
       };
     }
     return {
       trailId: "app-no-ar",
       reason:
-        "Comece colocando uma coisa pequena no ar. Ter um link que funciona muda o que você acha que consegue fazer.",
+        "Começa colocando uma coisa pequena no ar. Ter um link que funciona muda o que tu acha que consegue fazer.",
     };
   }
 
@@ -90,12 +90,12 @@ export function recommendTrail(
     return {
       trailId: "app-no-ar",
       reason:
-        "Você já publicou algo, então a parte final vai ser rápida — o que essa trilha te dá é o olho para o resultado não sair genérico.",
+        "Tu já publicou algo, então a parte final vai ser rápida — o que essa trilha te dá é o olho para o resultado não sair genérico.",
     };
   }
   return {
     trailId: "app-no-ar",
     reason:
-      "É exatamente o que essa trilha faz: você entra com uma ideia e sai com um link para mandar para alguém.",
+      "É exatamente o que essa trilha faz: tu entra com uma ideia e sai com um link para mandar para alguém.",
   };
 }

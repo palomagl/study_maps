@@ -95,7 +95,7 @@ export const ACHIEVEMENTS: AchievementDef[] = [
     id: "primeiro-passo",
     icon: "👣",
     title: "Primeiro Passo",
-    description: "Você concluiu o primeiro passo de uma aula.",
+    description: "Tu concluiu o primeiro passo de uma aula.",
     test: (s) => completedStepCount(s) >= 1,
   },
   {
@@ -103,7 +103,7 @@ export const ACHIEVEMENTS: AchievementDef[] = [
     icon: "🔗",
     title: "Primeiro Link no Ar",
     description:
-      "Seu projeto existe fora do seu computador. Tem endereço e dá para mandar.",
+      "Teu projeto existe fora do teu computador. Tem endereço e dá pra mandar.",
     test: (s) => Object.keys(s.proofs).length > 0,
   },
   {
@@ -117,7 +117,7 @@ export const ACHIEVEMENTS: AchievementDef[] = [
     id: "primeiro-codigo",
     icon: "💻",
     title: "Primeiro Código",
-    description: "Concluiu seu primeiro exercício prático.",
+    description: "Concluiu teu primeiro exercício prático.",
     test: (s) => completedStepCount(s, "practice") >= 1,
   },
   {
@@ -207,7 +207,7 @@ export interface MissionDef {
 export const MISSIONS: MissionDef[] = [
   {
     id: "m-primeira-aula",
-    title: "Conclua sua primeira aula",
+    title: "Conclui tua primeira aula",
     description: "Passe por todos os passos de uma aula, do conteúdo ao checkpoint.",
     bonusXp: 40,
     progress: (s) => ({ current: completedLessonCount(s), target: 1 }),
@@ -215,7 +215,7 @@ export const MISSIONS: MissionDef[] = [
   {
     id: "m-tres-exercicios",
     title: "Pratique de verdade",
-    description: "Conclua 3 exercícios práticos.",
+    description: "Conclui 3 exercícios práticos.",
     bonusXp: 30,
     progress: (s) => ({ current: completedStepCount(s, "practice"), target: 3 }),
   },
