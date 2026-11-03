@@ -112,7 +112,32 @@ git push
     },
   ],
 
+  video: {
+    title: "Git: minicurso para sair do zero (em 45 minutos)",
+    provider: "YouTube",
+    channel: "Código Fonte TV",
+    url: "https://www.youtube.com/watch?v=ts-H3W1uLMM",
+    description: "Os comandos do dia a dia, um por um, no terminal.",
+    lang: "pt-BR",
+  },
+
   freeResources: [
+    {
+      kind: "course",
+      title: "Curso de Git e GitHub — aula 1",
+      provider: "Curso em Vídeo · YouTube",
+      url: "https://www.youtube.com/watch?v=xEKo29OWILE",
+      description: "O curso completo e grátis do Guanabara, pra quem quer ir além dos seis comandos.",
+      lang: "pt-BR",
+    },
+    {
+      kind: "person",
+      title: "Código Fonte TV",
+      provider: "YouTube",
+      url: "https://www.youtube.com/@codigofontetv",
+      description: "Notícia e explicação de tecnologia, sem enrolação.",
+      lang: "pt-BR",
+    },
     {
       kind: "docs",
       title: "Pro Git — Primeiros Passos",

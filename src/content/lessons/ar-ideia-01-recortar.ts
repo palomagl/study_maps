@@ -74,6 +74,15 @@ Depois:
     },
   ],
 
+  video: {
+    title: "O que é MVP (produto mínimo viável)? Exemplos práticos",
+    provider: "YouTube",
+    channel: "Gabriel Valle",
+    url: "https://www.youtube.com/watch?v=i6nWH7STrb4",
+    description: "O que é a primeira versão que já serve pra alguém — com exemplos de empresa de verdade.",
+    lang: "pt-BR",
+  },
+
   freeResources: [
     {
       kind: "docs",

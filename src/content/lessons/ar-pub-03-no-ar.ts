@@ -87,6 +87,15 @@ No celular de um amigo, em outra rede:
     },
   ],
 
+  video: {
+    title: "Controlando dados sensíveis com variáveis de ambiente",
+    provider: "YouTube",
+    channel: "Mario Souto — Dev Soutinho",
+    url: "https://www.youtube.com/watch?v=BP2KQtCyzo8",
+    description: "Por que chave e senha ficam fora do código, e como fazer isso.",
+    lang: "pt-BR",
+  },
+
   freeResources: [
     {
       kind: "docs",

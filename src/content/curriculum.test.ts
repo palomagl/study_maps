@@ -182,17 +182,18 @@ describe("seletores", () => {
 
   it("lessonSteps/lessonMaxXp refletem as partes da aula", () => {
     const julgamento = getLessonLocation("app-no-ar", "ar-jul-01-generico")!.lesson;
-    // Sem "watch": a aula não tem vídeo, porque não havia um verificado.
+    // Com "watch": o vídeo do Felipe Borges, conferido no oEmbed em 03/11.
     expect(lessonSteps(julgamento)).toEqual([
       "learn",
+      "watch",
       "explore",
       "quiz",
       "practice",
       "challenge",
       "checkpoint",
     ]);
-    // 10 + 5 + 20 + 30 + 50 + 80
-    expect(lessonMaxXp(julgamento)).toBe(195);
+    // 10 + 15 + 5 + 20 + 30 + 50 + 80
+    expect(lessonMaxXp(julgamento)).toBe(210);
   });
 });
 
@@ -529,5 +530,27 @@ describe("a trilha não depende de uma ferramenta só", () => {
     for (const l of trilha.filter((x) => x.status === "available")) {
       for (const o of l.learningObjectives) expect(o.length, `${l.id}: ${o}`).toBeLessThanOrEqual(55);
     }
+  });
+});
+
+/*
+ * Pedido da autora: aulas com vídeo de verdade do YouTube, gente pra
+ * acompanhar e cursos bons. Cada link foi conferido no oEmbed do YouTube
+ * (título e canal batem) em 03/11.
+ */
+describe("vídeos, gente pra acompanhar e cursos", () => {
+  const trilha = flattenLessons(getTrail("app-no-ar")!).map((l) => l.lesson);
+
+  it("toda aula escrita tem um vídeo do YouTube, com o canal dito", () => {
+    for (const l of trilha.filter((x) => x.status === "available")) {
+      expect(parseYouTubeId(l.video?.url ?? ""), l.id).toBeTruthy();
+      expect(l.video?.channel?.trim(), l.id).toBeTruthy();
+    }
+  });
+
+  it("a trilha indica gente pra acompanhar e curso grátis", () => {
+    const tipos = new Set(trilha.flatMap((l) => l.freeResources.map((r) => r.kind)));
+    expect(tipos.has("person")).toBe(true);
+    expect(tipos.has("course")).toBe(true);
   });
 });

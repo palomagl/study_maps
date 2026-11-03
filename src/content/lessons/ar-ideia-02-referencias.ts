@@ -84,7 +84,32 @@ Pasta B:
     },
   ],
 
+  video: {
+    title: "Como buscar referências de design gráfico",
+    provider: "YouTube",
+    channel: "Nadine Fronza",
+    url: "https://www.youtube.com/watch?v=8JeS6_ALTnE",
+    description: "Onde procurar referência e o que olhar nela — em vez de copiar inteira.",
+    lang: "pt-BR",
+  },
+
   freeResources: [
+    {
+      kind: "video",
+      title: "Meu segredo para fazer designs irresistíveis com IA (design.json)",
+      provider: "Deborah Folloni · YouTube",
+      url: "https://www.youtube.com/watch?v=7x1Na273zhI",
+      description: "Como passar a tua referência pra IA de um jeito que ela entende.",
+      lang: "pt-BR",
+    },
+    {
+      kind: "person",
+      title: "Nadine Fronza",
+      provider: "YouTube",
+      url: "https://www.youtube.com/@NadineFronza",
+      description: "Design explicado simples: hierarquia, referência, princípios.",
+      lang: "pt-BR",
+    },
     {
       kind: "docs",
       title: "Work with Lovable in the project chat",

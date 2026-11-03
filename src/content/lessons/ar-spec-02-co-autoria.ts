@@ -86,6 +86,15 @@ Caminho 2 — perguntar antes:
     },
   ],
 
+  video: {
+    title: "6 conselhos de especialistas sobre como falar com a IA",
+    provider: "YouTube",
+    channel: "BBC News Brasil",
+    url: "https://www.youtube.com/watch?v=MQhDU9CI-v4",
+    description: "Especialistas explicando como conversar com a IA pra ter resposta melhor.",
+    lang: "pt-BR",
+  },
+
   freeResources: [
     {
       kind: "docs",

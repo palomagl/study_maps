@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BookText, FileCode2, GraduationCap, Play, PlayCircle, ExternalLink } from "lucide-react";
+import { BookText, FileCode2, GraduationCap, Play, PlayCircle, ExternalLink, UserRound } from "lucide-react";
 import type { FreeResource, RecommendedVideo } from "@/content/types";
 import {
   parseYouTubeId,
@@ -13,6 +13,7 @@ const kindMeta = {
   article: { icon: BookText, label: "Artigo" },
   docs: { icon: FileCode2, label: "Documentação" },
   course: { icon: GraduationCap, label: "Curso" },
+  person: { icon: UserRound, label: "Pra acompanhar" },
 } as const;
 
 /**
