@@ -70,7 +70,24 @@ Defeitos: 1, 2, 3, 4 e 6. Aceitar isso não era decidir — era desistir.`,
     },
   ],
 
+  video: {
+    title: "Como criar hierarquia visual no design (explicado simples!)",
+    provider: "YouTube",
+    channel: "Nadine Fronza",
+    url: "https://www.youtube.com/watch?v=AKMyVYdElwk",
+    description: "O que faz o olho saber pra onde ir primeiro — a base do teu checklist.",
+    lang: "pt-BR",
+  },
+
   freeResources: [
+    {
+      kind: "video",
+      title: "As dez heurísticas de usabilidade de Jakob Nielsen (com exemplos)",
+      provider: "DesCOMPlica, Oliba! · YouTube",
+      url: "https://www.youtube.com/watch?v=1gBV5PmiQz4",
+      description: "As dez perguntas clássicas pra julgar qualquer tela.",
+      lang: "pt-BR",
+    },
     {
       kind: "article",
       title: "5 Principles of Visual Design in UX",

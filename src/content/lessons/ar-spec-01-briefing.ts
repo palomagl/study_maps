@@ -76,7 +76,33 @@ REFERÊNCIAS: a cara de convite do Partiful; o roxo só no botão principal.`,
     },
   ],
 
+  video: {
+    title: "Engenharia de prompt: 7 passos para o prompt perfeito",
+    provider: "YouTube",
+    channel: "Bruno Picinini",
+    url: "https://www.youtube.com/watch?v=oFGXr2pgKLY",
+    description: "Os passos de um pedido bem escrito, em oito minutos.",
+    lang: "pt-BR",
+  },
+
   freeResources: [
+    {
+      kind: "course",
+      title: "Engenharia de Prompt: O Guia Definitivo",
+      provider: "Bruno Picinini · YouTube",
+      url: "https://www.youtube.com/watch?v=1VDcke66TRE",
+      description: "Aula longa e grátis, pra quem quer ir fundo em como pedir pra IA.",
+      lang: "pt-BR",
+      durationLabel: "1h27",
+    },
+    {
+      kind: "person",
+      title: "Bruno Picinini",
+      provider: "YouTube",
+      url: "https://www.youtube.com/@brunopicinini",
+      description: "Prompt e IA no dia a dia, em português.",
+      lang: "pt-BR",
+    },
     {
       kind: "docs",
       title: "Prompting best practices",

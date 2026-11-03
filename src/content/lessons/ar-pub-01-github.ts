@@ -91,7 +91,24 @@ No GitHub:
     },
   ],
 
+  video: {
+    title: "O que é Git e GitHub?",
+    provider: "YouTube",
+    channel: "Curso em Vídeo",
+    url: "https://www.youtube.com/watch?v=GDGMf2bnHlE",
+    description: "O professor Gustavo Guanabara explicando repositório e GitHub do zero.",
+    lang: "pt-BR",
+  },
+
   freeResources: [
+    {
+      kind: "person",
+      title: "Curso em Vídeo (Gustavo Guanabara)",
+      provider: "YouTube",
+      url: "https://www.youtube.com/@cursoemvideo",
+      description: "Cursos grátis e completos de programação, em português.",
+      lang: "pt-BR",
+    },
     {
       kind: "docs",
       title: "About repositories",

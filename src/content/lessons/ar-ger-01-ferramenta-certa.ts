@@ -84,7 +84,42 @@ PUBLICAR    guardar o código e pôr no ar         → GitHub + Vercel ou Render
     },
   ],
 
+  video: {
+    title: "Curso Básico de Claude — Aula 2: Artefatos, criando apps sem programar",
+    provider: "YouTube",
+    channel: "Hashtag No Code & IA",
+    url: "https://www.youtube.com/watch?v=jNtH1BO27MU",
+    description: "O caminho grátis na prática: a tela aparecendo do lado da conversa.",
+    lang: "pt-BR",
+  },
+
   freeResources: [
+    {
+      kind: "course",
+      title: "Curso Lovable gratuito para iniciantes",
+      provider: "NoCode StartUp · YouTube",
+      url: "https://www.youtube.com/watch?v=fqB8KHakEzo",
+      description: "Se tu for pelo construtor no navegador.",
+      lang: "pt-BR",
+      durationLabel: "1h03",
+    },
+    {
+      kind: "course",
+      title: "Curso Cursor gratuito para iniciantes: do zero ao app",
+      provider: "NoCode StartUp · YouTube",
+      url: "https://www.youtube.com/watch?v=N1A-_LdKg40",
+      description: "Se tu for pelo caminho pago, com editor e agente de código.",
+      lang: "pt-BR",
+      durationLabel: "1h20",
+    },
+    {
+      kind: "video",
+      title: "Vibe Coding com Claude Code: guia para iniciantes (do zero ao deploy)",
+      provider: "Chiara Costa · YouTube",
+      url: "https://www.youtube.com/watch?v=ayi0BwU-ZyE",
+      description: "O Claude Code do começo até o app no ar.",
+      lang: "pt-BR",
+    },
     {
       kind: "docs",
       title: "What are artifacts and how do I use them?",

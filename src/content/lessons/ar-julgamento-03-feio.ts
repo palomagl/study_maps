@@ -79,7 +79,24 @@ export const fazAVersaoFeia: Lesson = {
     },
   ],
 
+  video: {
+    title: "Princípios de design gráfico para iniciantes",
+    provider: "YouTube",
+    channel: "Nadine Fronza",
+    url: "https://www.youtube.com/watch?v=pVlCTdb1c90",
+    description: "Os princípios que te ajudam a dar nome ao que tá feio.",
+    lang: "pt-BR",
+  },
+
   freeResources: [
+    {
+      kind: "person",
+      title: "Nadine Fronza",
+      provider: "YouTube",
+      url: "https://www.youtube.com/@NadineFronza",
+      description: "Design explicado simples: hierarquia, referência, princípios.",
+      lang: "pt-BR",
+    },
     {
       kind: "video",
       title: "Squint Test",

@@ -24,7 +24,9 @@ export function lessonCompletion(
 ): LessonCompletion {
   // O desafio é "opcional, um degrau acima" na tela: dá XP, mas não trava a
   // aula — senão quem pula ele, como a tela sugere, nunca conclui a fase.
-  const steps = lessonSteps(lesson).filter((s) => s !== "challenge");
+  // O vídeo também é extra: pôr vídeo numa aula não pode desfazer a aula de
+  // quem já terminou ela.
+  const steps = lessonSteps(lesson).filter((s) => s !== "challenge" && s !== "watch");
   const stored = state.lessons[lesson.id]?.steps ?? {};
   const done = steps.filter((s) => stored[s] === true).length;
   const total = steps.length || 1;

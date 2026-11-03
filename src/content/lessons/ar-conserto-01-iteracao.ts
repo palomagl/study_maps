@@ -83,6 +83,15 @@ Pedido de conserto:
     },
   ],
 
+  video: {
+    title: "Vibe coding: o que acontece com o dev que só cola erro no ChatGPT?",
+    provider: "YouTube",
+    channel: "mano deyvin",
+    url: "https://www.youtube.com/watch?v=X2pT_fKRokI",
+    description: "O que dá errado quando tu só cola o erro e pede “arruma”.",
+    lang: "pt-BR",
+  },
+
   freeResources: [
     {
       kind: "docs",

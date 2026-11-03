@@ -179,3 +179,15 @@ describe("o certificado é guardado assim que fica pronto", () => {
     expect(guardar).not.toHaveBeenCalled();
   });
 });
+
+describe("vídeo é extra, como o desafio", () => {
+  it("a aula conclui sem marcar o vídeo — pôr vídeo numa aula não desfaz quem já terminou", () => {
+    const { lesson } = flattenLessons(appNoArTrail)[0];
+    const comVideo = { ...lesson, video: { title: "x", provider: "YouTube", url: "https://www.youtube.com/watch?v=i6nWH7STrb4" } };
+    const state = defaultState();
+    const steps: Record<string, boolean> = {};
+    for (const s of lessonSteps(comVideo)) if (s !== "watch" && s !== "challenge") steps[s] = true;
+    state.lessons[lesson.id] = { steps, checkpoint: null };
+    expect(lessonComplete(state, comVideo)).toBe(true);
+  });
+});

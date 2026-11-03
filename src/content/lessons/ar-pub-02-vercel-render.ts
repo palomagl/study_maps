@@ -84,6 +84,15 @@ App B — app de rolê com lista de quem confirmou
     },
   ],
 
+  video: {
+    title: "Como hospedar um site na Vercel em 3 minutos (passo a passo)",
+    provider: "YouTube",
+    channel: "Breno Luiz",
+    url: "https://www.youtube.com/watch?v=mhbYavuW9T4",
+    description: "Do repositório no GitHub ao link da Vercel, em três minutos.",
+    lang: "pt-BR",
+  },
+
   freeResources: [
     {
       kind: "docs",

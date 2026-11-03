@@ -80,7 +80,8 @@ export interface CompareSide {
 /* Recursos                                                           */
 /* ------------------------------------------------------------------ */
 
-export type ResourceKind = "video" | "article" | "docs" | "course";
+/** `person`: canal ou pessoa pra acompanhar — o link vai pro canal, não pra um vídeo. */
+export type ResourceKind = "video" | "article" | "docs" | "course" | "person";
 
 export interface FreeResource {
   kind: ResourceKind;

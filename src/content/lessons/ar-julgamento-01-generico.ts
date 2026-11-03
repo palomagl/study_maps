@@ -129,7 +129,24 @@ Não quero: carrossel, três botões concorrendo, a palavra 'inovação'."`,
     },
   ],
 
+  video: {
+    title: "Crie sites realmente bonitos com Claude Code (sem cara de IA)",
+    provider: "YouTube",
+    channel: "Felipe Borges — Fala IA!",
+    url: "https://www.youtube.com/watch?v=HtbZQaDjUvM",
+    description: "Por que site feito com IA fica com cara de IA — e como fugir disso.",
+    lang: "pt-BR",
+  },
+
   freeResources: [
+    {
+      kind: "person",
+      title: "Felipe Borges — Fala IA!",
+      provider: "YouTube",
+      url: "https://www.youtube.com/@FelipeBorgesFalaIA",
+      description: "Construir coisa de verdade com IA, mostrando o processo.",
+      lang: "pt-BR",
+    },
     {
       kind: "article",
       title: "5 Principles of Visual Design in UX",
