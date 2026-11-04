@@ -22,6 +22,156 @@ export const usaAIaProPedido: Lesson = {
   summary: "Antes de pedir o resultado, pede as perguntas que faltam no teu briefing.",
   estimatedMinutes: 20,
 
+  // A aula em telas: o que a pessoa faz no celular, conduzida pelo Pedido.
+  play: {
+    pieces: [
+      {
+        id: "perguntar-antes",
+        title: "Perguntar antes",
+        cards: [
+          {
+            kind: "fala",
+            text: "Sabe o que eu faria no teu lugar? Deixava a IA me perguntar o que falta. Antes de construir.",
+          },
+          {
+            kind: "dor",
+          },
+          {
+            kind: "fala",
+            text: "O Caio mandou o briefing e mandou construir. Veio a tela — e ele lembrou que não disse se a lista de quem vai é pública.",
+          },
+          {
+            kind: "escolha",
+            prompt: "E agora?",
+            options: [
+              {
+                id: "a",
+                text: "Vai corrigindo depois que vier errado",
+              },
+              {
+                id: "b",
+                text: "Da próxima, pede as perguntas antes do resultado",
+              },
+              {
+                id: "c",
+                text: "Desiste do briefing",
+              },
+            ],
+            correctId: "b",
+            beliefId: "a",
+            right: "Isso. O que falta aparece antes de gastar a geração.",
+            wrong: "Corrigindo depois, cada conserto mexe no que tava bom. Pergunta antes, enquanto é barato responder.",
+          },
+          {
+            kind: "montar",
+            prompt: "Monta a frase que pede as perguntas sem deixar a IA sair construindo.",
+            answer: [
+              "Me faz as perguntas que faltam",
+              "pra fazer isso direito.",
+              "Não constrói nada ainda.",
+            ],
+            distractors: [
+              "Faz o melhor que puder.",
+              "Tem alguma dúvida?",
+            ],
+            right: "Pede as perguntas e segura a construção. As duas coisas.",
+            wrong: "A certa: me faz as perguntas que faltam pra fazer isso direito. Não constrói nada ainda.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Tu não sabe responder uma das perguntas. E agora?",
+            options: [
+              {
+                id: "a",
+                text: "Pula e manda construir",
+              },
+              {
+                id: "b",
+                text: "Responde “ainda não sei” — também é resposta",
+              },
+              {
+                id: "c",
+                text: "Desiste do projeto",
+              },
+            ],
+            correctId: "b",
+            right: "Isso. “Ainda não sei” também ajuda a IA a não inventar.",
+            wrong: "Pular deixa a IA adivinhar de novo. “Ainda não sei” também é resposta.",
+          },
+        ],
+        mission: "Cola teu briefing numa IA e pede as perguntas que faltam. Responde todas e atualiza o briefing.",
+      },
+      {
+        id: "o-modo-plan",
+        title: "O modo Plan",
+        cards: [
+          {
+            kind: "fala",
+            text: "No Claude Code e no Lovable isso tem nome: modo Plan. Ele pergunta e escreve um plano antes de mexer.",
+          },
+          {
+            kind: "escolha",
+            prompt: "O modo Plan muda o código enquanto faz as perguntas?",
+            options: [
+              {
+                id: "s",
+                text: "Muda",
+              },
+              {
+                id: "n",
+                text: "Não — ele só planeja até tu aprovar",
+              },
+            ],
+            correctId: "n",
+            right: "Exato. Ele planeja; tu aprova; aí ele constrói.",
+            wrong: "Não muda: ele pergunta e escreve o plano, e só constrói depois que tu aprova.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Planejar também gasta o limite do plano. Quando vale usar?",
+            options: [
+              {
+                id: "a",
+                text: "Em cada ajuste pequeno",
+              },
+              {
+                id: "b",
+                text: "No pedido grande, onde errar custa caro",
+              },
+              {
+                id: "c",
+                text: "Nunca",
+              },
+            ],
+            correctId: "b",
+            right: "Isso. Ajuste pequeno não precisa de plano.",
+            wrong: "Vale no pedido grande, onde errar custa caro. Ajuste pequeno vai direto.",
+          },
+          {
+            kind: "montar",
+            prompt: "Põe na ordem.",
+            answer: [
+              "Pede as perguntas",
+              "Responde todas",
+              "Atualiza o briefing",
+              "Manda construir",
+            ],
+            distractors: [
+              "Gera três versões",
+            ],
+            right: "Perguntar, responder, atualizar, construir. Assim quase nada vem errado.",
+            wrong: "A ordem: pede as perguntas, responde, atualiza o briefing, e só aí manda construir.",
+          },
+          {
+            kind: "fala",
+            text: "Pronto. Teu pedido tem tudo que a IA precisa. Na próxima fase entra o Geração. Boa sorte acompanhando ele.",
+          },
+        ],
+        mission: "Usa o modo de planejar da tua ferramenta — ou a frase “me pergunta o que falta” — no teu pedido grande.",
+      },
+    ],
+  },
+
   learningObjectives: [
     "Pedir as perguntas antes de pedir o resultado",
     "Usar o modo de planejar da ferramenta pra isso",

@@ -32,6 +32,179 @@ export const oQueFazParecerGenerico: Lesson = {
     "Dois resultados do mesmo pedido, lado a lado. A diferença não é sorte — e tem nome.",
   estimatedMinutes: 25,
 
+  // A aula em telas: o que a pessoa faz no celular, conduzida pelo Julgamento.
+  play: {
+    pieces: [
+      {
+        id: "meio-feio",
+        title: "Meio feio",
+        cards: [
+          {
+            kind: "fala",
+            text: "Julgamento. Hmm. Antes de olhar a tua tela, uma regra: “ficou feio” não é defeito. É sentimento.",
+          },
+          {
+            kind: "dor",
+          },
+          {
+            kind: "fala",
+            text: "O Caio olhou o site que a IA fez. Achou meio feio. Não soube dizer o quê.",
+          },
+          {
+            kind: "escolha",
+            prompt: "O que ele faz?",
+            options: [
+              {
+                id: "a",
+                text: "Pede pra IA “deixar mais bonito”",
+              },
+              {
+                id: "b",
+                text: "Dá nome ao defeito",
+              },
+              {
+                id: "c",
+                text: "Gera de novo até gostar",
+              },
+            ],
+            correctId: "b",
+            beliefId: "a",
+            right: "Quem nomeia, conserta. “Três botões brigando” a IA arruma em segundos.",
+            wrong: "“Mais bonito” é pedir pra ela chutar de novo — e ela chuta pra média. Hmm. Não.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Qual desses é um defeito com nome?",
+            options: [
+              {
+                id: "a",
+                text: "Tá sem graça",
+              },
+              {
+                id: "b",
+                text: "Tudo com o mesmo peso, nada pro olho achar primeiro",
+              },
+              {
+                id: "c",
+                text: "Tá estranho",
+              },
+            ],
+            correctId: "b",
+            right: "…Tá. Isso é defeito. Dá pra consertar.",
+            wrong: "“Sem graça” e “estranho” são sentimento. Defeito diz o que tá errado.",
+          },
+          {
+            kind: "cortar",
+            prompt: "Toca no que é sentimento — não defeito.",
+            chips: [
+              {
+                text: "Três botões brigando pela atenção",
+                keep: true,
+              },
+              {
+                text: "Tá feio",
+                keep: false,
+              },
+              {
+                text: "O título tem o tamanho do parágrafo",
+                keep: true,
+              },
+              {
+                text: "Sem personalidade",
+                keep: false,
+              },
+              {
+                text: "O texto serve pra qualquer empresa",
+                keep: true,
+              },
+            ],
+            right: "Sobrou só o que dá pra consertar. Bom.",
+            wrong: "Hmm. Não. Sentimento a IA não conserta — fica só o defeito com nome.",
+          },
+        ],
+        mission: "Volta numa coisa que tu gerou e deu por boa. Escreve três defeitos com nome.",
+      },
+      {
+        id: "olho-semicerrado",
+        title: "O olho semicerrado",
+        cards: [
+          {
+            kind: "fala",
+            text: "Truque meu: aperta os olhos até a tela embaçar. O que continua aparecendo é a tua hierarquia de verdade.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Tu apertou os olhos e virou um borrão uniforme. Isso quer dizer…",
+            options: [
+              {
+                id: "a",
+                text: "Que a paleta tá errada",
+              },
+              {
+                id: "b",
+                text: "Que não existe hierarquia: nada tem peso pro olho achar primeiro",
+              },
+              {
+                id: "c",
+                text: "Que falta conteúdo",
+              },
+            ],
+            correctId: "b",
+            right: "Exato. Borrão uniforme é tudo com o mesmo peso.",
+            wrong: "Hmm. Não. Borrão uniforme quer dizer que nada tem peso — falta hierarquia.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Tu pediu “uma landing page bonita” e veio genérico. Por quê?",
+            options: [
+              {
+                id: "a",
+                text: "A ferramenta é fraca",
+              },
+              {
+                id: "b",
+                text: "O pedido não dizia nada específico — veio a média",
+              },
+              {
+                id: "c",
+                text: "Faltou pedir mais vezes",
+              },
+            ],
+            correctId: "b",
+            right: "Isso. Pedido vago, resultado médio.",
+            wrong: "Não é a ferramenta: sem nada específico no pedido, ela entrega a média do que já viu.",
+          },
+          {
+            kind: "montar",
+            prompt: "Troca o sentimento pelo nome: monta o defeito.",
+            answer: [
+              "Três botões",
+              "brigando pela",
+              "mesma atenção",
+            ],
+            distractors: [
+              "tá feio",
+              "sem graça",
+            ],
+            right: "Isso é defeito. A IA conserta.",
+            wrong: "Fica: três botões brigando pela mesma atenção. “Feio” e “sem graça” não dizem nada.",
+          },
+          {
+            kind: "escrever",
+            prompt: "Nomeia um defeito da tua tela. Com nome, não sentimento.",
+            placeholder: "Ex.: o título tem o mesmo tamanho do texto",
+            saveAs: "defeito",
+          },
+          {
+            kind: "fala",
+            text: "…Tá. Esse é um defeito de verdade. Gostei. Não acostuma.",
+          },
+        ],
+        mission: "Faz o teste do olho semicerrado na tua tela e escreve pra onde o olho vai primeiro.",
+      },
+    ],
+  },
+
   learningObjectives: [
     "Ver a diferença entre genérico e feito pra ti",
     "Dar nome ao defeito em vez de dizer só que ficou feio",

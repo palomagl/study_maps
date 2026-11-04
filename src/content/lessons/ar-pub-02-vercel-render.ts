@@ -26,6 +26,165 @@ export const vercelOuRender: Lesson = {
   summary: "Tem backend e banco? Render. É só front? Vercel. E o que é um build no meio disso.",
   estimatedMinutes: 25,
 
+  // A aula em telas: o que a pessoa faz no celular, conduzida pelo No ar.
+  play: {
+    pieces: [
+      {
+        id: "a-pergunta-que-decide",
+        title: "A pergunta que decide",
+        cards: [
+          {
+            kind: "fala",
+            text: "Hora de escolher onde teu app MORA! Uma pergunta só decide. Bora!",
+          },
+          {
+            kind: "dor",
+          },
+          {
+            kind: "escolha",
+            prompt: "Como o Caio escolhe?",
+            options: [
+              {
+                id: "a",
+                text: "Pega o primeiro que aparecer — ou desiste porque parece caro",
+              },
+              {
+                id: "b",
+                text: "Responde: o app guarda algo que outra pessoa vai ver depois?",
+              },
+              {
+                id: "c",
+                text: "Escolhe o mais famoso",
+              },
+            ],
+            correctId: "b",
+            beliefId: "a",
+            right: "ISSO! Uma pergunta e pronto!",
+            wrong: "Nem sorteio nem desistência: uma pergunta decide — e os dois têm plano grátis!",
+          },
+          {
+            kind: "escolha",
+            prompt: "O app de rolê guarda quem confirmou. Onde ele mora?",
+            options: [
+              {
+                id: "a",
+                text: "Vercel",
+              },
+              {
+                id: "b",
+                text: "Render",
+              },
+            ],
+            correctId: "b",
+            right: "Tem backend e banco → Render!",
+            wrong: "Ele guarda quem confirmou: tem backend e banco. Isso é Render.",
+          },
+          {
+            kind: "escolha",
+            prompt: "E um portfólio, onde nada é guardado?",
+            options: [
+              {
+                id: "a",
+                text: "Vercel",
+              },
+              {
+                id: "b",
+                text: "Render",
+              },
+            ],
+            correctId: "a",
+            right: "Só tela → Vercel! BOA!",
+            wrong: "Nada guardado é só tela — e só tela é Vercel.",
+          },
+        ],
+        mission: "Responde pro teu projeto: ele guarda algo que outra pessoa vai ver depois?",
+      },
+      {
+        id: "o-gratis-e-os-limites",
+        title: "O grátis e os limites",
+        cards: [
+          {
+            kind: "fala",
+            text: "É DE GRAÇA! …Com limites. Conhecer eles antes é o que separa quem sabe de quem toma susto.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Render grátis: a primeira pessoa do dia esperou um minuto. Por quê?",
+            options: [
+              {
+                id: "a",
+                text: "A internet dela é lenta",
+              },
+              {
+                id: "b",
+                text: "O grátis dorme sem acesso e leva ~1 minuto pra acordar",
+              },
+            ],
+            correctId: "b",
+            right: "Isso! Dorme depois de 15 minutos sem acesso!",
+            wrong: "Não é a internet: o web service grátis dorme sem acesso e leva uns 1 minuto pra acordar.",
+          },
+          {
+            kind: "escolha",
+            prompt: "O banco Postgres grátis da Render guarda dados pra sempre?",
+            options: [
+              {
+                id: "s",
+                text: "Guarda",
+              },
+              {
+                id: "n",
+                text: "Não — expira em 30 dias",
+              },
+            ],
+            correctId: "n",
+            right: "Exato! É pra aprender e testar!",
+            wrong: "Não guarda: o Postgres grátis expira em 30 dias. É pra testar.",
+          },
+          {
+            kind: "escolha",
+            prompt: "O plano Hobby da Vercel é pra quê?",
+            options: [
+              {
+                id: "a",
+                text: "Pra qualquer empresa",
+              },
+              {
+                id: "b",
+                text: "Pra uso pessoal e não comercial",
+              },
+              {
+                id: "c",
+                text: "Só pra estudante",
+              },
+            ],
+            correctId: "b",
+            right: "ISSO! Virou negócio, muda de plano!",
+            wrong: "É pra uso pessoal e não comercial. Se virar negócio, muda de plano.",
+          },
+          {
+            kind: "escolha",
+            prompt: "O painel mostra erro no build. O que é?",
+            options: [
+              {
+                id: "a",
+                text: "A montagem do site a partir do código falhou",
+              },
+              {
+                id: "b",
+                text: "Acabou o plano grátis",
+              },
+            ],
+            correctId: "a",
+            right: "Exato! O erro no painel diz onde!",
+            wrong: "Build é a montagem do site a partir do código. Se falha, o painel diz onde.",
+          },
+        ],
+        mission: "Cria a conta na Vercel ou na Render, no plano grátis, e conecta ao teu repositório.",
+      },
+    ],
+  },
+
   learningObjectives: [
     "Saber se teu app é só tela ou guarda dados",
     "Escolher entre Vercel e Render com essa resposta",

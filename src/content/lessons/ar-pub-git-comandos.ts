@@ -24,6 +24,160 @@ export const gitNoTerminal: Lesson = {
   summary: "O que é Git, os seis comandos do dia a dia, e por que saber isso te tira da bolha.",
   estimatedMinutes: 30,
 
+  // A aula em telas: o que a pessoa faz no celular, conduzida pelo No ar.
+  play: {
+    pieces: [
+      {
+        id: "a-bolha-do-botao",
+        title: "A bolha do botão",
+        cards: [
+          {
+            kind: "fala",
+            text: "Quase todo mundo fica no botão. Quando quebra, trava. TU NÃO! Seis comandos e tu sai da bolha!",
+          },
+          {
+            kind: "dor",
+          },
+          {
+            kind: "escolha",
+            prompt: "Abriu o terminal e travou. O que tu faz?",
+            options: [
+              {
+                id: "a",
+                text: "Fecha e volta pro botão — todo mundo só faz o básico",
+              },
+              {
+                id: "b",
+                text: "Aprende seis comandos, um de cada vez",
+              },
+              {
+                id: "c",
+                text: "Copia um comando qualquer da internet",
+              },
+            ],
+            correctId: "b",
+            beliefId: "a",
+            right: "ISSO! Saber o que tem por baixo do botão é o que separa quem usa de quem entende!",
+            wrong: "Ficar no básico é ficar travado quando quebra. Seis comandos te tiram dali!",
+          },
+          {
+            kind: "escolha",
+            prompt: "Git e GitHub são a mesma coisa?",
+            options: [
+              {
+                id: "a",
+                text: "São",
+              },
+              {
+                id: "b",
+                text: "Não: Git guarda o histórico no computador; GitHub guarda online",
+              },
+            ],
+            correctId: "b",
+            right: "Exato! Git no computador, GitHub na internet!",
+            wrong: "Não são! Git cuida do histórico no teu computador; GitHub guarda a cópia online.",
+          },
+          {
+            kind: "montar",
+            prompt: "Monta o ciclo de todo dia.",
+            answer: [
+              "git status",
+              "git add .",
+              "git commit -m",
+              "git push",
+            ],
+            distractors: [
+              "git push --force",
+            ],
+            right: "Confere, separa, salva, manda. TODO DIA!",
+            wrong: "A ordem: git status, git add ., git commit -m, git push. E push --force nunca sem entender.",
+          },
+        ],
+        mission: "Instala o Git (a seção 1.5 do livro Pro Git mostra como) e roda git clone no teu repositório.",
+      },
+      {
+        id: "quando-da-ruim",
+        title: "Quando dá ruim",
+        cards: [
+          {
+            kind: "fala",
+            text: "O push foi recusado? Calma! Quase sempre é coisa nova no GitHub que tu não tem no computador.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Push recusado. Primeiro passo?",
+            options: [
+              {
+                id: "a",
+                text: "git push --force",
+              },
+              {
+                id: "b",
+                text: "git pull, e depois git push de novo",
+              },
+              {
+                id: "c",
+                text: "Apagar a pasta",
+              },
+            ],
+            correctId: "b",
+            right: "ISSO! Puxa o que é novo e manda de novo!",
+            wrong: "Force pode apagar trabalho! Primeiro git pull, depois git push.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Qual descrição de commit ajuda daqui a um mês?",
+            options: [
+              {
+                id: "a",
+                text: "update",
+              },
+              {
+                id: "b",
+                text: "aumenta o botão de confirmar no celular",
+              },
+              {
+                id: "c",
+                text: "mudanças",
+              },
+            ],
+            correctId: "b",
+            right: "Boa! O quê e onde!",
+            wrong: "“update” não diz nada. A boa diz o quê e onde.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Uma IA mandou rodar git push --force. Tu roda?",
+            options: [
+              {
+                id: "s",
+                text: "Rodo",
+              },
+              {
+                id: "n",
+                text: "Não sem antes perguntar o que vai acontecer",
+              },
+            ],
+            correctId: "n",
+            right: "ISSO! Esse comando pode apagar trabalho de verdade!",
+            wrong: "Para! git push --force pode apagar trabalho. Pergunta antes o que vai acontecer.",
+          },
+          {
+            kind: "escrever",
+            prompt: "Escreve a descrição do teu próximo commit: o quê e onde.",
+            placeholder: "Ex.: muda a cor do botão principal",
+            saveAs: "commit",
+          },
+          {
+            kind: "fala",
+            text: "“{commit}” — ISSO! Agora manda pro GitHub!",
+          },
+        ],
+        mission: "Muda uma coisa pequena no teu projeto e sobe pelo terminal: status, add, commit, push.",
+      },
+    ],
+  },
+
   learningObjectives: [
     "Saber a diferença entre Git e GitHub",
     "Usar os seis comandos do dia a dia",

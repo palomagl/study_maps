@@ -23,6 +23,168 @@ export const pedeACorrecao: Lesson = {
   summary: "Um ajuste por vez, com o defeito nomeado. E quando vale recomeçar de verdade.",
   estimatedMinutes: 20,
 
+  // A aula em telas: o que a pessoa faz no celular, conduzida pelo Conserto.
+  play: {
+    pieces: [
+      {
+        id: "nao-mexe-no-resto",
+        title: "Não mexe no resto",
+        cards: [
+          {
+            kind: "fala",
+            text: "Conserto. Respira. A gente vai devagar. Um de cada vez.",
+          },
+          {
+            kind: "dor",
+          },
+          {
+            kind: "fala",
+            text: "O Caio pediu “melhora o topo”. A IA trocou o título, a cor, o texto e tirou a imagem que ele gostava.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Por que ela mexeu em tudo?",
+            options: [
+              {
+                id: "a",
+                text: "Porque a IA tá com defeito",
+              },
+              {
+                id: "b",
+                text: "Porque “melhora” autoriza mexer em tudo",
+              },
+              {
+                id: "c",
+                text: "Porque faltou crédito",
+              },
+            ],
+            correctId: "b",
+            right: "Isso. Ela não estragou de propósito: ele autorizou.",
+            wrong: "A IA não tá com defeito. “Melhora” é licença pra mexer em tudo — e ela usa.",
+          },
+          {
+            kind: "escolha",
+            prompt: "O que o Caio faz agora?",
+            options: [
+              {
+                id: "a",
+                text: "Gera tudo de novo do zero até sair certo",
+              },
+              {
+                id: "b",
+                text: "Pede o conserto: o defeito, o lugar e o que não pode mexer",
+              },
+              {
+                id: "c",
+                text: "Pede “melhora” de novo",
+              },
+            ],
+            correctId: "b",
+            beliefId: "a",
+            right: "Boa. O quê, onde, e o que fica quieto.",
+            wrong: "Do zero, ele perde o que tava bom e sorteia de novo. Conserta o defeito. Só ele.",
+          },
+          {
+            kind: "montar",
+            prompt: "Monta o pedido de conserto.",
+            answer: [
+              "No topo,",
+              "aumenta o título pro dobro.",
+              "Não mexe em mais nada.",
+            ],
+            distractors: [
+              "Melhora tudo.",
+              "Deixa mais moderno.",
+            ],
+            right: "O quê, onde, e o que fica quieto. Os três.",
+            wrong: "A certa: no topo, aumenta o título pro dobro. Não mexe em mais nada.",
+          },
+        ],
+        mission: "Pega o primeiro defeito que tu nomeou na Fase 4 e escreve o pedido com os três elementos.",
+      },
+      {
+        id: "um-de-cada-vez",
+        title: "Um de cada vez",
+        cards: [
+          {
+            kind: "fala",
+            text: "Cinco defeitos num pedido só? Não. Um conserto. Olha. Próximo.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Qual dos três elementos protege o que tava bom?",
+            options: [
+              {
+                id: "a",
+                text: "O defeito com nome",
+              },
+              {
+                id: "b",
+                text: "O lugar",
+              },
+              {
+                id: "c",
+                text: "O que não pode mexer",
+              },
+            ],
+            correctId: "c",
+            right: "Boa. É a frase que mais gente esquece.",
+            wrong: "É o “não mexe em”. Sem ele, o conserto vira licença.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Voltar pra uma versão anterior do código também volta os dados do banco?",
+            options: [
+              {
+                id: "s",
+                text: "Volta",
+              },
+              {
+                id: "n",
+                text: "Não — volta o código, não os dados",
+              },
+            ],
+            correctId: "n",
+            right: "Isso. Código volta. Dado, não.",
+            wrong: "Não volta. O histórico guarda o código; os dados do banco ficam como estão.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Tu pediu o mesmo conserto três vezes e não sai. E agora?",
+            options: [
+              {
+                id: "a",
+                text: "Pede uma quarta vez, mais alto",
+              },
+              {
+                id: "b",
+                text: "Volta pro briefing, corrige e gera de novo",
+              },
+              {
+                id: "c",
+                text: "Troca de ferramenta",
+              },
+            ],
+            correctId: "b",
+            right: "Isso. Quando o conserto não pega, o problema tá no pedido original.",
+            wrong: "Sem drama. Quando o conserto não pega, o problema tá no briefing. Volta lá.",
+          },
+          {
+            kind: "escrever",
+            prompt: "Escreve teu pedido de conserto: o defeito, onde, e o que não pode mexer.",
+            placeholder: "No ___, ___. Não mexe em ___.",
+            saveAs: "conserto",
+          },
+          {
+            kind: "fala",
+            text: "Bom. Próximo. …Depois disso é com o No ar. Ele é barulhento. Tapa os ouvidos.",
+          },
+        ],
+        mission: "Conserta teus defeitos um por vez, olhando o resultado entre cada pedido. Marca a versão boa.",
+      },
+    ],
+  },
+
   learningObjectives: [
     "Pedir conserto dizendo o quê, onde e o que não mexer",
     "Consertar um defeito por vez",

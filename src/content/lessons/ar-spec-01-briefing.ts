@@ -19,6 +19,172 @@ export const escreveOBriefing: Lesson = {
   summary: "Pra quem é, o que a pessoa faz na tela, o que não entra. Numa página.",
   estimatedMinutes: 25,
 
+  // A aula em telas: o que a pessoa faz no celular, conduzida pelo Pedido.
+  play: {
+    pieces: [
+      {
+        id: "o-pedido-do-caio",
+        title: "O pedido do Caio",
+        cards: [
+          {
+            kind: "fala",
+            text: "Prazer, eu sou o Pedido. Antes de qualquer prompt eu pergunto uma coisa: mas como assim, exatamente?",
+          },
+          {
+            kind: "dor",
+          },
+          {
+            kind: "fala",
+            text: "O Caio mandou pra IA: “faz um app pra organizar rolê com os amigos”. Veio qualquer coisa.",
+          },
+          {
+            kind: "escolha",
+            prompt: "O que ele faz agora?",
+            options: [
+              {
+                id: "a",
+                text: "Repete o mesmo pedido, só que mais irritado",
+              },
+              {
+                id: "b",
+                text: "Escreve um briefing: pra quem é, o que faz e o que não entra",
+              },
+              {
+                id: "c",
+                text: "Troca de IA",
+              },
+            ],
+            correctId: "b",
+            beliefId: "a",
+            right: "Isso. A IA faz o que tu pede — o problema é que o Caio pediu pouco.",
+            wrong: "Pedido irritado é o mesmo pedido. A IA continua adivinhando público, tela e botão.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Quantas decisões a IA tem que adivinhar em “faz um app pra organizar rolê”?",
+            options: [
+              {
+                id: "a",
+                text: "Quase nenhuma",
+              },
+              {
+                id: "b",
+                text: "Várias: pra quem, que tela, que botões, que cores, o que não pode ter",
+              },
+            ],
+            correctId: "b",
+            right: "Exato. Cada adivinhação vai pra média — por isso vem genérico.",
+            wrong: "São várias: público, tela, botões, cores, o que não pode ter. Cada chute vai pra média.",
+          },
+          {
+            kind: "montar",
+            prompt: "Monta as cinco partes do briefing, na ordem.",
+            answer: [
+              "Pra quem é",
+              "A ação principal",
+              "O que tem na tela",
+              "O que não entra",
+              "As referências",
+            ],
+            distractors: [
+              "O preço do servidor",
+            ],
+            right: "As cinco. Com elas, quase nada fica pra IA chutar.",
+            wrong: "A ordem: pra quem é, ação principal, o que tem na tela, o que não entra, referências. Servidor não é briefing.",
+          },
+        ],
+        mission: "Escreve o briefing do teu projeto nas cinco partes. Tem que caber numa página.",
+      },
+      {
+        id: "o-que-nao-entra",
+        title: "O que não entra",
+        cards: [
+          {
+            kind: "fala",
+            text: "A parte que todo mundo esquece é a que eu mais gosto: o que não entra.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Qual parte do briefing mais evita um resultado com cara de qualquer site?",
+            options: [
+              {
+                id: "a",
+                text: "O nome do app",
+              },
+              {
+                id: "b",
+                text: "O que não entra",
+              },
+              {
+                id: "c",
+                text: "A cor favorita",
+              },
+            ],
+            correctId: "b",
+            right: "Dizer o que tu não quer corta de cara o carrossel, os três botões e a palavra “inovação”.",
+            wrong: "É o “não entra”: ele corta os padrões que a IA puxa sozinha.",
+          },
+          {
+            kind: "cortar",
+            prompt: "Toca no que não é público de verdade.",
+            chips: [
+              {
+                text: "Galera de 18 a 25 que marca rolê pelo WhatsApp",
+                keep: true,
+              },
+              {
+                text: "Todo mundo",
+                keep: false,
+              },
+              {
+                text: "Quem organiza o futebol de quinta",
+                keep: true,
+              },
+              {
+                text: "Qualquer pessoa que tenha celular",
+                keep: false,
+              },
+            ],
+            right: "Público de verdade tem idade e situação. “Todo mundo” é ninguém.",
+            wrong: "“Todo mundo” e “qualquer pessoa” não dizem nada pra IA. Público tem idade e situação.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Teu briefing ficou com três páginas. Isso quer dizer…",
+            options: [
+              {
+                id: "a",
+                text: "Que tá bem completo",
+              },
+              {
+                id: "b",
+                text: "Que a ideia grande voltou — recorta de novo",
+              },
+              {
+                id: "c",
+                text: "Que precisa de três prompts",
+              },
+            ],
+            correctId: "b",
+            right: "Exato. Briefing bom cabe numa página.",
+            wrong: "Três páginas é a ideia grande voltando. Volta e recorta.",
+          },
+          {
+            kind: "escrever",
+            prompt: "Pra quem é a tua ideia? Uma pessoa de verdade, com idade e situação.",
+            placeholder: "Ex.: quem tem 17 e joga bola toda quinta",
+            saveAs: "publico",
+          },
+          {
+            kind: "fala",
+            text: "Anotado: {publico}. Mas como assim, exatamente? …Brincadeira. Tá ótimo.",
+          },
+        ],
+        mission: "Lê teu briefing e conta quantas decisões ainda ficaram pra IA adivinhar. Fecha cada uma.",
+      },
+    ],
+  },
+
   learningObjectives: [
     "Entender por que pedido curto vira adivinhação",
     "Escrever um briefing com as cinco partes",

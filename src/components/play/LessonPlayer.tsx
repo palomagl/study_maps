@@ -15,7 +15,13 @@ import { PieceEnd, type PieceStats } from "./PieceEnd";
 import { RobotLine, type RobotMood } from "./RobotLine";
 
 /** Quando a pessoa ainda não escreveu nada, `{ideia}` vira isso — nunca "{ideia}" na tela. */
-const FALLBACK = { ideia: "a tua ideia", referencia: "a tua referência" };
+const FALLBACK = {
+  ideia: "a tua ideia",
+  referencia: "a tua referência",
+  publico: "o teu público",
+  ferramenta: "a tua ferramenta",
+  commit: "tua descrição",
+};
 
 type Answer = string | string[];
 interface Verdict {
@@ -143,6 +149,7 @@ export function LessonPlayer({ trail, phase, lesson }: { trail: Trail; phase: Ph
           <div className="h-3 flex-1 overflow-hidden rounded-full bg-[#1E1640]">
             <motion.div
               className="h-full rounded-full bg-gradient-to-r from-[#7C5CFF] to-[#3DF5B0]"
+              initial={false}
               animate={{ width: `${progresso * 100}%` }}
               transition={{ type: "spring", stiffness: 200, damping: 22 }}
             />

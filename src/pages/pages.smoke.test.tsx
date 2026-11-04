@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, onTestFinished } from "vitest";
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { AppRoutes } from "@/App";
@@ -43,6 +43,23 @@ function comRascunho(id: string, fn: () => void) {
   } finally {
     stage.lessons[i] = original;
   }
+}
+
+/**
+ * Toda aula escrita abre no player de telas. A página comprida continua
+ * existindo pra aula que ainda não tem telas (trilha nova): este helper tira
+ * as telas da aula só durante o teste, pra a página comprida seguir testada.
+ */
+function usaPaginaComprida(id: string) {
+  const stage = appNoArTrail.phases
+    .flatMap((p) => p.stages)
+    .find((st) => st.lessons.some((l) => l.id === id))!;
+  const i = stage.lessons.findIndex((l) => l.id === id);
+  const original = stage.lessons[i];
+  stage.lessons[i] = { ...original, play: undefined };
+  onTestFinished(() => {
+    stage.lessons[i] = original;
+  });
 }
 
 const TRILHA = "/roadmap/app-no-ar";
@@ -156,6 +173,7 @@ describe("smoke — páginas renderizam sem quebrar", () => {
   });
 
   it("LessonView renderiza o fluxo da aula completa", () => {
+    usaPaginaComprida("ar-jul-01-generico");
     renderAt(AULA);
     expect(
       screen.getByRole("heading", {
@@ -175,6 +193,7 @@ describe("smoke — páginas renderizam sem quebrar", () => {
   });
 
   it("LessonView mostra a comparação lado a lado da aula", () => {
+    usaPaginaComprida("ar-jul-01-generico");
     renderAt(AULA);
     expect(screen.getByAltText(/título pequeno/)).toBeInTheDocument();
     expect(screen.getByAltText(/um título grande em duas linhas/)).toBeInTheDocument();
@@ -325,6 +344,7 @@ describe("a aula no formato dor → solução", () => {
   beforeEach(() => progressStore.resetAll());
 
   it("a aula escrita abre pela dor e fecha com antes e agora", () => {
+    usaPaginaComprida("ar-jul-01-generico");
     render(
       <MemoryRouter initialEntries={["/roadmap/app-no-ar/aula/ar-jul-01-generico"]}>
         <AppRoutes />
@@ -350,8 +370,8 @@ describe("a aula no formato dor → solução", () => {
 });
 
 describe("numeração dos passos", () => {
-  // A 2.1 ainda é página comprida (a 1.1 e a 1.2 abrem no player de telas).
   it("os passos da aula são numerados sem buraco", () => {
+    usaPaginaComprida("ar-spec-01-briefing");
     render(
       <MemoryRouter initialEntries={["/roadmap/app-no-ar/aula/ar-spec-01-briefing"]}>
         <AppRoutes />
@@ -382,6 +402,7 @@ describe("o time explica como recrutar", () => {
 
 describe("o que tu acha que resolve", () => {
   it("aparece entre a dor e o que resolve", () => {
+    usaPaginaComprida("ar-spec-01-briefing");
     render(
       <MemoryRouter initialEntries={["/roadmap/app-no-ar/aula/ar-spec-01-briefing"]}>
         <AppRoutes />

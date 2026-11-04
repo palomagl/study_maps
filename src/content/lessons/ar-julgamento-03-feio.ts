@@ -21,6 +21,144 @@ export const fazAVersaoFeia: Lesson = {
   summary: "Gera o ruim de propósito e conserta. Treina o olho.",
   estimatedMinutes: 30,
 
+  // A aula em telas: o que a pessoa faz no celular, conduzida pelo Julgamento.
+  play: {
+    pieces: [
+      {
+        id: "feio-de-proposito",
+        title: "O feio de propósito",
+        cards: [
+          {
+            kind: "fala",
+            text: "Exercício favorito meu. Tu vai fazer uma tela feia. De propósito. Hmm. Sim.",
+          },
+          {
+            kind: "dor",
+          },
+          {
+            kind: "escolha",
+            prompt: "Tu só percebe que tá ruim quando alguém fala. O que resolve?",
+            options: [
+              {
+                id: "a",
+                text: "Esperar alguém te dar feedback",
+              },
+              {
+                id: "b",
+                text: "Gerar o ruim de propósito pra treinar o olho",
+              },
+              {
+                id: "c",
+                text: "Pedir pra IA avisar",
+              },
+            ],
+            correctId: "b",
+            beliefId: "a",
+            right: "Isso. Quem já fez o feio de propósito reconhece o feio por acidente.",
+            wrong: "Esperando, teu olho nunca treina. Tu tem que fabricar o defeito pra aprender a ver.",
+          },
+          {
+            kind: "montar",
+            prompt: "Põe o exercício na ordem.",
+            answer: [
+              "Pede o ruim",
+              "Guarda o print",
+              "Nomeia sozinho",
+              "Conserta",
+              "Compara",
+            ],
+            distractors: [
+              "Apaga o feio",
+            ],
+            right: "Exato. E o feio não se apaga: ele é o teu “antes”.",
+            wrong: "A ordem: pede o ruim, guarda, nomeia sozinho, conserta e compara. O feio fica — é o teu “antes”.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Qual passo não dá pra pular?",
+            options: [
+              {
+                id: "a",
+                text: "Nomear os defeitos sozinho",
+              },
+              {
+                id: "b",
+                text: "Escolher a cor",
+              },
+              {
+                id: "c",
+                text: "Gerar três vezes",
+              },
+            ],
+            correctId: "a",
+            right: "Isso. Sem nomear sozinho, o olho não treina nada.",
+            wrong: "É nomear sozinho. Pular ele é trocar um chute por outro.",
+          },
+        ],
+        mission: "Pede numa IA, em uma frase e sem referência: “faz uma tela de [tua ideia]”. Guarda o print.",
+      },
+      {
+        id: "olho-rapido",
+        title: "Olho rápido",
+        cards: [
+          {
+            kind: "fala",
+            text: "Na primeira vez, nomear defeito leva minutos. Repete e cronometra. Quando cair pra segundos, teu olho tá treinado.",
+          },
+          {
+            kind: "escolha",
+            prompt: "O feio de propósito deve ser apagado depois do conserto?",
+            options: [
+              {
+                id: "s",
+                text: "Sim",
+              },
+              {
+                id: "n",
+                text: "Não — ele é o teu “antes” pra comparar",
+              },
+            ],
+            correctId: "n",
+            right: "Exato. Sem o antes, não tem com o que comparar.",
+            wrong: "Hmm. Não. Ele é o teu “antes” — é comparando que o olho aprende.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Como tu sabe que teu olho tá treinado?",
+            options: [
+              {
+                id: "a",
+                text: "Quando alguém elogia",
+              },
+              {
+                id: "b",
+                text: "Quando nomear defeito cai de minutos pra segundos",
+              },
+              {
+                id: "c",
+                text: "Quando a IA para de errar",
+              },
+            ],
+            correctId: "b",
+            right: "Isso. Velocidade é o sinal.",
+            wrong: "Elogio não mede nada. O sinal é nomear defeito em segundos.",
+          },
+          {
+            kind: "escrever",
+            prompt: "Quanto tempo tu levou pra nomear os defeitos da tua tela feia?",
+            placeholder: "Ex.: uns 4 minutos",
+            saveAs: "cronometro",
+          },
+          {
+            kind: "fala",
+            text: "Hmm. Na próxima, menos. Agora te passo pro Conserto. Ele é calmo. Calmo demais, se tu quer saber.",
+          },
+        ],
+        mission: "Nomeia sozinho de 3 a 5 defeitos da tua tela feia, conserta com um pedido novo e compara as duas lado a lado.",
+      },
+    ],
+  },
+
   learningObjectives: [
     "Gerar um resultado ruim de propósito e guardar ele",
     "Nomear os defeitos sem ajuda de ninguém",
