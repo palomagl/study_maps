@@ -25,6 +25,164 @@ export const githubOndeExiste: Lesson = {
   summary: "O que é um repositório, o que é um commit, e como teu código chega no GitHub.",
   estimatedMinutes: 25,
 
+  // A aula em telas: o que a pessoa faz no celular, conduzida pelo No ar.
+  play: {
+    pieces: [
+      {
+        id: "preview-nao-e-endereco",
+        title: "Preview não é endereço",
+        cards: [
+          {
+            kind: "fala",
+            text: "NO AR CHEGOU! Bora pôr teu projeto no mundo! Mas primeiro: ele precisa morar no GitHub!",
+          },
+          {
+            kind: "dor",
+          },
+          {
+            kind: "fala",
+            text: "O Caio mandou print do preview pros amigos. Ninguém conseguiu abrir nada.",
+          },
+          {
+            kind: "escolha",
+            prompt: "O que o Caio devia fazer?",
+            options: [
+              {
+                id: "a",
+                text: "Mandar mais prints, de mais telas",
+              },
+              {
+                id: "b",
+                text: "Pôr o código num repositório, de onde a publicação puxa",
+              },
+              {
+                id: "c",
+                text: "Gravar um vídeo da tela",
+              },
+            ],
+            correctId: "b",
+            beliefId: "a",
+            right: "ISSO! Repositório é de onde o deploy puxa!",
+            wrong: "Print não é endereço! Pra publicar, o código precisa morar num repositório.",
+          },
+          {
+            kind: "escolha",
+            prompt: "O que é um commit?",
+            options: [
+              {
+                id: "a",
+                text: "Cada mudança salva no histórico, com data e descrição",
+              },
+              {
+                id: "b",
+                text: "A pasta do projeto no GitHub",
+              },
+              {
+                id: "c",
+                text: "O link do site",
+              },
+            ],
+            correctId: "a",
+            right: "Isso! Cada commit é um ponto pra onde dá pra voltar!",
+            wrong: "A pasta é o repositório. Commit é cada mudança salva, com data e descrição.",
+          },
+          {
+            kind: "escolha",
+            prompt: "E o repositório?",
+            options: [
+              {
+                id: "a",
+                text: "Um print bem bonito",
+              },
+              {
+                id: "b",
+                text: "A pasta do projeto no GitHub, com o histórico",
+              },
+              {
+                id: "c",
+                text: "Um plano pago",
+              },
+            ],
+            correctId: "b",
+            right: "BOA! Pasta + histórico = repositório!",
+            wrong: "Repositório é a pasta do projeto no GitHub, com o histórico de tudo.",
+          },
+        ],
+        mission: "Cria tua conta no GitHub, se ainda não tem.",
+      },
+      {
+        id: "como-chega-la",
+        title: "Como o código chega lá",
+        cards: [
+          {
+            kind: "fala",
+            text: "Depende de onde tu construiu! Agente de código, construtor ou artifact — os três chegam lá!",
+          },
+          {
+            kind: "escolha",
+            prompt: "Tu fez a tela num artifact do Claude. Como o código chega no GitHub?",
+            options: [
+              {
+                id: "a",
+                text: "Não chega",
+              },
+              {
+                id: "b",
+                text: "Cria o repositório no site do GitHub e sobe os arquivos por lá",
+              },
+              {
+                id: "c",
+                text: "O GitHub puxa sozinho da conversa",
+              },
+            ],
+            correctId: "b",
+            right: "ISSO! Sobe pelo site mesmo, sem instalar nada!",
+            wrong: "Chega sim: cria o repositório no site do GitHub e sobe os arquivos por lá.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Pra ter repositório no GitHub precisa de plano pago?",
+            options: [
+              {
+                id: "s",
+                text: "Precisa",
+              },
+              {
+                id: "n",
+                text: "Não — a conta é grátis",
+              },
+            ],
+            correctId: "n",
+            right: "GRÁTIS! Bora!",
+            wrong: "Não precisa! A conta do GitHub é grátis, e repositório também.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Por que seguir o guia oficial em vez de print do passo a passo?",
+            options: [
+              {
+                id: "a",
+                text: "Porque as telas mudam e o guia acompanha",
+              },
+              {
+                id: "b",
+                text: "Porque print é proibido",
+              },
+            ],
+            correctId: "a",
+            right: "Exato! Print vira mentira quando a tela muda!",
+            wrong: "Print não é proibido — ele só fica velho quando a tela muda. O guia oficial acompanha.",
+          },
+          {
+            kind: "fala",
+            text: "Teu projeto existe fora do teu computador! Falta o endereço. Próxima: sair da bolha!",
+          },
+        ],
+        mission: "Põe teu projeto num repositório e confere que os arquivos chegaram lá.",
+      },
+    ],
+  },
+
   learningObjectives: [
     "Entender o que é repositório e commit",
     "Saber por que publicar precisa de um repositório",

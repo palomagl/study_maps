@@ -563,9 +563,9 @@ describe("aulas em telas", () => {
   const trilha = flattenLessons(getTrail("app-no-ar")!).map((l) => l.lesson);
   const comPlay = trilha.filter((l) => l.play);
 
-  it("a 1.1 e a 1.2 já estão em telas", () => {
-    for (const id of ["ar-ideia-01-recortar", "ar-ideia-02-referencias"]) {
-      expect(getLessonLocation("app-no-ar", id)!.lesson.play?.pieces.length, id).toBeGreaterThanOrEqual(2);
+  it("toda aula escrita da trilha está em telas", () => {
+    for (const l of trilha.filter((x) => x.status === "available")) {
+      expect(l.play?.pieces.length, l.id).toBeGreaterThanOrEqual(2);
     }
   });
 

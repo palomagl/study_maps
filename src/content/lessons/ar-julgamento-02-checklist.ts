@@ -18,6 +18,182 @@ export const teuChecklist: Lesson = {
   summary: "Seis perguntas que tu faz a qualquer tela antes de aceitar o que a IA entregou.",
   estimatedMinutes: 20,
 
+  // A aula em telas: o que a pessoa faz no celular, conduzida pelo Julgamento.
+  play: {
+    pieces: [
+      {
+        id: "seis-perguntas",
+        title: "Seis perguntas",
+        cards: [
+          {
+            kind: "fala",
+            text: "Hmm. Tu aceita o primeiro resultado que vem? Não. A partir de hoje, toda tela passa por seis perguntas.",
+          },
+          {
+            kind: "dor",
+          },
+          {
+            kind: "escolha",
+            prompt: "A IA entregou a tela. O que tu faz?",
+            options: [
+              {
+                id: "a",
+                text: "Aceita — se a IA fez, tá bom",
+              },
+              {
+                id: "b",
+                text: "Passa as seis perguntas antes de aceitar",
+              },
+              {
+                id: "c",
+                text: "Mostra pra um amigo",
+              },
+            ],
+            correctId: "b",
+            beliefId: "a",
+            right: "Isso. Aceitar não é decidir.",
+            wrong: "A IA entrega a média com toda a confiança. Se ela fez, não quer dizer que tá bom.",
+          },
+          {
+            kind: "cortar",
+            prompt: "Toca no que não é pergunta do checklist.",
+            chips: [
+              {
+                text: "Pra onde o olho vai primeiro?",
+                keep: true,
+              },
+              {
+                text: "Qual é a uma ação?",
+                keep: true,
+              },
+              {
+                text: "Ficou bonito?",
+                keep: false,
+              },
+              {
+                text: "O texto diz o que é isso?",
+                keep: true,
+              },
+              {
+                text: "Quantas cores competem?",
+                keep: true,
+              },
+              {
+                text: "No celular, ainda funciona?",
+                keep: true,
+              },
+              {
+                text: "A IA gostou?",
+                keep: false,
+              },
+            ],
+            right: "As seis. “Bonito” não é pergunta. É opinião.",
+            wrong: "“Ficou bonito?” e “a IA gostou?” não apontam defeito. As outras seis, sim.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Pra que serve trocar o nome do teu produto no texto?",
+            options: [
+              {
+                id: "a",
+                text: "Ver se o texto diz o que é isso ou serve pra qualquer um",
+              },
+              {
+                id: "b",
+                text: "Ver se funciona no celular",
+              },
+              {
+                id: "c",
+                text: "Ver pra onde o olho vai",
+              },
+            ],
+            correctId: "a",
+            right: "Isso. Se continua valendo com outro nome, é genérico.",
+            wrong: "É o truque da pergunta 3: se o texto vale com qualquer nome, ele não fala do teu produto.",
+          },
+        ],
+        mission: "Passa as seis perguntas na primeira tela que tu gerou na Fase 3.",
+      },
+      {
+        id: "cada-nao",
+        title: "Cada “não” vira defeito",
+        cards: [
+          {
+            kind: "fala",
+            text: "Passou o checklist e deu três “não”? Ótimo. Agora tu tem três defeitos. Com nome.",
+          },
+          {
+            kind: "escolha",
+            prompt: "O que tu faz com os três “não”?",
+            options: [
+              {
+                id: "a",
+                text: "Aceita, tá quase bom",
+              },
+              {
+                id: "b",
+                text: "Transforma cada um num defeito com nome e pede o conserto",
+              },
+              {
+                id: "c",
+                text: "Gera tudo do zero",
+              },
+            ],
+            correctId: "b",
+            right: "Isso. Defeito com nome a IA conserta em segundos.",
+            wrong: "Hmm. Não. “Quase bom” não é decisão. Cada “não” vira um defeito com nome.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Por que a pergunta do celular tá no checklist?",
+            options: [
+              {
+                id: "a",
+                text: "Porque a maioria vai abrir no celular primeiro",
+              },
+              {
+                id: "b",
+                text: "Porque a IA só funciona no celular",
+              },
+              {
+                id: "c",
+                text: "Porque celular é mais bonito",
+              },
+            ],
+            correctId: "a",
+            right: "Exato. Tua tela vai ser vista primeiro num celular.",
+            wrong: "É porque a maioria das pessoas abre primeiro no celular.",
+          },
+          {
+            kind: "montar",
+            prompt: "Põe as três primeiras perguntas na ordem.",
+            answer: [
+              "Pra onde o olho vai?",
+              "Qual é a uma ação?",
+              "O texto diz o que é?",
+            ],
+            distractors: [
+              "Ficou bonito?",
+            ],
+            right: "Olho, ação, texto. Começa sempre por aí.",
+            wrong: "A ordem: pra onde o olho vai, qual é a uma ação, o texto diz o que é. “Bonito” não entra.",
+          },
+          {
+            kind: "escrever",
+            prompt: "Em qual pergunta a tua tela mais falhou?",
+            placeholder: "Ex.: tem três botões, não uma ação",
+            saveAs: "checklist",
+          },
+          {
+            kind: "fala",
+            text: "Hmm. Agora tu decide em vez de aceitar. …Isso eu aprovo.",
+          },
+        ],
+        mission: "Cada “não” do checklist vira uma linha: o defeito, com nome.",
+      },
+    ],
+  },
+
   learningObjectives: [
     "Ter seis perguntas fixas pra julgar qualquer tela",
     "Passar um resultado no checklist em dois minutos",

@@ -23,6 +23,146 @@ export const noArComLink: Lesson = {
     "Variáveis de ambiente, o que nunca vai pro repositório, e o link que tu registra como prova.",
   estimatedMinutes: 30,
 
+  // A aula em telas: o que a pessoa faz no celular, conduzida pelo No ar.
+  play: {
+    pieces: [
+      {
+        id: "pronto-de-verdade",
+        title: "Pronto de verdade",
+        cards: [
+          {
+            kind: "fala",
+            text: "ÚLTIMA AULA! Tua ideia tá quase no mundo! Só falta uma coisa: outra pessoa abrir.",
+          },
+          {
+            kind: "dor",
+          },
+          {
+            kind: "escolha",
+            prompt: "Abriu no teu computador. Tá pronto?",
+            options: [
+              {
+                id: "a",
+                text: "Tá — abriu, tá pronto",
+              },
+              {
+                id: "b",
+                text: "Ainda não: pronto é quando outra pessoa abre no celular dela",
+              },
+            ],
+            correctId: "b",
+            beliefId: "a",
+            right: "ISSO! Pronto é no celular de outra pessoa!",
+            wrong: "Teu computador mente: tá logado, tem cache, tá na tua rede. Pronto é no celular de outra pessoa.",
+          },
+          {
+            kind: "cortar",
+            prompt: "Toca no que nunca vai pro repositório.",
+            chips: [
+              {
+                text: "O código das telas",
+                keep: true,
+              },
+              {
+                text: "Chave de API",
+                keep: false,
+              },
+              {
+                text: "Senha do banco",
+                keep: false,
+              },
+              {
+                text: "As imagens do app",
+                keep: true,
+              },
+              {
+                text: "Token de serviço",
+                keep: false,
+              },
+            ],
+            right: "Chave, senha e token vão em variável de ambiente, fora do código!",
+            wrong: "Chave, senha e token nunca vão pro repositório: vão em variável de ambiente.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Uma chave foi pro repositório. Apagar o arquivo resolve?",
+            options: [
+              {
+                id: "a",
+                text: "Resolve",
+              },
+              {
+                id: "b",
+                text: "Não: gera uma nova, põe na variável de ambiente e cancela a velha",
+              },
+            ],
+            correctId: "b",
+            right: "Exato! Ela continua no histórico!",
+            wrong: "Não resolve: a chave fica no histórico. Gera uma nova e cancela a velha.",
+          },
+        ],
+        mission: "Confere que nenhuma chave ou senha tá no teu repositório e publica.",
+      },
+      {
+        id: "manda-o-link",
+        title: "Manda o link",
+        cards: [
+          {
+            kind: "fala",
+            text: "TESTE FINAL! Aba anônima, celular de outra pessoa, outra rede. Se abriu: MANDA O LINK!",
+          },
+          {
+            kind: "montar",
+            prompt: "Põe o fim da trilha na ordem.",
+            answer: [
+              "Tira as chaves do código",
+              "Publica",
+              "Outra pessoa abre no celular",
+              "Registra o link",
+            ],
+            distractors: [
+              "Manda print",
+            ],
+            right: "É ISSO! O loop inteiro!",
+            wrong: "A ordem: tira as chaves do código, publica, outra pessoa abre no celular, registra o link. Print não conta.",
+          },
+          {
+            kind: "escolha",
+            prompt: "O que destrava teu certificado?",
+            options: [
+              {
+                id: "a",
+                text: "Só assistir as aulas",
+              },
+              {
+                id: "b",
+                text: "Concluir as aulas e registrar o link publicado",
+              },
+              {
+                id: "c",
+                text: "Pagar uma taxa",
+              },
+            ],
+            correctId: "b",
+            right: "ISSO! O certificado diz que tu ENTREGOU!",
+            wrong: "O certificado não é de presença: ele pede as aulas e o link do que tu publicou.",
+          },
+          {
+            kind: "escrever",
+            prompt: "Quem vai ser a primeira pessoa a abrir o teu link?",
+            placeholder: "Ex.: meu primo",
+            saveAs: "primeiro",
+          },
+          {
+            kind: "fala",
+            text: "Lembra? Tudo começou com “{ideia}”. Agora tem link. Recortar, pedir, gerar, julgar, consertar, publicar. O LOOP É TEU!",
+          },
+        ],
+        mission: "Manda o link pra alguém abrir no celular e registra ele no cartão da prova, no mapa da trilha. É ele que destrava teu certificado.",
+      },
+    ],
+  },
+
   learningObjectives: [
     "Publicar a partir do repositório",
     "Guardar senha e chave fora do código",

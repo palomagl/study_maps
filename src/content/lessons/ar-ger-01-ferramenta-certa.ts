@@ -30,6 +30,187 @@ export const aFerramentaCerta: Lesson = {
   summary: "Pensar, construir e publicar: onde fazer cada um, de graça ou com a IA que tu já paga.",
   estimatedMinutes: 20,
 
+  // A aula em telas: o que a pessoa faz no celular, conduzida pelo Geração.
+  play: {
+    pieces: [
+      {
+        id: "tres-trabalhos",
+        title: "Três trabalhos",
+        cards: [
+          {
+            kind: "fala",
+            text: "E aí! Geração aqui! Já tô fazendo! …Calma, primeiro: onde a gente vai construir?",
+          },
+          {
+            kind: "dor",
+          },
+          {
+            kind: "fala",
+            text: "O Caio tentou fazer tudo no mesmo chat: pensar, construir e publicar. Veio um monte de código e ele travou.",
+          },
+          {
+            kind: "escolha",
+            prompt: "O que deu errado?",
+            options: [
+              {
+                id: "a",
+                text: "Ele usou uma ferramenta só pra três trabalhos diferentes",
+              },
+              {
+                id: "b",
+                text: "A IA dele não é a perfeita — tem que achar a perfeita",
+              },
+              {
+                id: "c",
+                text: "Ele pagou pouco",
+              },
+            ],
+            correctId: "a",
+            beliefId: "b",
+            right: "Isso! Pensar, construir e publicar são trabalhos diferentes!",
+            wrong: "Não existe a ferramenta perfeita pra tudo. Cada trabalho tem a sua.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Pra escrever o briefing, tu usa…",
+            options: [
+              {
+                id: "a",
+                text: "ChatGPT, Claude ou Gemini",
+              },
+              {
+                id: "b",
+                text: "GitHub",
+              },
+              {
+                id: "c",
+                text: "Vercel",
+              },
+            ],
+            correctId: "a",
+            right: "Pensar é no chat! Feito! Próxima!",
+            wrong: "Pensar e escrever é no chat: ChatGPT, Claude ou Gemini. GitHub e Vercel são pra publicar.",
+          },
+          {
+            kind: "escolha",
+            prompt: "E pra pôr no ar com link?",
+            options: [
+              {
+                id: "a",
+                text: "Um chat de IA",
+              },
+              {
+                id: "b",
+                text: "GitHub + Vercel ou Render",
+              },
+              {
+                id: "c",
+                text: "Pinterest",
+              },
+            ],
+            correctId: "b",
+            right: "Isso! Publicar é com GitHub e Vercel ou Render!",
+            wrong: "Link no ar vem de GitHub + Vercel ou Render. Chat pensa, Pinterest dá referência.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Por que pedir um app inteiro numa conversa comum trava?",
+            options: [
+              {
+                id: "a",
+                text: "Porque a IA é ruim",
+              },
+              {
+                id: "b",
+                text: "Porque vem um monte de código pra colar, sem saber onde",
+              },
+            ],
+            correctId: "b",
+            right: "Exato. Usar a ferramenta de pensar pra construir é o que trava.",
+            wrong: "A IA não é ruim: vem código demais pra colar, sem saber onde. Construir é em outra ferramenta.",
+          },
+        ],
+        mission: "Escreve do lado de cada trabalho — pensar, construir, publicar — a ferramenta que tu vai usar.",
+      },
+      {
+        id: "gratis-ou-pago",
+        title: "Grátis ou pago",
+        cards: [
+          {
+            kind: "fala",
+            text: "Dois caminhos! Grátis: chat e artifact do Claude, ou um construtor. Pago: agente de código. Já tô gerando nos dois!",
+          },
+          {
+            kind: "escolha",
+            prompt: "Tu não quer pagar nada. Dá pra fazer a trilha?",
+            options: [
+              {
+                id: "a",
+                text: "Não, precisa de plano pago",
+              },
+              {
+                id: "b",
+                text: "Sim: pensa num chat grátis e constrói num artifact ou construtor grátis",
+              },
+              {
+                id: "c",
+                text: "Só com o Cursor",
+              },
+            ],
+            correctId: "b",
+            right: "Dá! O caminho grátis vai até o link no ar!",
+            wrong: "Dá sim: chat grátis pra pensar, artifact do Claude ou construtor grátis pra construir.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Tu já paga o ChatGPT ou o Claude. Jeito mais forte de construir?",
+            options: [
+              {
+                id: "a",
+                text: "Colar o código da conversa, pedaço por pedaço",
+              },
+              {
+                id: "b",
+                text: "Usar o agente de código do plano: Codex ou Claude Code",
+              },
+            ],
+            correctId: "b",
+            right: "Isso! O agente mexe direto nos arquivos. Tu não cola nada!",
+            wrong: "Colar pedaço por pedaço é o que trava. O agente de código mexe nos arquivos por ti.",
+          },
+          {
+            kind: "escolha",
+            prompt: "O resultado saiu genérico. Trocar de ferramenta resolve?",
+            options: [
+              {
+                id: "s",
+                text: "Resolve",
+              },
+              {
+                id: "n",
+                text: "Não — pedido vago dá média em qualquer uma",
+              },
+            ],
+            correctId: "n",
+            right: "Exato. O conserto quase sempre é no pedido.",
+            wrong: "Pedido vago dá média em qualquer ferramenta. O conserto é no pedido, não na troca.",
+          },
+          {
+            kind: "escrever",
+            prompt: "Qual vai ser a tua ferramenta de construir?",
+            placeholder: "Ex.: artifact do Claude",
+            saveAs: "ferramenta",
+          },
+          {
+            kind: "fala",
+            text: "Fechou: {ferramenta}. Manda o briefing que eu já tô fazendo! Pronto! Quer outra versão? Já fiz!",
+          },
+        ],
+        mission: "Leva teu briefing e tuas referências pra ferramenta de construir e gera a primeira tela. Guarda ela — a Fase 4 vai julgar.",
+      },
+    ],
+  },
+
   learningObjectives: [
     "Separar o projeto em pensar, construir e publicar",
     "Escolher onde construir: grátis ou no que tu já paga",
