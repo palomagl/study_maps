@@ -1,4 +1,5 @@
 import type { LessonStepId } from "@/content/types";
+import { NOTE_MAX } from "@/lib/play";
 import {
   createDefaultStorage,
   InMemoryStorageAdapter,
@@ -37,6 +38,8 @@ export interface LessonProgress {
    * página não pode apagar o que ele já conseguiu.
    */
   checklists?: Partial<Record<ChecklistPanel, number[]>>;
+  /** Pedaços da aula em telas já feitos (ids de `lesson.play.pieces`). */
+  pieces?: string[];
 }
 
 export interface ConceptRecord {
@@ -90,6 +93,11 @@ export interface ProgressState {
   proofs: Record<string, ProofRecord>;
   /** Certificado já emitido, por trilha. Chave = TrailId. */
   certificates: Record<string, IssuedCertificate>;
+  /**
+   * O que a pessoa escreveu nas telas "escrever" (chave = `saveAs`). É o que
+   * liga uma aula na outra: a ideia escrita na 1.1 volta na 1.2.
+   */
+  notes: Record<string, string>;
   profile: ProfileState;
 }
 
@@ -161,6 +169,7 @@ export function defaultState(): ProgressState {
     missionsClaimed: [],
     proofs: {},
     certificates: {},
+    notes: {},
     profile: defaultProfile(),
   };
 }
@@ -207,7 +216,11 @@ function coerceLessonProgress(raw: unknown): LessonProgress {
     if (Object.keys(out).length > 0) checklists = out;
   }
 
-  return { steps, checkpoint, checklists };
+  const pieces = Array.isArray(raw.pieces)
+    ? raw.pieces.filter((x): x is string => typeof x === "string")
+    : undefined;
+
+  return { steps, checkpoint, checklists, ...(pieces?.length ? { pieces } : {}) };
 }
 
 function coerceConcept(raw: unknown): ConceptRecord {
@@ -274,6 +287,13 @@ export function parseState(rawJson: string | null): ProgressState {
     }
   }
 
+  const notes: ProgressState["notes"] = {};
+  if (isObject(parsed.notes)) {
+    for (const [k, v] of Object.entries(parsed.notes)) {
+      if (typeof v === "string") notes[k] = v.slice(0, NOTE_MAX);
+    }
+  }
+
   const certificates: ProgressState["certificates"] = {};
   if (isObject(parsed.certificates)) {
     for (const [trailId, raw] of Object.entries(parsed.certificates)) {
@@ -304,6 +324,7 @@ export function parseState(rawJson: string | null): ProgressState {
     missionsClaimed: strArray(parsed.missionsClaimed),
     proofs,
     certificates,
+    notes,
     profile,
   };
 }
@@ -420,6 +441,28 @@ export class ProgressStore {
         [lessonId]: { ...lp, steps: { ...lp.steps, [step]: true } },
       },
     });
+  }
+
+  /** Marca um pedaço da aula em telas. Idempotente: XP só na 1ª vez. */
+  completePiece(lessonId: string, pieceId: string, xpGain: number): void {
+    const lp = this.lesson(lessonId);
+    if (lp.pieces?.includes(pieceId)) return;
+    this.commit({
+      ...this.state,
+      xp: this.state.xp + Math.max(0, xpGain),
+      streak: touchStreak(this.state.streak),
+      lessons: {
+        ...this.state.lessons,
+        [lessonId]: { ...lp, pieces: [...(lp.pieces ?? []), pieceId] },
+      },
+    });
+  }
+
+  /** Guarda o que a pessoa escreveu, como texto cru, cortado em `NOTE_MAX`. Vazio não apaga. */
+  saveNote(key: string, text: string): void {
+    const t = text.trim().slice(0, NOTE_MAX);
+    if (!t) return;
+    this.commit({ ...this.state, notes: { ...this.state.notes, [key]: t } });
   }
 
   /** Desfaz um passo. Não remove XP (não punir). */

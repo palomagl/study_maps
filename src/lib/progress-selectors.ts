@@ -29,13 +29,38 @@ export function lessonCompletion(
   const steps = lessonSteps(lesson).filter((s) => s !== "challenge" && s !== "watch");
   const stored = state.lessons[lesson.id]?.steps ?? {};
   const done = steps.filter((s) => stored[s] === true).length;
+  const oldComplete = lesson.status === "available" && done === steps.length;
+
+  // Aula em telas: conta por pedaço. Quem já tinha concluído no formato
+  // antigo continua com a aula concluída.
+  if (lesson.play) {
+    const ids = lesson.play.pieces.map((p) => p.id);
+    const feitos = state.lessons[lesson.id]?.pieces ?? [];
+    const n = ids.filter((id) => feitos.includes(id)).length;
+    const complete = lesson.status === "available" && (n === ids.length || oldComplete);
+    return {
+      doneSteps: complete ? ids.length : n,
+      totalSteps: ids.length,
+      percent: complete ? 100 : Math.round((n / (ids.length || 1)) * 100),
+      complete,
+    };
+  }
+
   const total = steps.length || 1;
   return {
     doneSteps: done,
     totalSteps: steps.length,
     percent: Math.round((done / total) * 100),
-    complete: lesson.status === "available" && done === steps.length,
+    complete: oldComplete,
   };
+}
+
+/** Primeiro pedaço ainda não feito da aula em telas; `pieces.length` quando todos estão feitos. */
+export function nextPieceIndex(state: ProgressState, lesson: Lesson): number {
+  const pieces = lesson.play?.pieces ?? [];
+  const feitos = state.lessons[lesson.id]?.pieces ?? [];
+  const i = pieces.findIndex((p) => !feitos.includes(p.id));
+  return i === -1 ? pieces.length : i;
 }
 
 export function lessonComplete(state: ProgressState, lesson: Lesson): boolean {

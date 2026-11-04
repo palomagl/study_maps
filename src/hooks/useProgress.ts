@@ -96,6 +96,14 @@ export function useProgress() {
     progressStore.resetLesson(lessonId);
   }, []);
 
+  const completePiece = useCallback((lessonId: string, pieceId: string, xp: number) => {
+    progressStore.completePiece(lessonId, pieceId, xp);
+  }, []);
+
+  const saveNote = useCallback((key: string, text: string) => {
+    progressStore.saveNote(key, text);
+  }, []);
+
   const getLessonCompletion = useCallback(
     (lesson: Lesson): LessonCompletion => selLessonCompletion(state, lesson),
     [state],
@@ -129,6 +137,7 @@ export function useProgress() {
       concepts: state.concepts,
       achievements: state.achievements,
       proofs: state.proofs,
+      notes: state.notes,
       setProof,
       profile: state.profile,
       getLessonProgress,
@@ -140,6 +149,8 @@ export function useProgress() {
       recordConceptError,
       resolveConcept,
       resetLesson,
+      completePiece,
+      saveNote,
       getLessonCompletion,
       isLessonComplete,
       isStageComplete,
@@ -159,6 +170,8 @@ export function useProgress() {
       recordConceptError,
       resolveConcept,
       resetLesson,
+      completePiece,
+      saveNote,
       getLessonCompletion,
       isLessonComplete,
       isStageComplete,
