@@ -28,7 +28,8 @@ export function EscolhaCard({
   fill,
   value,
   onChange,
-}: CardProps<"escolha"> & { value: string | null; onChange: (id: string) => void }) {
+  checked = false,
+}: CardProps<"escolha"> & { value: string | null; onChange: (id: string) => void; checked?: boolean }) {
   return (
     <>
       <RobotLine agent={agent} mood={mood} text={fill(card.prompt)} />
@@ -42,7 +43,15 @@ export function EscolhaCard({
               sfx.tap();
               onChange(o.id);
             }}
-            className={`${chip} px-4 py-3.5 text-left text-[15px] ${value === o.id ? "border-[#7C5CFF] bg-[#1B1340]" : ""}`}
+            className={`${chip} px-4 py-3.5 text-left text-[15px] ${
+              checked && o.id === card.correctId
+                ? "border-[#3DF5B0] bg-[#0F2A21] text-[#BFF5DF]"
+                : checked && value === o.id
+                  ? "border-[#FF6B8A] bg-[#2A0F1A] text-[#F3C6D2]"
+                  : value === o.id
+                    ? "border-[#7C5CFF] bg-[#1B1340]"
+                    : ""
+            }`}
           >
             {fill(o.text)}
           </button>

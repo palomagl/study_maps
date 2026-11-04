@@ -5,7 +5,7 @@ import { Volume2, VolumeX, X } from "lucide-react";
 import { getAdjacentLessons } from "@/content";
 import type { Lesson, Phase, PlayCard, Trail } from "@/content/types";
 import { useProgress } from "@/hooks/useProgress";
-import { agentForPhase } from "@/lib/agents";
+import { AGENTS, agentForPhase } from "@/lib/agents";
 import { checkAnswer, fillNotes, PIECE_XP } from "@/lib/play";
 import { lessonComplete, nextPieceIndex } from "@/lib/progress-selectors";
 import { isMuted, setMuted, sfx, vibrate } from "@/lib/sound";
@@ -131,7 +131,10 @@ export function LessonPlayer({ trail, phase, lesson }: { trail: Trail; phase: Ph
 
   return (
     <div className="fixed inset-0 z-50 flex justify-center bg-[#05030C]">
-      <div className="relative flex h-full w-full max-w-md flex-col overflow-hidden bg-[#0B0717] text-[#F2EEFF]">
+      <div
+        className="relative flex h-full w-full max-w-md flex-col overflow-hidden bg-[#0B0717] text-[#F2EEFF]"
+        style={{ backgroundImage: `radial-gradient(ellipse 80% 45% at 50% 0%, ${AGENTS[agent].color}22, transparent 70%)` }}
+      >
         {/* topo: sair, progresso, combo, som */}
         <div className="flex items-center gap-3 px-4 pb-2 pt-4">
           <Link to={`/roadmap/${trail.id}`} aria-label="Sair da aula" className="text-[#6F64A0] hover:text-[#F2EEFF]">
@@ -145,7 +148,7 @@ export function LessonPlayer({ trail, phase, lesson }: { trail: Trail; phase: Ph
             />
           </div>
           <span className="min-w-[64px] text-right font-mono text-[11px] font-bold text-[#FFB020]">
-            {combo >= 2 ? `🔥 ${combo} SEGUIDAS` : ""}
+            {!done && combo >= 2 ? `🔥 ${combo} SEGUIDAS` : ""}
           </span>
           <button
             type="button"
@@ -178,7 +181,11 @@ export function LessonPlayer({ trail, phase, lesson }: { trail: Trail; phase: Ph
                 transition={{ duration: 0.18 }}
                 className="flex-1 overflow-y-auto px-5 pt-2"
               >
-                {card.kind === "fala" && <RobotLine agent={agent} mood={mood} text={fill(card.text)} />}
+                {card.kind === "fala" && (
+                  <div className="flex min-h-full flex-col justify-center pb-8">
+                    <RobotLine big agent={agent} mood={mood} text={fill(card.text)} />
+                  </div>
+                )}
                 {card.kind === "dor" && (
                   <>
                     <RobotLine agent={agent} mood={mood} text="Isso já aconteceu contigo?" />
@@ -190,7 +197,7 @@ export function LessonPlayer({ trail, phase, lesson }: { trail: Trail; phase: Ph
                   </>
                 )}
                 {card.kind === "escolha" && (
-                  <EscolhaCard card={card} agent={agent} mood={mood} fill={fill} value={(answer as string) ?? null} onChange={(v) => !verdict && setAnswer(v)} />
+                  <EscolhaCard card={card} agent={agent} mood={mood} fill={fill} value={(answer as string) ?? null} onChange={(v) => !verdict && setAnswer(v)} checked={!!verdict} />
                 )}
                 {card.kind === "cortar" && (
                   <CortarCard

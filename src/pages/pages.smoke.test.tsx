@@ -395,3 +395,23 @@ describe("o que tu acha que resolve", () => {
     expect(within(falsa).getByText(/Repetir o mesmo pedido, só que mais irritado/)).toBeInTheDocument();
   });
 });
+
+describe("entrada direta", () => {
+  beforeEach(() => progressStore.resetAll());
+
+  it("o botão principal da home leva direto pra primeira aula, sem formulário", () => {
+    renderAt("/");
+    expect(screen.getByRole("link", { name: /Começar agora/ })).toHaveAttribute(
+      "href",
+      "/roadmap/app-no-ar/aula/ar-ideia-01-recortar",
+    );
+  });
+
+  it("a primeira aula abre no player, com o Ideia falando", () => {
+    renderAt("/roadmap/app-no-ar/aula/ar-ideia-01-recortar");
+    expect(screen.getByRole("img", { name: "Agente Ideia" })).toBeInTheDocument();
+    expect(screen.getByText(/Eu sou o Ideia/)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Continuar" })).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: /Vamos montar/ })).not.toBeInTheDocument();
+  });
+});
