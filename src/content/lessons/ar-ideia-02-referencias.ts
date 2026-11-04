@@ -18,6 +18,154 @@ export const juntaCincoReferencias: Lesson = {
   summary: "Onde procurar, o que guardar e por que cinco — antes de escrever o primeiro prompt.",
   estimatedMinutes: 20,
 
+  // A aula em telas: o que a pessoa faz no celular, conduzida pelo Ideia.
+  play: {
+    pieces: [
+      {
+        id: "a-pasta-do-caio",
+        title: "A pasta do Caio",
+        cards: [
+          {
+            kind: "fala",
+            text: "Voltei! Lembra da tua ideia? “{ideia}”. Agora ela precisa de uma cara — e não a cara de todo mundo.",
+          },
+          {
+            kind: "dor",
+          },
+          {
+            kind: "fala",
+            text: "O Caio pediu pra IA: “faz um site bonito e moderno”. Veio igual a mil outros.",
+          },
+          {
+            kind: "escolha",
+            prompt: "O que ele faz agora?",
+            options: [
+              {
+                id: "a",
+                text: "Pede de novo, com mais adjetivo: moderno, clean, bonito",
+              },
+              {
+                id: "b",
+                text: "Junta referência do que ele quer antes de pedir",
+              },
+              {
+                id: "c",
+                text: "Troca de IA",
+              },
+            ],
+            correctId: "b",
+            beliefId: "a",
+            right: "Isso. A IA viu milhões de sites — sem referência, ela vai pro meio de todos.",
+            wrong: "Mais adjetivo é a mesma média com outra palavra. A IA precisa ver pra onde apontar.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Qual pasta de referência vira pedido?",
+            options: [
+              {
+                id: "a",
+                text: "Print do Nubank: “curti”. Print do Spotify: “top”.",
+              },
+              {
+                id: "b",
+                text: "Print do Nubank: o roxo forte só no botão principal. Print do Spotify: capas grandes, sem borda.",
+              },
+            ],
+            correctId: "b",
+            right: "A anotação é o que transforma imagem em pedido.",
+            wrong: "“Curti” não diz o que pegar de cada uma. A IA volta pra média.",
+          },
+          {
+            kind: "montar",
+            prompt: "Monta uma anotação que a IA consegue seguir.",
+            answer: [
+              "Do Nubank,",
+              "quero o roxo forte",
+              "só no botão principal",
+            ],
+            distractors: [
+              "porque é bonito",
+              "e tudo bem moderno",
+            ],
+            right: "De onde, o quê e onde. Isso vira instrução.",
+            wrong: "A certa: do Nubank, quero o roxo forte só no botão principal. “Bonito” e “moderno” não apontam nada.",
+          },
+        ],
+        mission: "Abre 5 apps que tu usa todo dia e tira print do que tu gosta em cada um.",
+      },
+      {
+        id: "tuas-cinco",
+        title: "Tuas cinco",
+        cards: [
+          {
+            kind: "fala",
+            text: "Referência não é só site bonito. Ela tá no teu celular, no teu dia.",
+          },
+          {
+            kind: "cortar",
+            prompt: "Toca no que não serve como referência.",
+            chips: [
+              {
+                text: "Print de um app que tu usa",
+                keep: true,
+              },
+              {
+                text: "Pin do Pinterest",
+                keep: true,
+              },
+              {
+                text: "A palavra “moderno”",
+                keep: false,
+              },
+              {
+                text: "Um site que tu acha massa",
+                keep: true,
+              },
+              {
+                text: "“Faz igual o Instagram”, sem dizer o quê",
+                keep: false,
+              },
+            ],
+            right: "Referência é coisa que dá pra ver e apontar. Adjetivo não é.",
+            wrong: "Adjetivo e “igual o fulano” sem dizer o quê não apontam nada. Print e pin, sim.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Por que cinco referências, e não uma?",
+            options: [
+              {
+                id: "a",
+                text: "Pra copiar a melhor delas",
+              },
+              {
+                id: "b",
+                text: "Pra pegar uma coisa de cada — e o resultado ser teu",
+              },
+              {
+                id: "c",
+                text: "Porque a IA exige cinco",
+              },
+            ],
+            correctId: "b",
+            right: "Uma só vira cópia. Cinco, cada uma com um pedaço, vira uma coisa tua.",
+            wrong: "Uma referência só vira cópia. Cinco, cada uma com uma anotação, viram a tua cara.",
+          },
+          {
+            kind: "escrever",
+            prompt: "Escreve a anotação da tua primeira referência: de onde, e o que tu quer dela.",
+            placeholder: "Do ___, quero ___",
+            saveAs: "referencia",
+          },
+          {
+            kind: "fala",
+            text: "Guardei. Com cinco dessas, teu pedido já não sai com a cara de todo mundo.",
+          },
+        ],
+        mission: "Junta as 5 referências numa pasta, cada uma com a anotação: de onde e o que tu quer dela.",
+      },
+    ],
+  },
+
   learningObjectives: [
     "Entender por que pedido sem exemplo sai genérico",
     "Achar referências em lugares que tu já usa",

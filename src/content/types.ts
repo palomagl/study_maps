@@ -322,6 +322,11 @@ export interface Lesson {
   estimatedMinutes?: number;
   content: ContentBlock[];
   video?: RecommendedVideo;
+  /**
+   * A aula em telas de celular, conduzida pelo robô da fase. Quando existe,
+   * a rota da aula abre o player no lugar da página comprida.
+   */
+  play?: LessonPlay;
   freeResources: FreeResource[];
   premiumResources?: PremiumResource[];
   /** Bloco 🧠 Teste – prática com dica/retry. */
@@ -409,4 +414,46 @@ export interface StageStats {
   availableLessons: number;
   exercises: number;
   totalXp: number;
+}
+
+/* ------------------------------------------------------------------ */
+/* Aula em telas (player)                                             */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Uma tela da aula. Textos podem ter `{chave}`, trocado pelo que a pessoa
+ * escreveu antes (ver `fillNotes`) — é o que liga uma aula na outra.
+ */
+export type PlayCard =
+  /** O robô da fase fala. */
+  | { kind: "fala"; text: string }
+  /** A dor da aula (`lesson.pain.quote`); a pessoa toca "já aconteceu comigo". */
+  | { kind: "dor" }
+  | {
+      kind: "escolha";
+      prompt: string;
+      options: { id: string; text: string }[];
+      correctId: string;
+      /** A alternativa que é a falsa solução: errar nela mostra "Todo mundo faz isso". */
+      beliefId?: string;
+      right: string;
+      wrong: string;
+    }
+  /** Tocar no que fica de fora; `keep` marca o que fica. */
+  | { kind: "cortar"; prompt: string; chips: { text: string; keep: boolean }[]; right: string; wrong: string }
+  /** Montar a frase com blocos, na ordem de `answer`. */
+  | { kind: "montar"; prompt: string; answer: string[]; distractors: string[]; right: string; wrong: string }
+  /** A pessoa escreve; fica guardado em `notes[saveAs]`. */
+  | { kind: "escrever"; prompt: string; placeholder: string; saveAs: string };
+
+export interface PlayPiece {
+  id: string;
+  title: string;
+  cards: PlayCard[];
+  /** O que fazer no projeto de verdade, mostrado no fim do pedaço. */
+  mission: string;
+}
+
+export interface LessonPlay {
+  pieces: PlayPiece[];
 }

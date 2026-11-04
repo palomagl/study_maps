@@ -554,3 +554,53 @@ describe("vídeos, gente pra acompanhar e cursos", () => {
     expect(tipos.has("course")).toBe(true);
   });
 });
+
+/*
+ * Aula em telas (spec 2026-11-04): pedaços curtos, uma tela por toque,
+ * conduzidos pelo robô da fase.
+ */
+describe("aulas em telas", () => {
+  const trilha = flattenLessons(getTrail("app-no-ar")!).map((l) => l.lesson);
+  const comPlay = trilha.filter((l) => l.play);
+
+  it("a 1.1 e a 1.2 já estão em telas", () => {
+    for (const id of ["ar-ideia-01-recortar", "ar-ideia-02-referencias"]) {
+      expect(getLessonLocation("app-no-ar", id)!.lesson.play?.pieces.length, id).toBeGreaterThanOrEqual(2);
+    }
+  });
+
+  it("todo pedaço tem ao menos 4 telas, uma missão, e as respostas certas existem", () => {
+    for (const l of comPlay) {
+      for (const p of l.play!.pieces) {
+        expect(p.cards.length, `${l.id}/${p.id}`).toBeGreaterThanOrEqual(4);
+        expect(p.mission.trim(), `${l.id}/${p.id}`).toBeTruthy();
+        for (const c of p.cards) {
+          if (c.kind === "escolha") {
+            expect(c.options.map((o) => o.id), `${p.id}: ${c.prompt}`).toContain(c.correctId);
+            if (c.beliefId) expect(c.options.map((o) => o.id)).toContain(c.beliefId);
+          }
+          if (c.kind === "cortar") expect(c.chips.some((x) => x.keep) && c.chips.some((x) => !x.keep)).toBe(true);
+          if (c.kind === "montar") expect(c.answer.length, c.prompt).toBeGreaterThanOrEqual(2);
+        }
+      }
+    }
+  });
+
+  it("nenhuma fala do robô vira paredão: até 180 letras", () => {
+    for (const l of comPlay) {
+      for (const p of l.play!.pieces) {
+        for (const c of p.cards) {
+          const texto = c.kind === "fala" ? c.text : "prompt" in c ? c.prompt : "";
+          expect(texto.length, `${l.id}/${p.id}: ${texto}`).toBeLessThanOrEqual(180);
+        }
+      }
+    }
+  });
+
+  it("os ids dos pedaços não se repetem dentro da aula", () => {
+    for (const l of comPlay) {
+      const ids = l.play!.pieces.map((p) => p.id);
+      expect(new Set(ids).size, l.id).toBe(ids.length);
+    }
+  });
+});

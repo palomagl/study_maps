@@ -18,6 +18,203 @@ export const recortaAIdeia: Lesson = {
   summary: "Ideia grande não sai do papel. Como achar a primeira versão que já serve pra alguém.",
   estimatedMinutes: 20,
 
+  // A aula em telas: o que a pessoa faz no celular, conduzida pelo Ideia.
+  play: {
+    pieces: [
+      {
+        id: "a-ideia-do-caio",
+        title: "A ideia do Caio",
+        cards: [
+          {
+            kind: "fala",
+            text: "E aí! Eu sou o Ideia. Meu trabalho é pegar ideia gigante e achar o primeiro pedaço dela. Bora?",
+          },
+          {
+            kind: "dor",
+          },
+          {
+            kind: "fala",
+            text: "Olha o Caio. Ele quer um app de rolê com chat, mapa, pagamento e ranking. Tudo junto, de uma vez.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Qual é o primeiro passo dele?",
+            options: [
+              {
+                id: "a",
+                text: "Abrir a IA e pedir tudo de uma vez, pra ver no que dá",
+              },
+              {
+                id: "b",
+                text: "Escolher uma coisa só pra primeira versão",
+              },
+              {
+                id: "c",
+                text: "Achar a ferramenta perfeita antes de começar",
+              },
+            ],
+            correctId: "b",
+            beliefId: "a",
+            right: "Uma coisa só. O resto espera a primeira versão existir.",
+            wrong: "Pedindo tudo junto, vem um app genérico, com metade quebrada — e o Caio sem saber onde mexer. O que resolve é separar em pedaços.",
+          },
+          {
+            kind: "fala",
+            text: "O segredo é separar em pedaços. A ideia só parece gigante porque tá inteira na tua cabeça.",
+          },
+          {
+            kind: "cortar",
+            prompt: "Ajuda o Caio: toca no que fica pra depois. Deixa só o que faz o rolê acontecer.",
+            chips: [
+              {
+                text: "Mandar o link do rolê",
+                keep: true,
+              },
+              {
+                text: "Chat",
+                keep: false,
+              },
+              {
+                text: "Ver quem confirmou",
+                keep: true,
+              },
+              {
+                text: "Mapa",
+                keep: false,
+              },
+              {
+                text: "Pagamento",
+                keep: false,
+              },
+              {
+                text: "Ranking",
+                keep: false,
+              },
+              {
+                text: "Login com Google",
+                keep: false,
+              },
+            ],
+            right: "Sobrou: mandar o link e ver quem confirmou. Isso cabe num fim de semana.",
+            wrong: "Fica só o que faz o rolê acontecer: mandar o link e ver quem confirmou. O resto é segunda versão.",
+          },
+          {
+            kind: "montar",
+            prompt: "A régua é: uma pessoa, uma ação, um resultado. Monta a frase da primeira versão do Caio.",
+            answer: [
+              "Quem marca o rolê",
+              "manda o link",
+              "e vê quem confirmou",
+            ],
+            distractors: [
+              "e paga a conta",
+              "e conversa no chat",
+            ],
+            right: "Uma pessoa (quem marca), uma ação (manda o link), um resultado (vê quem confirmou).",
+            wrong: "A certa: quem marca o rolê manda o link e vê quem confirmou. Pagar e conversar ficam pra depois.",
+          },
+          {
+            kind: "escrever",
+            prompt: "Agora é contigo. Escreve a tua ideia nessa régua. Eu guardo — na próxima aula a gente usa.",
+            placeholder: "Quem… faz o quê… e ganha o quê",
+            saveAs: "ideia",
+          },
+        ],
+        mission: "Escreve, nas notas do celular, tudo que a tua ideia tem — uma linha por coisa.",
+      },
+      {
+        id: "a-regua",
+        title: "A régua do fim de semana",
+        cards: [
+          {
+            kind: "fala",
+            text: "Tua ideia tá guardada. Agora a gente testa ela na régua do fim de semana.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Login e pagamento são uma boa primeira versão, porque todo app tem?",
+            options: [
+              {
+                id: "s",
+                text: "Sim, todo app precisa disso",
+              },
+              {
+                id: "n",
+                text: "Não — eles não dizem nada sobre o teu app",
+              },
+            ],
+            correctId: "n",
+            right: "Isso. Todo app tem — e por isso mesmo eles não são a tua ideia.",
+            wrong: "Todo app tem, e por isso mesmo não dizem nada sobre o teu. Ficam pra depois.",
+          },
+          {
+            kind: "escolha",
+            prompt: "A frase da tua primeira versão tem “e também” no meio. Isso quer dizer…",
+            options: [
+              {
+                id: "a",
+                text: "Que ela tá completa",
+              },
+              {
+                id: "b",
+                text: "Que ainda não recortou — tem mais de uma ação",
+              },
+              {
+                id: "c",
+                text: "Que precisa de outra ferramenta",
+              },
+            ],
+            correctId: "b",
+            right: "Exato. “E também” é sinal de duas ações. Corta uma.",
+            wrong: "“E também” é sinal de que ainda tem mais de uma ação. Corta até sobrar uma.",
+          },
+          {
+            kind: "escolha",
+            prompt: "Qual é uma boa primeira versão de “app pra organizar rolê com os amigos”?",
+            options: [
+              {
+                id: "a",
+                text: "Chat em grupo, votação de lugar, divisão de conta e mapa",
+              },
+              {
+                id: "b",
+                text: "Uma tela onde alguém cria o rolê e manda o link pros amigos",
+              },
+              {
+                id: "c",
+                text: "Login, perfil e lista de amigos",
+              },
+            ],
+            correctId: "b",
+            beliefId: "a",
+            right: "Uma pessoa, uma ação, um resultado. Dá pra ter funcionando no domingo.",
+            wrong: "Tudo junto é a ideia inteira, não a primeira versão. A primeira é uma tela: cria o rolê e manda o link.",
+          },
+          {
+            kind: "montar",
+            prompt: "Põe o recorte na ordem.",
+            answer: [
+              "Escreve tudo que a ideia tem",
+              "Acha a ação principal",
+              "Risca o resto",
+              "Mede no fim de semana",
+            ],
+            distractors: [
+              "Escolhe as cores",
+            ],
+            right: "Lista, ação principal, risca, mede. É o recorte inteiro.",
+            wrong: "A ordem: lista tudo, acha a ação principal, risca o resto, mede no fim de semana. Cor fica pra depois.",
+          },
+          {
+            kind: "fala",
+            text: "Se não dá pra ter funcionando em dois dias, corta mais. Ideia boa espera — ela não some.",
+          },
+        ],
+        mission: "Pega a tua lista e risca tudo que não é a ação principal. O que sobrar tem que caber num fim de semana.",
+      },
+    ],
+  },
+
   learningObjectives: [
     "Separar a ideia em pedaços",
     "Achar a coisa principal que a pessoa faz no app",

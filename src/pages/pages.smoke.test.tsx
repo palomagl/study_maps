@@ -350,9 +350,10 @@ describe("a aula no formato dor → solução", () => {
 });
 
 describe("numeração dos passos", () => {
-  it("os passos da aula são numerados sem buraco, mesmo sem vídeo", () => {
+  // A 2.1 ainda é página comprida (a 1.1 e a 1.2 abrem no player de telas).
+  it("os passos da aula são numerados sem buraco", () => {
     render(
-      <MemoryRouter initialEntries={["/roadmap/app-no-ar/aula/ar-ideia-01-recortar"]}>
+      <MemoryRouter initialEntries={["/roadmap/app-no-ar/aula/ar-spec-01-briefing"]}>
         <AppRoutes />
       </MemoryRouter>,
     );
@@ -382,7 +383,7 @@ describe("o time explica como recrutar", () => {
 describe("o que tu acha que resolve", () => {
   it("aparece entre a dor e o que resolve", () => {
     render(
-      <MemoryRouter initialEntries={["/roadmap/app-no-ar/aula/ar-ideia-01-recortar"]}>
+      <MemoryRouter initialEntries={["/roadmap/app-no-ar/aula/ar-spec-01-briefing"]}>
         <AppRoutes />
       </MemoryRouter>,
     );
@@ -391,6 +392,26 @@ describe("o que tu acha que resolve", () => {
     const resolve = screen.getByRole("region", { name: "O que resolve" });
     expect(dor.compareDocumentPosition(falsa) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(falsa.compareDocumentPosition(resolve) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(within(falsa).getByText(/Abrir a IA e pedir tudo de uma vez/)).toBeInTheDocument();
+    expect(within(falsa).getByText(/Repetir o mesmo pedido, só que mais irritado/)).toBeInTheDocument();
+  });
+});
+
+describe("entrada direta", () => {
+  beforeEach(() => progressStore.resetAll());
+
+  it("o botão principal da home leva direto pra primeira aula, sem formulário", () => {
+    renderAt("/");
+    expect(screen.getByRole("link", { name: /Começar agora/ })).toHaveAttribute(
+      "href",
+      "/roadmap/app-no-ar/aula/ar-ideia-01-recortar",
+    );
+  });
+
+  it("a primeira aula abre no player, com o Ideia falando", () => {
+    renderAt("/roadmap/app-no-ar/aula/ar-ideia-01-recortar");
+    expect(screen.getByRole("img", { name: "Agente Ideia" })).toBeInTheDocument();
+    expect(screen.getByText(/Eu sou o Ideia/)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Continuar" })).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: /Vamos montar/ })).not.toBeInTheDocument();
   });
 });

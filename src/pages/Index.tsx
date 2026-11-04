@@ -54,8 +54,9 @@ const Index = () => {
           </p>
 
           <div className="mt-8 flex flex-wrap justify-center gap-3">
+            {/* Entrada direta: cai na primeira aula; o nome é pedido no fim do primeiro pedaço. */}
             <Link
-              to="/inicio"
+              to="/roadmap/app-no-ar/aula/ar-ideia-01-recortar"
               className="inline-flex items-center gap-2 rounded-[10px] bg-primary px-6 py-3.5 text-[15px] font-bold text-primary-foreground transition-opacity hover:opacity-90"
             >
               Começar agora <ArrowRight className="h-4 w-4" />

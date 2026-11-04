@@ -109,3 +109,46 @@
   .gradient-text { color: hsl(var(--primary)); }
   .text-glow-cyan { text-shadow: none; }
 }
+
+/* ------------------------------------------------------------------ */
+/* Aula em telas: botão com profundidade e o robô vivo                */
+/* ------------------------------------------------------------------ */
+@layer components {
+  /* Botão grosso, com "degrau" embaixo, que afunda no toque. */
+  .btn-3d {
+    border-radius: 1rem;
+    padding: 0.95rem 1rem;
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    box-shadow: 0 4px 0 var(--sombra, rgb(0 0 0 / 0.35));
+    transition: transform 0.06s, box-shadow 0.06s;
+  }
+  .btn-3d:active:not(:disabled) {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 var(--sombra, rgb(0 0 0 / 0.35));
+  }
+}
+
+@layer utilities {
+  .robo-respira { animation: robo-respira 3.2s ease-in-out infinite; }
+  .robo-fala { animation: robo-fala 0.16s ease-in-out infinite alternate; }
+  .robo-feliz { animation: robo-feliz 0.7s cubic-bezier(0.3, 1.6, 0.5, 1); }
+  .robo-triste { animation: robo-triste 0.6s ease-in-out; }
+  @media (prefers-reduced-motion: reduce) {
+    .robo-respira, .robo-fala, .robo-feliz, .robo-triste { animation: none; }
+  }
+}
+
+@keyframes robo-respira { 50% { transform: translateY(-4px) scaleY(1.02); } }
+@keyframes robo-fala { to { transform: scaleY(1.05) scaleX(0.97) translateY(-3px); } }
+@keyframes robo-feliz {
+  30% { transform: translateY(-34px) rotate(-10deg) scale(1.05); }
+  60% { transform: translateY(0) rotate(6deg) scaleY(0.92); }
+  80% { transform: scaleY(1.04); }
+}
+@keyframes robo-triste {
+  15%, 45%, 75% { transform: translateX(-8px) rotate(-3deg); }
+  30%, 60%, 90% { transform: translateX(8px) rotate(3deg); }
+}
