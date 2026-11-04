@@ -22,6 +22,7 @@ import { ResourceList, VideoCard } from "@/components/lesson/ResourceList";
 import { PremiumCallout } from "@/components/lesson/PremiumCallout";
 import { PainCard } from "@/components/lesson/pain/PainCard";
 import { BeliefCard } from "@/components/lesson/pain/BeliefCard";
+import { LessonPlayer } from "@/components/play/LessonPlayer";
 import { ResolveCard } from "@/components/lesson/pain/ResolveCard";
 import { PainResolved } from "@/components/lesson/pain/PainResolved";
 import { AGENTS, agentForPhase } from "@/lib/agents";
@@ -47,7 +48,7 @@ const LessonNotFound = () => (
   </div>
 );
 
-const LessonView = () => {
+const LessonPage = () => {
   const { trailId, lessonId } = useParams();
   const loc = useMemo(
     () => getLessonLocation(trailId, lessonId),
@@ -470,6 +471,20 @@ const LessonView = () => {
       </main>
     </div>
   );
+};
+
+/**
+ * A rota da aula. Aula escrita em telas abre o player (celular, conduzida
+ * pelo robô); as outras, a página de sempre. São dois componentes, cada um
+ * com seus hooks — e a `key` recomeça tudo quando a aula muda.
+ */
+const LessonView = () => {
+  const { trailId, lessonId } = useParams();
+  const loc = getLessonLocation(trailId, lessonId);
+  if (loc && loc.lesson.status === "available" && loc.lesson.play) {
+    return <LessonPlayer key={loc.lesson.id} trail={loc.trail} phase={loc.phase} lesson={loc.lesson} />;
+  }
+  return <LessonPage key={lessonId} />;
 };
 
 export default LessonView;
